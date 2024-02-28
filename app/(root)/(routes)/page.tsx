@@ -1,8 +1,9 @@
 import HomeTable from "@/components/home-table";
+import { useEffect, useState } from "react";
 
 export default function Page() {
   return (
-    <div className="overflow-y-auto">
+    <div>
       <HomeTable />
     </div>
   );
