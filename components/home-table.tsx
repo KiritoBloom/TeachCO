@@ -4,11 +4,14 @@ import { useAuth } from "@clerk/nextjs";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import RoleChooser from "./role-chooser";
+import { useRouter } from "next/navigation";
+import { Loader } from "./loader";
 
 const HomeTable = () => {
   const { userId } = useAuth();
   const [userRole, setUserRole] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const router = useRouter();
 
   useEffect(() => {
     const getUserRole = async () => {
@@ -16,6 +19,8 @@ const HomeTable = () => {
         const response = await axios.get("/api/role");
         setIsLoading(true);
         setUserRole(response.data);
+        router.push("/");
+        router.refresh();
       } catch (error) {
         console.error("Error fetching user role:", error);
         setUserRole(null);
@@ -29,16 +34,18 @@ const HomeTable = () => {
   }, [userId]);
 
   return (
-    <div className="overflow-y-auto">
-      {/* Display RoleChooser if userRole is null or has the value "Success null" */}
+    <div className="overflow-y-auto w-full h-full">
+      {/* Display loading message while userRole is being fetched */}
+      {isLoading && (
+        <div className="flex justify-center items-center mt-[20%] h-full">
+          <Loader />
+        </div>
+      )}
       {!isLoading && (userRole === null || userRole === "Success null") && (
         <RoleChooser />
       )}
-
-      {/* Display userRole if it is not null and not "Success null" */}
       {!isLoading && userRole !== null && userRole !== "Success null" && (
         <div>
-          {/* Display userRole information */}
           <p>
             User Role is:{" "}
             {userRole
@@ -46,14 +53,9 @@ const HomeTable = () => {
               .replace("role", "")
               .replace("Success :", "")}
           </p>
-
-          {/* Display userId information */}
           <p>User ID: {userId}</p>
         </div>
       )}
-
-      {/* Display loading message while userRole is being fetched */}
-      {isLoading && <h1>Loading...</h1>}
     </div>
   );
 };

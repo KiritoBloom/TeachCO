@@ -14,6 +14,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { cn } from "@/lib/utils";
 import { useToast } from "./ui/use-toast";
+import { usePathname, useRouter } from "next/navigation";
 
 const RoleChooser = () => {
   const [role, setRole] = useState(
@@ -28,13 +29,13 @@ const RoleChooser = () => {
         await axios.post("api/role", { role });
         toast({
           title: "Role Chosen",
-          description: `You have chosen ${role}`,
+          description: `Your designated role is ${role}`,
           variant: "success",
         });
       } catch (error) {
         console.error("Error sending role to API:", error);
         toast({
-          title: "It's not you it's us",
+          title: "It's not you it's Us",
           description: `Something has gone wrong!`,
           variant: "destructive",
         });
