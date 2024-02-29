@@ -14,35 +14,40 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { cn } from "@/lib/utils";
 import { useToast } from "./ui/use-toast";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
+import { RefreshCcw } from "lucide-react";
 
 const RoleChooser = () => {
-  const [role, setRole] = useState(
-    "No Role Selected" || "Teacher" || "Student"
-  );
+  const [role, setRole] = useState("No Role Selected");
+  const router = useRouter();
 
   const { toast } = useToast();
 
   const handleOnClick = async () => {
-    if (role === "Teacher" || role === "Student") {
-      try {
+    try {
+      if (role === "Teacher" || role === "Student") {
         await axios.post("api/role", { role });
         toast({
           title: "Role Chosen",
           description: `Your designated role is ${role}`,
           variant: "success",
         });
-      } catch (error) {
-        console.error("Error sending role to API:", error);
+        router.refresh();
+      } else {
+        // Handle the case where no role is selected
         toast({
-          title: "It's not you it's Us",
-          description: `Something has gone wrong!`,
+          title: "No Role Selected",
+          description: `Please select a role before continuing.`,
           variant: "destructive",
         });
       }
-    } else {
-      // Handle the case where an invalid role is selected
-      console.error("Invalid role selected");
+    } catch (error) {
+      console.error("Error sending or fetching role:", error);
+      toast({
+        title: "It's not you, it's Us",
+        description: `Something has gone wrong!`,
+        variant: "destructive",
+      });
     }
   };
 
@@ -110,19 +115,22 @@ const RoleChooser = () => {
           </AlertDialogHeader>
           <AlertDialogFooter>
             {role === "Teacher" || role === "Student" ? (
-              <AlertDialogAction onClick={handleOnClick}>
+              <AlertDialogAction onClick={handleOnClick} className="mt-5">
                 Continue
               </AlertDialogAction>
             ) : (
-              <AlertDialogAction className="cursor-not-allowed opacity-50">
+              <AlertDialogAction className="cursor-not-allowed opacity-50 p-3">
                 Continue
               </AlertDialogAction>
             )}
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+      <h1 className="font-bold text-xl flex justify-center items-center mt-[20%]">
+        Please Refresh the page to continue
+        <RefreshCcw className="ml-2" />
+      </h1>
     </>
   );
 };
-
 export default RoleChooser;

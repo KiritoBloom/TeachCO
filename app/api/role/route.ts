@@ -22,7 +22,7 @@ export async function GET(req: Request, res: Response) {
      
      console.log(JSON.stringify(res));
 
-     if (!JSON.stringify(res) === null) {
+     if (JSON.stringify(res) === "null") {
       return new NextResponse("Role Not Found", {status: 500})
      }
  

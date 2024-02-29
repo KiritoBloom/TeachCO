@@ -31,7 +31,7 @@ const Navbar = () => {
     return router.push(url);
   };
   return (
-    <div className="w-full h-15 bg-foreground/5 p-2 flex justify-between rounded-bl-lg rounded-br-lg border-2">
+    <div className="w-full h-15 bg-primary/10 p-2 flex justify-between rounded-bl-lg rounded-br-lg border-2">
       <h1 className="font-bold text-lg">TeachCO</h1>
       <div className="text-lg flex">
         {routes.map((route) => (

@@ -4,8 +4,10 @@ import { useAuth } from "@clerk/nextjs";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import RoleChooser from "./role-chooser";
-import { useRouter } from "next/navigation";
 import { Loader } from "./loader";
+import { useRouter } from "next/navigation";
+import TeacherTable from "./teacher-table";
+import StudentTable from "./student-table";
 
 const HomeTable = () => {
   const { userId } = useAuth();
@@ -14,48 +16,42 @@ const HomeTable = () => {
   const router = useRouter();
 
   useEffect(() => {
-    const getUserRole = async () => {
-      try {
-        const response = await axios.get("/api/role");
-        setIsLoading(true);
-        setUserRole(response.data);
-        router.push("/");
-        router.refresh();
-      } catch (error) {
-        console.error("Error fetching user role:", error);
-        setUserRole(null);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    // Call the function to fetch user role
-    getUserRole();
-  }, [userId]);
+    if (userRole !== null || userRole !== "Success null") {
+      const getUserRole = async () => {
+        try {
+          const response = await axios.get("/api/role");
+          setUserRole(response.data);
+        } catch (error) {
+          console.error("Error fetching user role:", error);
+          setUserRole(null);
+        } finally {
+          setIsLoading(false);
+          router.refresh();
+        }
+      };
+      getUserRole();
+    } else {
+      setIsLoading(false); // Set loading to false if userRole is null or "Success null"
+    }
+  }, [userId, userRole]);
 
   return (
-    <div className="overflow-y-auto w-full h-full">
-      {/* Display loading message while userRole is being fetched */}
-      {isLoading && (
-        <div className="flex justify-center items-center mt-[20%] h-full">
-          <Loader />
-        </div>
-      )}
-      {!isLoading && (userRole === null || userRole === "Success null") && (
-        <RoleChooser />
-      )}
-      {!isLoading && userRole !== null && userRole !== "Success null" && (
-        <div>
-          <p>
-            User Role is:{" "}
-            {userRole
-              ?.replace(/[{}"]/g, "")
-              .replace("role", "")
-              .replace("Success :", "")}
-          </p>
-          <p>User ID: {userId}</p>
-        </div>
-      )}
+    <div className="w-full h-full">
+      {
+        isLoading ? (
+          <div className="flex justify-center items-center mt-[20%] h-full">
+            <Loader />
+          </div>
+        ) : userRole === null || userRole === "Success null" ? (
+          <RoleChooser />
+        ) : userRole === 'Success {"role":"Teacher"}' ? (
+          <TeacherTable />
+        ) : userRole === `Success {"role":"Student"}` ? (
+          <div>
+            <StudentTable />
+          </div>
+        ) : null /* Add your desired fallback here, e.g., display nothing or show an error message */
+      }
     </div>
   );
 };
