@@ -20,3 +20,11 @@ model User {
   userEmail     String
   joinedClasses String[]
 }
+
+model Class {
+  className    String
+  classSubject String
+  classId      String   @id @default(uuid()) @map("_id")
+  students     String[]
+  teacher      String
+}

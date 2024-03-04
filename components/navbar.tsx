@@ -2,7 +2,8 @@
 
 import { cn } from "@/lib/utils";
 import { UserButton } from "@clerk/nextjs";
-import { Home, Settings, ShoppingBasket } from "lucide-react";
+import { Book, BookA, Home, Settings, ShoppingBasket } from "lucide-react";
+import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 
 const Navbar = () => {
@@ -16,9 +17,9 @@ const Navbar = () => {
       label: "Home",
     },
     {
-      icon: ShoppingBasket,
-      href: "/products/all",
-      label: "Products",
+      icon: Book,
+      href: "/classes",
+      label: "Classes",
     },
     {
       icon: Settings,
@@ -32,7 +33,10 @@ const Navbar = () => {
   };
   return (
     <div className="w-full h-15 bg-primary/10 p-2 flex justify-between rounded-bl-lg rounded-br-lg border-2">
-      <h1 className="font-bold text-lg">TeachCO</h1>
+      <h1 className="font-bold text-xl flex justify-center items-center gap-x-1">
+        <Image src="/logo.png" width={25} height={30} alt="logo" />
+        TeachCO
+      </h1>
       <div className="text-lg flex">
         {routes.map((route) => (
           <div
