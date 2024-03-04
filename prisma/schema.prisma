@@ -26,5 +26,5 @@ model Class {
   classSubject String
   classId      String   @id @default(uuid()) @map("_id")
   students     String[]
-  teacher      String
+  teacherId    String
 }

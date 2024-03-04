@@ -8,7 +8,7 @@ export async function GET(req: Request, res: Response) {
  
    try {
      if (!userId) {
-       return new NextResponse("User ID not available", { status: 500 });
+       return new NextResponse("Unauthorized", { status: 401 });
      }
  
       const res = await prismadb.user.findUnique({

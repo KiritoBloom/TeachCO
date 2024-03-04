@@ -46,7 +46,6 @@ const TeacherTable = () => {
         description: `Check out your class at the classes tab`,
         variant: "success",
       });
-      router.push("/classes");
     } catch (error) {
       console.log("Something went Wrong");
       toast({
