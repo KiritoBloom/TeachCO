@@ -40,3 +40,31 @@ export async function POST(req: Request, res: Response) {
         return new NextResponse("Internal Error", { status: 500 });
     }
 }
+
+export async function GET(req: Request, res: Response) {
+    const {userId} = await auth();
+
+    if (!userId) {
+        return new NextResponse("Unauthorized", {status: 401});
+    }
+
+    try {
+        const res = await prismadb.class.findMany({
+            where: {
+               teacherId: userId.toString()
+            },
+            select: {
+               className: true,
+               classSubject: true,
+               classId: true
+            }
+           })
+           
+           console.log(JSON.stringify(res));
+
+           return new NextResponse(`Success ${JSON.stringify(res)}`, { status: 200 });
+
+} catch(error) {
+     return new NextResponse("Internal Error", {status: 500})
+}
+}
