@@ -27,4 +27,5 @@ model Class {
   classId      String   @id @default(uuid()) @map("_id")
   students     String[]
   teacherId    String
+  teacherName  String
 }

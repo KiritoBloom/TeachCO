@@ -42,17 +42,18 @@ export async function POST(req: Request, res: Response) {
    const primaryEmailAddress = user?.emailAddresses[0]?.emailAddress;
    const { role } = await req.json();
 
-   if (!user?.firstName || !userId || !primaryEmailAddress) {
+   if (!userId || !primaryEmailAddress) {
       return new NextResponse("Unauthorized", { status: 401 });
    }
 
    try {
-      const userEmail = primaryEmailAddress
+      const userEmail = primaryEmailAddress;
+      const userName = user?.firstName || "User"; // Set userName to "User" if no first name is found
 
       await prismadb.user.create({
          data: {
             userId: userId?.toString(),
-            userName: user?.firstName,
+            userName: userName.toString(),
             userEmail: userEmail.toString(),
             role: role.toString(),
          },
@@ -65,4 +66,3 @@ export async function POST(req: Request, res: Response) {
       return new NextResponse("Internal Error POST", { status: 500 });
    }
 }
-

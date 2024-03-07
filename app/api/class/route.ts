@@ -1,13 +1,15 @@
 import prismadb from "@/lib/prismadb";
-import { auth } from "@clerk/nextjs";
+import { auth, currentUser } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 
 //POST REQUEST
 export async function POST(req: Request, res: Response) {
-    const { userId } = auth();
+    const { userId } = await auth();
+    const user = await currentUser();
 
     try {
         // Assuming className, subject, and classId are properties of the JSON payload
+        const userName = user?.firstName || "User"; // Set userName to "User" if no first name is found
         const { className, subject, classId } = await req.json();
 
         if (!userId) {
@@ -31,6 +33,7 @@ export async function POST(req: Request, res: Response) {
                 classSubject: subject.toString(),
                 classId: classId.toString(),
                 teacherId: userId,
+                teacherName: userName
             },
         });
 
@@ -56,7 +59,8 @@ export async function GET(req: Request, res: Response) {
             select: {
                className: true,
                classSubject: true,
-               classId: true
+               classId: true,
+               teacherName: true
             }
            })
            

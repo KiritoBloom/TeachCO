@@ -64,7 +64,7 @@ const HomeTable = () => {
           <div>
             <div className="flex justify-between mt-5 mb-5">
               <h1 className="font-semibold text-[30px] ml-5">
-                Welcome Back, {user?.firstName}
+                Welcome Back, {user?.firstName || "User"}
               </h1>
               <div className="bg-foreground/30 w-[9%] h-15 rounded-md flex justify-between items-center mr-2">
                 {cleanedUserRole === "Student" && (
@@ -102,7 +102,7 @@ const HomeTable = () => {
             </Avatar>
             <div className="w-full flex justify-center mt-7">
               <Button
-                className="w-[50%] mb-10 hover:bg-foreground/80 bg-black transition-all font-semibold"
+                className="w-[50%] mb-10 hover:bg-foreground/80 bg-black transition-all font-semibold rounded-3xl"
                 onClick={handleOnClick}
               >
                 Edit Your Profile

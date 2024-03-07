@@ -60,6 +60,11 @@ const ClassesTable = () => {
     ?.replace(/[{}"]/g, "")
     ?.trim();
 
+  const handleOnClick = (classId: string) => {
+    router.push(`/classes/${classId}`);
+    setIsLoading(true);
+  };
+
   return (
     <>
       <div className="ml-2">
@@ -75,12 +80,20 @@ const ClassesTable = () => {
                 {classes.length > 0 ? (
                   <div className="mt-5">
                     {classes.map((classItem) => (
-                      <Card className="mb-4 ml-0 mx-auto w-[90%] p-4">
-                        <CardTitle>{classItem.className}</CardTitle>
-                        <CardDescription>
-                          {classItem.classSubject}
+                      <Card
+                        className="cursor-pointer hover:scale-[102%] transition-all mb-4 ml-0 mx-auto w-[90%] p-4 bg-slate-200 bg-opacity-20 backdrop-blur-md border-opacity-18 border-solid rounded-lg shadow-md border-black"
+                        onClick={() => handleOnClick(classItem.classId)}
+                      >
+                        <CardTitle>Class Name: {classItem.className}</CardTitle>
+                        <CardTitle className="mb-2 mt-1 text-foreground/100 text-lg">
+                          Teacher Name: {classItem.teacherName}
+                        </CardTitle>
+                        <CardDescription className="mb-2 mt-2">
+                          Class Subject: {classItem.classSubject}
                         </CardDescription>
-                        <CardDescription>{classItem.classId}</CardDescription>
+                        <CardDescription>
+                          Class Code: {classItem.classId}
+                        </CardDescription>
                       </Card>
                     ))}
                   </div>
@@ -91,7 +104,6 @@ const ClassesTable = () => {
             ) : cleanedUserRole === "Student" ? (
               <div>
                 <h1 className="mt-2 font-bold text-3xl">Joined Classes</h1>
-                {/* Render your student-specific content here */}
               </div>
             ) : null}
           </div>
