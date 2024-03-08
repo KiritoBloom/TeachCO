@@ -13,6 +13,12 @@ const ClassesTable = () => {
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
 
+  const cleanedUserRole = userRole
+    ?.replace("Success", "")
+    ?.replace(/"role":/g, "")
+    ?.replace(/[{}"]/g, "")
+    ?.trim();
+
   useEffect(() => {
     const getUserRole = async () => {
       try {
@@ -80,12 +86,6 @@ const ClassesTable = () => {
 
     fetchedClasses();
   }, []);
-
-  const cleanedUserRole = userRole
-    ?.replace("Success", "")
-    ?.replace(/"role":/g, "")
-    ?.replace(/[{}"]/g, "")
-    ?.trim();
 
   const handleOnClick = (classId: string) => {
     router.push(`/classes/${classId}`);

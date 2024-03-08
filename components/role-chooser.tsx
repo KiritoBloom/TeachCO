@@ -41,6 +41,7 @@ const RoleChooser = () => {
           variant: "destructive",
         });
       }
+      router.push("/settings");
     } catch (error) {
       console.error("Error sending or fetching role:", error);
       toast({
