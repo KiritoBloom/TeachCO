@@ -8,8 +8,7 @@ export async function POST(req: Request, res: Response) {
     const user = await currentUser();
 
     try {
-        // Assuming className, subject, and classId are properties of the JSON payload
-        const userName = user?.firstName || "User"; // Set userName to "User" if no first name is found
+        const userName = user?.firstName || "User"; 
         const { className, subject, classId } = await req.json();
 
         if (!userId) {

@@ -1,18 +1,47 @@
 "use client";
 
-import { ArrowBigRight, ArrowBigRightIcon, ChevronRight } from "lucide-react";
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "./ui/card";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
+import { useState } from "react";
+import axios from "axios";
+import { useToast } from "./ui/use-toast";
 
 const ClassJoin = () => {
+  const [classId, setClassId] = useState("");
+  const { toast } = useToast();
+
+  const handleOnClick = async () => {
+    try {
+      await axios.post("/api/class/class-join", { classId });
+      toast({
+        title: "Joined Class",
+        description: "Check out your joined classes in the classes tab ✔️",
+        variant: "success",
+      });
+    } catch (error) {
+      console.log(error, "Error has occured, CLASS JOIN POST");
+      if (!classId) {
+        toast({
+          title: "Please Input Class ID ❌",
+          variant: "destructive",
+        });
+      } else {
+        toast({
+          title: "It's not you its Us ❌",
+          description: "Something went wrong",
+          variant: "destructive",
+        });
+      }
+    }
+  };
+
   return (
     <div>
       <Card className="md:ml-5 mx-auto mt-5 w-[95%] md:w-[30%] h-full border-[2px] border-black/10 bg-slate-200 bg-opacity-20 backdrop-blur-md border-opacity-18 border-solid rounded-lg shadow-md">
@@ -24,8 +53,15 @@ const ClassJoin = () => {
           <Input
             placeholder="ex. 283608"
             className="transition-all duration-150"
+            onChange={(e) => setClassId(e.target.value)}
+            type="text"
+            pattern="[0-9]*"
+            maxLength={6 as number}
           />
-          <Button className="bg-black w-full rounded-lg p-1 mt-2 hover:bg-foreground/80 transition-all duration-150">
+          <Button
+            className="bg-black w-full rounded-lg p-1 mt-2 hover:bg-foreground/80 transition-all duration-150"
+            onClick={handleOnClick}
+          >
             <h1 className="font-semibold">Join</h1>
           </Button>
         </CardContent>

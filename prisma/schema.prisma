@@ -24,8 +24,15 @@ model User {
 model Class {
   className    String
   classSubject String
-  classId      String   @id @default(uuid()) @map("_id")
-  students     String[]
+  classId      String    @id @default(uuid()) @map("_id")
+  students     Student[] @relation("class_students")
   teacherId    String
   teacherName  String
+}
+
+model Student {
+  name    String
+  id      String @id @default(uuid()) @map("_id")
+  class   Class  @relation("class_students", fields: [classId], references: [classId])
+  classId String
 }
