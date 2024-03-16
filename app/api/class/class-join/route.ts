@@ -1,5 +1,6 @@
 import prismadb from "@/lib/prismadb";
 import { auth, currentUser } from "@clerk/nextjs";
+import { User } from "@prisma/client";
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request, res: Response) {
@@ -66,43 +67,47 @@ export async function POST(req: Request, res: Response) {
       return new NextResponse("Internal Error POST", { status: 500 });
     }
   }
-  
 
-  export async function GET(req: Request, res: Response) {
-    const { userId } = await auth();
-  
-    if (!userId) {
-      return new NextResponse("Unauthorized", { status: 401 });
-    }
-  
-    try {
-      const joinedClasses = await prismadb.user
-        .findUnique({
-          where: {
-            userId: userId,
-          },
-          select: {
-            joinedClasses: true,
-          },
-        })
-        .then((user) => {
-          return user?.joinedClasses || [];
-        });
-  
-      const classes = await prismadb.class.findMany({
-        where: {
-          classId: {
-            in: joinedClasses,
-          },
-        },
-      });
-  
-      console.log("Joined classes:", classes);
-  
-      return new NextResponse(JSON.stringify(classes), { status: 200 });
-    } catch (error) {
-      console.error("Error retrieving joined classes:", error);
-      return new NextResponse("Internal Error GET", { status: 500 });
-    }
+export async function GET(req: Request, res: Response) {
+  const { userId } = await auth();
+
+  if (!userId) {
+    return new NextResponse("Unauthorized", { status: 401 });
   }
-  
+
+  try {
+    const user: User | null = await prismadb.user.findUnique({
+      where: {
+        userId: userId,
+      },
+      select: {
+        role: true,
+        userId: true,
+        userName: true,
+        userEmail: true,
+        joinedClasses: true,
+      },
+    });
+
+    if (!user) {
+      return new NextResponse("Unauthorized", {status: 500})
+    }
+
+    const joinedClasses = user?.joinedClasses || [];
+
+    const classes = await prismadb.class.findMany({
+      where: {
+        classId: {
+          in: joinedClasses,
+        },
+      },
+    });
+
+    console.log("Joined classes:", classes);
+
+    return new NextResponse(JSON.stringify(classes), { status: 200 });
+  } catch (error) {
+    console.error("Error retrieving joined classes:", error);
+    return new NextResponse("Internal Error GET", { status: 500 });
+  }
+}
