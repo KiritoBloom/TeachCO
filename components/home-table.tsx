@@ -37,7 +37,7 @@ const HomeTable = () => {
     } else {
       setIsLoading(false); // Set loading to false if userRole is null or "Success null"
     }
-  }, [userId, userRole]);
+  }, [userId, userRole, router]);
 
   const cleanedUserRole = userRole
     ?.replace("Success", "")
@@ -62,11 +62,11 @@ const HomeTable = () => {
       ) : (
         <div>
           <div>
-            <div className="flex justify-between mt-2 mb-5">
+            <div className="md:flex md:justify-between mt-2 mb-5">
               <h1 className="font-semibold text-[30px] ml-2">
                 Welcome Back, {user?.firstName || "User"}
               </h1>
-              <div className="bg-foreground/30 w-[9%] h-15 rounded-md flex justify-between items-center mr-2">
+              <div className="ml-2 mt-2 md:mt-0 md:ml-0 bg-foreground/30 md:w-[9%] w-[33%] h-15 rounded-md flex justify-between items-center mr-2">
                 {cleanedUserRole === "Student" && (
                   <>
                     <h1 className="ml-2 font-bold">{cleanedUserRole}</h1>
@@ -96,13 +96,13 @@ const HomeTable = () => {
             <Avatar className="w-full h-full flex justify-center items-center">
               <AvatarImage
                 src={user?.imageUrl}
-                className="w-[20%] h-[20%] rounded-[50%]"
+                className="md:w-[20%] md:h-[20%] w-[50%] rounded-[50%]"
               />
               <AvatarFallback>UL</AvatarFallback>
             </Avatar>
             <div className="w-full flex justify-center mt-7">
               <Button
-                className="w-[50%] mb-10 hover:bg-foreground/80 bg-black transition-all font-semibold rounded-3xl"
+                className="md:w-[50%] w-[80%] mb-10 hover:bg-foreground/80 bg-black transition-all font-semibold rounded-3xl"
                 onClick={handleOnClick}
               >
                 Edit Your Profile

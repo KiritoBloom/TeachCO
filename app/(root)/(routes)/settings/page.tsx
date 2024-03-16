@@ -20,6 +20,17 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 export default function Page() {
   const { user } = useUser();
@@ -49,7 +60,7 @@ export default function Page() {
     } else {
       setIsLoading(false); // Set loading to false if userRole is null or "Success null"
     }
-  }, [userRole]);
+  }, [userRole, router]);
 
   const cleanedUserRole = userRole
     ?.replace("Success", "")
@@ -134,7 +145,7 @@ export default function Page() {
       <Avatar className="w-full h-full flex justify-center items-center mt-5">
         <AvatarImage
           src={user?.imageUrl}
-          className="w-[20%] h-[20%] rounded-[50%]"
+          className="md:w-[20%] h-[20%] rounded-[50%] w-[50%]"
         />
         <AvatarFallback>UL</AvatarFallback>
       </Avatar>
@@ -159,7 +170,7 @@ export default function Page() {
                     user?.primaryEmailAddress &&
                     onCopy(user?.primaryEmailAddress?.toString())
                   }
-                  className="opacity-100 group-hover:opacity-100 transition-all ease-in-out mt-2 ml-2"
+                  className="opacity-100 group-hover:opacity-100 transition-all ease-in-out mt-2 ml-2 mr-1 md:mr-1"
                   size="icon"
                   variant="ghost"
                 >
@@ -190,7 +201,7 @@ export default function Page() {
               <TooltipTrigger>
                 <Button
                   onClick={() => userId && onCopy(userId.toString())}
-                  className="opacity-100 group-hover:opacity-100 transition-all ease-in-out mt-2 ml-2"
+                  className="opacity-100 group-hover:opacity-100 transition-all ease-in-out mt-2 ml-2 mr-1 md:mr-1"
                   size="icon"
                   variant="ghost"
                 >
@@ -268,12 +279,31 @@ export default function Page() {
         >
           Confirm <Check className="ml-2" />
         </Button>
-        <Button
-          className="mb-5 ml-5 bg-red-500 hover:scale-[110%] hover:bg-red-500 transition-all"
-          onClick={handleOnDelete}
-        >
-          Delete Account <Trash className="ml-2" />
-        </Button>
+        <AlertDialog>
+          <AlertDialogTrigger>
+            <Button className="mb-5 ml-5 bg-red-500 hover:scale-[110%] hover:bg-red-500 transition-all">
+              Delete Account <Trash className="ml-2" />
+            </Button>
+          </AlertDialogTrigger>
+          <AlertDialogContent className="w-[90%] rounded-md">
+            <AlertDialogHeader>
+              <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+              <AlertDialogDescription>
+                This action cannot be undone. This will permanently delete your
+                account and remove your data from our servers.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogAction
+                onClick={handleOnDelete}
+                className="bg-red-500 hover:bg-red-500"
+              >
+                Continue
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       </div>
     </div>
   );
