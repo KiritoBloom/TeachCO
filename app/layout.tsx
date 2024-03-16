@@ -18,7 +18,7 @@ export default function RootLayout({
 }>) {
   return (
     <ClerkProvider>
-      <html lang="en" className="scrollbar-thin">
+      <html lang="en" className="md:scrollbar-thin">
         <body className={inter.className}>
           {children}
           <Toaster />
