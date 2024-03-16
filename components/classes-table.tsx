@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Loader } from "./loader";
 import { Card, CardDescription, CardTitle } from "./ui/card";
+import RoleChooser from "./role-chooser";
 
 const ClassesTable = () => {
   const [userRole, setUserRole] = useState<string | null>(null);
@@ -99,6 +100,8 @@ const ClassesTable = () => {
           <div className="flex justify-center items-center mt-[20%] h-full">
             <Loader />
           </div>
+        ) : !cleanedUserRole ? (
+          <RoleChooser />
         ) : (
           <div>
             {cleanedUserRole === "Teacher" ? (
@@ -133,7 +136,7 @@ const ClassesTable = () => {
                 <h1 className="mt-2 font-bold text-3xl">Joined Classes</h1>
                 {studentClasses.map((classItem) => (
                   <Card
-                    className="cursor-pointer hover:scale-[102%] transition-all mb-4 ml-0 mx-auto w-[90%] p-4 bg-slate-200 bg-opacity-20 backdrop-blur-md border-opacity-18 border-solid rounded-lg shadow-md border-black"
+                    className="mt-5 cursor-pointer hover:scale-[102%] transition-all mb-4 ml-0 mx-auto w-[90%] p-4 bg-slate-200 bg-opacity-20 backdrop-blur-md border-opacity-18 border-solid rounded-lg shadow-md border-black"
                     onClick={() => handleOnClick(classItem.classId)}
                   >
                     <CardTitle>Class Name: {classItem.className}</CardTitle>

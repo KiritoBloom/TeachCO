@@ -9,6 +9,19 @@ body,
   scroll-behavior: smooth;
 }
 
+@keyframes enlarge {
+  from {
+    transform: scale(0.8);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+.animate-enlarge {
+  animation: enlarge 0.3s ease-out;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;

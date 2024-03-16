@@ -62,8 +62,8 @@ const HomeTable = () => {
       ) : (
         <div>
           <div>
-            <div className="flex justify-between mt-5 mb-5">
-              <h1 className="font-semibold text-[30px] ml-5">
+            <div className="flex justify-between mt-2 mb-5">
+              <h1 className="font-semibold text-[30px] ml-2">
                 Welcome Back, {user?.firstName || "User"}
               </h1>
               <div className="bg-foreground/30 w-[9%] h-15 rounded-md flex justify-between items-center mr-2">
