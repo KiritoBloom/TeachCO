@@ -137,6 +137,7 @@ const ClassesTable = () => {
                 <h1 className="mt-2 font-bold text-3xl">Joined Classes</h1>
                 {studentClasses.map((classItem) => (
                   <Card
+                    key={classItem.classId}
                     className="mt-5 cursor-pointer hover:scale-[102%] transition-all mb-4 ml-0 mx-auto w-[90%] p-4 bg-slate-200 bg-opacity-20 backdrop-blur-md border-opacity-18 border-solid rounded-lg shadow-md border-black"
                     onClick={() => handleOnClick(classItem.classId)}
                   >
