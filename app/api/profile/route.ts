@@ -35,6 +35,10 @@ export async function PATCH(req: Request, res: Response) {
 
 
 //DELETE 
+interface ClassItem {
+    classId: string;
+}
+
 export async function DELETE(req: Request, res: Response) {
     const { userId } = auth();
 
@@ -49,7 +53,7 @@ export async function DELETE(req: Request, res: Response) {
             }
         });
 
-        const teacherClasses = await prismadb.class.findMany({
+        const teacherClasses: ClassItem[] = await prismadb.class.findMany({
             where: {
                 teacherId: userId
             },
@@ -58,7 +62,6 @@ export async function DELETE(req: Request, res: Response) {
             }
         });
 
-        // Check if teacherClasses is empty before proceeding
         if (teacherClasses.length === 0) {
             return new NextResponse("No classes found for the teacher", { status: 404 });
         }
