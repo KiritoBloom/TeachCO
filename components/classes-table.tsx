@@ -25,6 +25,7 @@ const ClassesTable = () => {
       try {
         const response = await axios.get("/api/role");
         setUserRole(response.data);
+        setIsLoading(false);
       } catch (error) {
         console.error("Error fetching user role:", error);
         setUserRole(null);

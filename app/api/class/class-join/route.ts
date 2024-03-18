@@ -76,7 +76,7 @@ export async function GET(req: Request, res: Response) {
   }
 
   try {
-    const user: User | null = await prismadb.user.findUnique({
+     const user = await prismadb.user.findUnique({
       where: {
         userId: userId,
       },
