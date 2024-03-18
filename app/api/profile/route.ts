@@ -57,6 +57,12 @@ export async function DELETE(req: Request, res: Response) {
                 classId: true
             }
         });
+
+        // Check if teacherClasses is empty before proceeding
+        if (teacherClasses.length === 0) {
+            return new NextResponse("No classes found for the teacher", { status: 404 });
+        }
+
         const classIds = teacherClasses.map(classItem => classItem.classId);
 
         await prismadb.class.deleteMany({
@@ -75,7 +81,7 @@ export async function DELETE(req: Request, res: Response) {
             }
         });
 
-      return new NextResponse(`Success ${classIds}`, { status: 200 });
+        return new NextResponse(`Success ${classIds}`, { status: 200 });
     } catch (error) {
         console.error("Internal Error DELETE:", error);
         return new NextResponse(`Internal Error DELETE`, { status: 500 });
