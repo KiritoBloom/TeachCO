@@ -1,72 +1,63 @@
 import prismadb from "@/lib/prismadb";
 import { auth, currentUser } from "@clerk/nextjs";
-import { User } from "@prisma/client";
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request, res: Response) {
-    const { userId } = auth();
-    const user = await currentUser();
+  const {userId} = auth();
+  const user = await currentUser();
   
-    if (!userId) {
-      return new NextResponse("Unauthorized", { status: 401 });
-    }
-  
-    try {
-      const { classId } = await req.json();
-      const userName = user?.firstName || "User";
-      const userIdValue = userId;
-  
-      const existingClass = await prismadb.class.findUnique({
-        where: {
-          classId: classId.toString(),
-        },
-        include: {
-          students: true,
-        },
-      });
-  
-      if (!existingClass) {
-        console.error("Class not found");
-        return new NextResponse("Class not found", { status: 404 });
-      }
-  
-      const updatedClass = await prismadb.class.update({
-        where: {
-          classId: classId.toString(),
-        },
-        data: {
-          students: {
-            create: [
-              {
-                name: userName.toString(),
-                id: userIdValue.toString(),
-              },
-            ],
-          },
-        },
-      });
-  
-      const updatedUser = await prismadb.user.update({
-        where: {
-          userId: userIdValue,
-        },
-        data: {
-          joinedClasses: {
-            // Use the array spread operator to add the new classId to the existing joinedClasses array
-            set: [classId.toString()],
-          },
-        },
-      });
-  
-      console.log("Class updated successfully with new student", updatedClass);
-      console.log("User updated successfully with joined class", updatedUser);
-  
-      return new NextResponse(`Success`, { status: 200 });
-    } catch (error) {
-      console.error("Error updating class:", error);
-      return new NextResponse("Internal Error POST", { status: 500 });
-    }
+  if (!userId) {
+    return new NextResponse("Unauthorized", {status: 401})
   }
+
+  try {
+    const {classId} = await req.json();
+    const userName = user?.firstName || "User";
+
+    // Update the user's joinedClasses array
+    const updatedUser = await prismadb.user.update({
+      where: {
+        userId: userId?.toString()
+      }, 
+      data: {
+          joinedClasses: {
+            push: classId.toString() // Using push to add the new classId to the array
+          }
+      }
+    })
+
+    const generateUniqueId = () => {
+      const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+      let uniqueId = '';
+    
+      for (let i = 0; i < 6; i++) {
+        const randomIndex = Math.floor(Math.random() * characters.length);
+        uniqueId += characters.charAt(randomIndex);
+      }
+    
+      return uniqueId;
+    };
+
+    const uniqueId = generateUniqueId();
+    
+
+    // Create a new student entry
+    await prismadb.student.create({
+      data: {
+        name: userName.toString(),
+        id: uniqueId,
+        userId: userId.toString(),
+        classId: classId.toString(),
+      },
+    })
+
+    return new NextResponse(`Success`, { status: 200 });
+  } catch(error) {
+    console.error("Error:", error);
+    return new NextResponse("Internal Error POST", {status: 500})
+  }
+}
+
 
 export async function GET(req: Request, res: Response) {
   const { userId } = await auth();
@@ -76,7 +67,7 @@ export async function GET(req: Request, res: Response) {
   }
 
   try {
-     const user = await prismadb.user.findUnique({
+    const user = await prismadb.user.findUnique({
       where: {
         userId: userId,
       },

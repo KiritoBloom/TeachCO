@@ -19,6 +19,13 @@ const ClassJoin = () => {
 
   const handleOnClick = async () => {
     try {
+      if (!classId) {
+        toast({
+          title: "Please Input Class ID ❌",
+          variant: "destructive",
+        });
+        return;
+      }
       await axios.post("/api/class/class-join", { classId });
       toast({
         title: "Joined Class",
@@ -26,19 +33,12 @@ const ClassJoin = () => {
         variant: "success",
       });
     } catch (error) {
-      console.log(error, "Error has occured, CLASS JOIN POST");
-      if (!classId) {
-        toast({
-          title: "Please Input Class ID ❌",
-          variant: "destructive",
-        });
-      } else {
-        toast({
-          title: "It's not you its Us ❌",
-          description: "Something went wrong",
-          variant: "destructive",
-        });
-      }
+      console.log(error, "Error has occurred, CLASS JOIN POST");
+      toast({
+        title: "It's not you its Us ❌",
+        description: "Something went wrong",
+        variant: "destructive",
+      });
     }
   };
 
