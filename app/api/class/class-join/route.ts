@@ -21,7 +21,7 @@ export async function POST(req: Request, res: Response) {
       }, 
       data: {
           joinedClasses: {
-            push: classId.toString() // Using push to add the new classId to the array
+            push: classId.toString() 
           }
       }
     })
@@ -40,8 +40,19 @@ export async function POST(req: Request, res: Response) {
 
     const uniqueId = generateUniqueId();
     
-
-    // Create a new student entry
+    const isStudentInClass = await prismadb.student.findFirst({
+      where: {
+        userId: userId
+      },
+      select: {
+        classId: true,
+      }
+    });
+    
+    if (isStudentInClass && isStudentInClass.classId === classId) {
+      return new NextResponse("User has already joined this class", { status: 500 });
+    }
+    
     await prismadb.student.create({
       data: {
         name: userName.toString(),

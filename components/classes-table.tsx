@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { Loader } from "./loader";
 import { Card, CardDescription, CardTitle } from "./ui/card";
 import RoleChooser from "./role-chooser";
+import Image from "next/image";
 
 const ClassesTable = () => {
   const [userRole, setUserRole] = useState<string | null>(null);
@@ -130,7 +131,20 @@ const ClassesTable = () => {
                     ))}
                   </div>
                 ) : (
-                  <p>No classes created yet.</p>
+                  <>
+                    <div className="w-full h-full flex justify-center items-center">
+                      <Image
+                        src="/empty.png"
+                        width={400}
+                        height={400}
+                        alt="Empty"
+                        className="grayscale"
+                      />
+                    </div>
+                    <p className="flex justify-center font-semibold text-4xl">
+                      No Classes Found
+                    </p>
+                  </>
                 )}
               </div>
             ) : cleanedUserRole === "Student" ? (
@@ -155,7 +169,22 @@ const ClassesTable = () => {
                   </Card>
                 ))}
               </div>
-            ) : null}
+            ) : (
+              <>
+                <div className="w-full h-full flex justify-center items-center">
+                  <Image
+                    src="/empty.png"
+                    width={400}
+                    height={400}
+                    alt="Empty"
+                    className="grayscale"
+                  />
+                </div>
+                <p className="flex justify-center font-semibold text-4xl">
+                  No Classes Found
+                </p>
+              </>
+            )}
           </div>
         )}
       </div>
