@@ -16,6 +16,7 @@ const ClassPage = () => {
       try {
         const res = await axios.get(`/api/class/class-info?classId=${classId}`);
         setClassInfo(res.data);
+        setIsLoading(false);
       } catch (error) {
         console.log(error, "Something went wrong");
       }
