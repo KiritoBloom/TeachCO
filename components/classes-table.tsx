@@ -50,11 +50,10 @@ const ClassesTable = () => {
 
         if (Array.isArray(classesData)) {
           setTeacherClasses(classesData);
+          setIsLoading(false);
         } else {
           console.error("Invalid response format for classes:", classesData);
         }
-
-        setIsLoading(false);
       } catch (error) {
         console.error("Error fetching classes:", error);
         setIsLoading(false);
@@ -76,11 +75,10 @@ const ClassesTable = () => {
 
         if (Array.isArray(classesData)) {
           setStudentClasses(classesData);
+          setIsLoading(false);
         } else {
           console.error("Invalid response format for classes:", classesData);
         }
-
-        setIsLoading(false);
       } catch (error) {
         console.error("Error fetching classes:", error);
         setIsLoading(false);

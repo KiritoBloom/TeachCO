@@ -1,3 +1,9 @@
+import ClassPage from "@/components/class-page";
+
 export default function Page() {
-  return <div>Hello World</div>;
+  return (
+    <div>
+      <ClassPage />
+    </div>
+  );
 }
