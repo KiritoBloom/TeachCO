@@ -112,7 +112,7 @@ const ClassesTable = () => {
                     {teacherClasses.map((classItem) => (
                       <Card
                         key={classItem.classId}
-                        className="cursor-pointer hover:scale-[102%] transition-all mb-4 ml-0 mx-auto w-[90%] p-4 bg-slate-200 bg-opacity-20 backdrop-blur-md border-opacity-18 border-solid rounded-lg shadow-md border-black"
+                        className="cursor-pointer hover:scale-[102%] transition-all mb-4 ml-0 mx-auto w-[90%] p-4 bg-opacity-20 backdrop-blur-md border-opacity-18 border-solid rounded-lg shadow-md border-black"
                         onClick={() => handleOnClick(classItem.classId)}
                       >
                         <CardTitle>Class Name: {classItem.className}</CardTitle>

@@ -141,90 +141,107 @@ export default function Page() {
     <RoleChooser />
   ) : (
     <div className="ml-2 mt-2">
-      <h1 className="font-semibold text-3xl">Edit Your Profile:</h1>
       <Avatar className="w-full h-full flex justify-center items-center mt-5">
         <AvatarImage
           src={user?.imageUrl}
-          className="md:w-[20%] h-[20%] rounded-[50%] w-[50%]"
+          className="md:w-[15%] w-[50%] h-[20%] rounded-[50%]"
         />
         <AvatarFallback>UL</AvatarFallback>
       </Avatar>
-      <div>
-        <h1 className="text-lg font-semibold mt-5 flex items-center gap-x-1">
-          <Mail className="w-5 h-5" /> Email:
-        </h1>
-        <div className="flex justify-start items-center">
-          <Input
-            placeholder={
-              user?.primaryEmailAddress?.toString() ||
-              "Enter your Email Address"
-            }
-            className="transition-all duration-150 mt-2 w-[95%] flex justify-start items-start"
-            readOnly
-          />
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger>
-                <Button
-                  onClick={() =>
-                    user?.primaryEmailAddress &&
-                    onCopy(user?.primaryEmailAddress?.toString())
-                  }
-                  className="opacity-100 group-hover:opacity-100 transition-all ease-in-out mt-2 ml-2 mr-1 md:mr-1"
-                  size="icon"
-                  variant="ghost"
-                >
-                  <Copy className="w-4 h-4" />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>Add to clipboard</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
+      <div className="flex justify-center items-center mt-5 mb-5">
+        <h1 className="font-semibold text-3xl">Edit Your Profile</h1>
+      </div>
+      <div className="flex flex-col md:flex-row justify-start gap-x-10">
+        <div>
+          <h1 className="text-lg font-semibold mt-5 flex items-center">
+            Email
+          </h1>
+          <div className="flex justify-start items-center md:w-[500px] w-[360px]">
+            <div className="w-full flex items-center">
+              <div className="w-full flex items-center justify-between">
+                <div className="relative w-full">
+                  <Input
+                    placeholder={
+                      user?.primaryEmailAddress?.toString() ||
+                      "Enter your Email Address"
+                    }
+                    className="transition-all duration-150 mt-2 pr-4 py-2 border rounded-xl"
+                    readOnly
+                  />
+                  <Mail className="absolute right-2 top-1/2 transform -translate-y-1/4 w-5 h-5 text-gray-400" />
+                </div>
+              </div>
+            </div>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger>
+                  <Button
+                    onClick={() =>
+                      user?.primaryEmailAddress &&
+                      onCopy(user?.primaryEmailAddress?.toString())
+                    }
+                    className="opacity-100 group-hover:opacity-100 transition-all ease-in-out mt-2 ml-1 mr-1 md:mr-1"
+                    size="icon"
+                    variant="ghost"
+                  >
+                    <Copy className="w-4 h-4" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Add to clipboard</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          </div>
+        </div>
+        <div>
+          <h1 className="text-lg font-semibold mt-5 flex items-center gap-x-1">
+            UserID
+          </h1>
+          <div className="flex justify-start items-center md:w-[500px] w-[360px]">
+            <div className="w-full flex items-center">
+              <div className="w-full flex items-center justify-between">
+                <div className="relative w-full">
+                  <Input
+                    placeholder={
+                      userId ? userId.toString() : "Enter your Email Address"
+                    }
+                    className="transition-all duration-150 mt-2 flex justify-start items-start rounded-xl"
+                    readOnly
+                  />
+                  <User className="absolute top-1/2 right-1 transform -translate-y-1/4 w-5 h-5 text-gray-400" />
+                </div>
+              </div>
+            </div>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger>
+                  <Button
+                    onClick={() => userId && onCopy(userId.toString())}
+                    className="opacity-100 group-hover:opacity-100 transition-all ease-in-out mt-2 ml-1 mr-1 md:mr-1"
+                    size="icon"
+                    variant="ghost"
+                  >
+                    <Copy className="w-4 h-4" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Add to clipboard</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          </div>
         </div>
       </div>
       <div>
         <h1 className="text-lg font-semibold mt-5 flex items-center gap-x-1">
-          <User className="w-5 h-5" /> UserID:
-        </h1>
-        <div className="flex justify-start items-center">
-          <Input
-            placeholder={
-              userId ? userId.toString() : "Enter your Email Address"
-            }
-            className="transition-all duration-150 mt-2 w-[95%] flex justify-start items-start"
-            readOnly
-          />
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger>
-                <Button
-                  onClick={() => userId && onCopy(userId.toString())}
-                  className="opacity-100 group-hover:opacity-100 transition-all ease-in-out mt-2 ml-2 mr-1 md:mr-1"
-                  size="icon"
-                  variant="ghost"
-                >
-                  <Copy className="w-4 h-4" />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>Add to clipboard</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-        </div>
-      </div>
-
-      <div>
-        <h1 className="text-lg font-semibold mt-5 flex items-center gap-x-1">
-          <CircleUserRound className="w-5 h-5" /> Username:
+          <CircleUserRound className="w-5 h-5" /> Username
         </h1>
         <div className="flex-col justify-start items-center">
           <Input
             placeholder={user?.firstName || "Enter your first name"}
             className={cn(
-              "transition-all duration-150 mt-2 w-[95%] flex justify-start items-start",
+              "transition-all duration-150 mt-2 w-[95%] flex justify-start items-start rounded-xl",
               {
                 "border-red-500 transition-all": isFirstNameMatch,
               }
@@ -239,16 +256,16 @@ export default function Page() {
         </div>
       </div>
       <div>
-        <h1 className="text-lg font-semibold mt-5">Role:</h1>
+        <h1 className="text-lg font-semibold mt-5">Role</h1>
         <RadioGroup
           defaultValue={
             cleanedUserRole === "Student" ? "option-one" : "option-two"
           }
-          className="flex-col items-center pb-5"
+          className="flex-col items-center pb-5 "
         >
           <Label htmlFor="student" className="cursor-pointer">
             <div
-              className="flex items-center space-x-5 border-2 border-black/30 transition-all w-[95%] cursor-pointer p-3 rounded-md"
+              className="flex items-center space-x-5 border-2 border-black/30 transition-all w-[95%] cursor-pointer p-3 rounded-xl"
               onClick={() => handleOnClick("Student")}
             >
               <RadioGroupItem
@@ -261,7 +278,7 @@ export default function Page() {
           </Label>
           <Label htmlFor="teacher" className="cursor-pointer">
             <div
-              className="flex items-center space-x-2 transition-all border-2 border-black/30 w-[95%] cursor-pointer p-3 rounded-md"
+              className="flex items-center space-x-2 transition-all border-2 border-black/30 w-[95%] cursor-pointer p-3 rounded-xl"
               onClick={() => handleOnClick("Teacher")}
             >
               <RadioGroupItem
@@ -273,37 +290,39 @@ export default function Page() {
             </div>
           </Label>
         </RadioGroup>
-        <Button
-          className="mb-5 hover:scale-[110%] transition-all"
-          onClick={handleOnSubmit}
-        >
-          Confirm <Check className="ml-2" />
-        </Button>
-        <AlertDialog>
-          <AlertDialogTrigger>
-            <Button className="mb-5 ml-5 bg-red-500 hover:scale-[110%] hover:bg-red-500 transition-all">
-              Delete Account <Trash className="ml-2" />
-            </Button>
-          </AlertDialogTrigger>
-          <AlertDialogContent className="w-[90%] rounded-md">
-            <AlertDialogHeader>
-              <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-              <AlertDialogDescription>
-                This action cannot be undone. This will permanently delete your
-                account and remove your data from our servers.
-              </AlertDialogDescription>
-            </AlertDialogHeader>
-            <AlertDialogFooter>
-              <AlertDialogCancel>Cancel</AlertDialogCancel>
-              <AlertDialogAction
-                onClick={handleOnDelete}
-                className="bg-red-500 hover:bg-red-500"
-              >
-                Continue
-              </AlertDialogAction>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialog>
+        <div className="flex justify-start md:justify-center items-center">
+          <Button
+            className="mb-5 hover:scale-[110%] transition-all bg-black hover:bg-black rounded-3xl"
+            onClick={handleOnSubmit}
+          >
+            Confirm <Check className="ml-2" />
+          </Button>
+          <AlertDialog>
+            <AlertDialogTrigger>
+              <Button className="mb-5 ml-5 bg-gray-200 hover:scale-[110%] hover:bg-gray-200 transition-all text-black rounded-3xl">
+                Delete Account <Trash className="ml-2" />
+              </Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent className="w-[90%] rounded-xl">
+              <AlertDialogHeader>
+                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                <AlertDialogDescription>
+                  This action cannot be undone. This will permanently delete
+                  your account and remove your data from our servers.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogAction
+                  onClick={handleOnDelete}
+                  className="bg-red-500 hover:bg-red-500"
+                >
+                  Continue
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
+        </div>
       </div>
     </div>
   );
