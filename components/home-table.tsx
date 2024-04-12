@@ -66,7 +66,7 @@ const HomeTable = () => {
               <h1 className="font-semibold text-[30px] ml-2">
                 Welcome Back, {user?.firstName || "User"}
               </h1>
-              <div className="ml-2 mt-2 md:mt-0 md:ml-0 bg-foreground/30 md:w-[9%] w-[33%] h-15 rounded-md flex justify-between items-center mr-2">
+              <div className="ml-2 mt-2 md:mt-0 md:ml-0 bg-foreground/30 gap-x-2 md:w-fit w-fit h-15 rounded-md flex justify-between items-center mr-2">
                 {cleanedUserRole === "Student" && (
                   <>
                     <h1 className="ml-2 font-bold">{cleanedUserRole}</h1>

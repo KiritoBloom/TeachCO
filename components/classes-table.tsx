@@ -8,13 +8,26 @@ import { Card, CardDescription, CardTitle } from "./ui/card";
 import RoleChooser from "./role-chooser";
 import Image from "next/image";
 import { Button } from "./ui/button";
-import { Edit, Trash } from "lucide-react";
+import { ArrowUpLeftFromSquareIcon, Edit, Trash } from "lucide-react";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { useToast } from "./ui/use-toast";
 
 const ClassesTable = () => {
   const [userRole, setUserRole] = useState<string | null>(null);
   const [teacherClasses, setTeacherClasses] = useState<Array<any>>([]);
   const [studentClasses, setStudentClasses] = useState<Array<any>>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const { toast } = useToast();
   const router = useRouter();
 
   const cleanedUserRole = userRole
@@ -106,9 +119,18 @@ const ClassesTable = () => {
           classId,
         },
       });
-      router.refresh();
+      toast({
+        title: "Class Deleted",
+        description: "The class has been successfully deleted.",
+        variant: "success",
+      });
     } catch (error) {
       console.error("Error deleting class:", error);
+      toast({
+        title: "Something went wrong",
+        description: "Please try again later",
+        variant: "destructive",
+      });
     }
   };
 
@@ -145,17 +167,43 @@ const ClassesTable = () => {
                           Class Code: {classItem.classId}
                         </CardDescription>
                         <div className="flex mt-3 gap-x-4 w-full">
-                          <Button className="bg-black hover:bg-black hover:scale-[102%] rounded-2xl w-[30%] md:w-[15%] flex items-center justify-end gap-x-2 transition-all duration-100">
+                          <Button className="bg-black hover:bg-black hover:scale-[102%] rounded-2xl w-fit  flex items-center justify-end gap-x-2 transition-all duration-100">
                             Edit <Edit className="w-4 h-4" />
                           </Button>
-                          <Button
-                            onClick={(e) =>
-                              handleOnDelete(classItem.classId, e)
-                            }
-                            className="z-100 bg-gray-200 hover:bg-gray-200 hover:scale-[102%] rounded-2xl w-[55%] md:w-[25%] flex items-center gap-x-2 text-black transition-all duration-100"
-                          >
-                            Delete Class <Trash className="w-4 h-4" />
-                          </Button>
+                          <AlertDialog>
+                            <AlertDialogTrigger
+                              onClick={(
+                                event: React.MouseEvent<HTMLButtonElement>
+                              ) => event.stopPropagation()}
+                            >
+                              <Button className="z-100 bg-gray-200 hover:bg-gray-200 hover:scale-[102%] rounded-2xl w-fit flex items-center gap-x-2 text-black transition-all duration-100">
+                                Delete Class <Trash className="w-4 h-4" />
+                              </Button>
+                            </AlertDialogTrigger>
+                            <AlertDialogContent>
+                              <AlertDialogHeader>
+                                <AlertDialogTitle>
+                                  Are you absolutely sure?
+                                </AlertDialogTitle>
+                                <AlertDialogDescription>
+                                  This action cannot be undone. This will
+                                  permanently delete your class and all students
+                                  associated
+                                </AlertDialogDescription>
+                              </AlertDialogHeader>
+                              <AlertDialogFooter>
+                                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                <AlertDialogAction
+                                  onClick={(e) =>
+                                    handleOnDelete(classItem.classId, e)
+                                  }
+                                  className="z-100 bg-gray-200 hover:bg-gray-200 hover:scale-[102%] rounded-2xl w-fit flex items-center gap-x-2 text-black transition-all duration-100"
+                                >
+                                  Delete Class <Trash className="w-4 h-4" />
+                                </AlertDialogAction>
+                              </AlertDialogFooter>
+                            </AlertDialogContent>
+                          </AlertDialog>
                         </div>
                       </Card>
                     ))}
@@ -183,7 +231,7 @@ const ClassesTable = () => {
                 {studentClasses.map((classItem) => (
                   <Card
                     key={classItem.classId}
-                    className="mt-5 cursor-pointer hover:scale-[102%] transition-all mb-4 ml-0 mx-auto w-[90%] p-4 bg-slate-200 bg-opacity-20 backdrop-blur-md border-opacity-18 border-solid rounded-lg shadow-md border-black"
+                    className="mt-5 cursor-pointer transition-all mb-4 ml-0 mx-auto w-[90%] md:w-[40%] p-4 bg-opacity-20 backdrop-blur-md border-opacity-18 border-solid rounded-lg shadow-md border-black/20"
                     onClick={() => handleOnClick(classItem.classId)}
                   >
                     <CardTitle>Class Name: {classItem.className}</CardTitle>
@@ -196,6 +244,15 @@ const ClassesTable = () => {
                     <CardDescription>
                       Class Code: {classItem.classId}
                     </CardDescription>
+                    <div className="flex mt-3 gap-x-4 w-full">
+                      <Button
+                        onClick={(e) => handleOnDelete(classItem.classId, e)}
+                        className="z-100 bg-gray-200 hover:bg-gray-200 hover:scale-[102%] rounded-2xl w-fit flex items-center gap-x-2 text-black transition-all duration-100"
+                      >
+                        Leave Class{" "}
+                        <ArrowUpLeftFromSquareIcon className="w-4 h-4" />
+                      </Button>
+                    </div>
                   </Card>
                 ))}
               </div>
