@@ -102,7 +102,7 @@ const HomeTable = () => {
             </Avatar>
             <div className="w-full flex justify-center mt-7">
               <Button
-                className="md:w-[50%] w-[80%] mb-10 hover:bg-foreground/80 bg-black transition-all font-semibold rounded-3xl"
+                className="md:w-[50%] w-[80%] mb-10 hover:bg-black hover:scale-[101%] bg-black transition-all font-semibold rounded-3xl"
                 onClick={handleOnClick}
               >
                 Edit Your Profile

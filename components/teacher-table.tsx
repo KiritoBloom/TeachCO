@@ -77,7 +77,10 @@ const TeacherTable = () => {
           />
         </CardContent>
         <CardFooter>
-          <Button className="w-full" onClick={handleOnClick}>
+          <Button
+            className="w-full bg-black hover:bg-black"
+            onClick={handleOnClick}
+          >
             Create Class
           </Button>
         </CardFooter>
