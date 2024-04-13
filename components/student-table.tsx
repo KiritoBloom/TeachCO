@@ -1,5 +1,3 @@
-"use client";
-
 import ClassJoin from "./class-join";
 
 const StudentTable = () => {

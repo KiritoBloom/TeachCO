@@ -21,37 +21,17 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { useToast } from "./ui/use-toast";
+import useUserRole from "@/lib/role";
 
 const ClassesTable = () => {
-  const [userRole, setUserRole] = useState<string | null>(null);
+  const { role, isLoading } = useUserRole();
   const [teacherClasses, setTeacherClasses] = useState<Array<any>>([]);
   const [studentClasses, setStudentClasses] = useState<Array<any>>([]);
-  const [isLoading, setIsLoading] = useState(true);
   const { toast } = useToast();
   const router = useRouter();
 
-  const cleanedUserRole = userRole
-    ?.replace("Success", "")
-    ?.replace(/"role":/g, "")
-    ?.replace(/[{}"]/g, "")
-    ?.trim();
-
-  useEffect(() => {
-    const getUserRole = async () => {
-      try {
-        const response = await axios.get("/api/role");
-        setUserRole(response.data);
-        setIsLoading(false);
-      } catch (error) {
-        console.error("Error fetching user role:", error);
-        setUserRole(null);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    getUserRole();
-  }, [router]);
+  const [isTeacherClassesLoading, setIsTeacherClassesLoading] = useState(true);
+  const [isStudentClassesLoading, setIsStudentClassesLoading] = useState(true);
 
   useEffect(() => {
     const fetchedClasses = async () => {
@@ -65,13 +45,13 @@ const ClassesTable = () => {
 
         if (Array.isArray(classesData)) {
           setTeacherClasses(classesData);
-          setIsLoading(false);
         } else {
           console.error("Invalid response format for classes:", classesData);
         }
       } catch (error) {
         console.error("Error fetching classes:", error);
-        setIsLoading(false);
+      } finally {
+        setIsTeacherClassesLoading(false);
       }
     };
 
@@ -90,13 +70,13 @@ const ClassesTable = () => {
 
         if (Array.isArray(classesData)) {
           setStudentClasses(classesData);
-          setIsLoading(false);
         } else {
           console.error("Invalid response format for classes:", classesData);
         }
       } catch (error) {
         console.error("Error fetching classes:", error);
-        setIsLoading(false);
+      } finally {
+        setIsStudentClassesLoading(false);
       }
     };
 
@@ -105,7 +85,6 @@ const ClassesTable = () => {
 
   const handleOnClick = (classId: string) => {
     router.push(`/classes/${classId}`);
-    setIsLoading(true);
   };
 
   const handleOnDelete = async (
@@ -137,15 +116,15 @@ const ClassesTable = () => {
   return (
     <>
       <div className="ml-2">
-        {isLoading ? (
+        {isLoading || isTeacherClassesLoading || isStudentClassesLoading ? (
           <div className="flex justify-center items-center mt-[20%] h-full">
             <Loader />
           </div>
-        ) : !cleanedUserRole ? (
+        ) : !role ? (
           <RoleChooser />
         ) : (
           <div>
-            {cleanedUserRole === "Teacher" ? (
+            {role === "Teacher" ? (
               <div>
                 <h1 className="mt-2 font-bold text-3xl">Created Classes</h1>
                 {teacherClasses.length > 0 ? (
@@ -225,7 +204,7 @@ const ClassesTable = () => {
                   </>
                 )}
               </div>
-            ) : cleanedUserRole === "Student" ? (
+            ) : role === "Student" ? (
               <div>
                 <h1 className="mt-2 font-bold text-3xl">Joined Classes</h1>
                 {studentClasses.map((classItem) => (

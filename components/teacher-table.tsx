@@ -17,7 +17,6 @@ import { useState } from "react";
 
 const TeacherTable = () => {
   const { toast } = useToast();
-  const router = useRouter();
   const [className, setClassName] = useState("");
   const [subject, setSubject] = useState("");
 
