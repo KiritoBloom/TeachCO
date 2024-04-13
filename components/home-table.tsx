@@ -1,8 +1,6 @@
 "use client";
 
-import { currentUser, useAuth, useUser } from "@clerk/nextjs";
-import { useEffect, useState } from "react";
-import axios from "axios";
+import { useUser } from "@clerk/nextjs";
 import RoleChooser from "./role-chooser";
 import { Loader } from "./loader";
 import { useRouter } from "next/navigation";
@@ -11,39 +9,13 @@ import StudentTable from "./student-table";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Button } from "./ui/button";
 import Image from "next/image";
+import RecentClasses from "./recent-classes";
+import useUserRole from "@/lib/role";
 
 const HomeTable = () => {
-  const { userId } = useAuth();
   const { user } = useUser();
-  const [userRole, setUserRole] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
-
-  useEffect(() => {
-    if (userRole !== null || userRole !== "Success null") {
-      const getUserRole = async () => {
-        try {
-          const response = await axios.get("/api/role");
-          setUserRole(response.data);
-        } catch (error) {
-          console.error("Error fetching user role:", error);
-          setUserRole(null);
-        } finally {
-          setIsLoading(false);
-          router.refresh();
-        }
-      };
-      getUserRole();
-    } else {
-      setIsLoading(false); // Set loading to false if userRole is null or "Success null"
-    }
-  }, [userId, userRole, router]);
-
-  const cleanedUserRole = userRole
-    ?.replace("Success", "")
-    .replace(/"role":/g, "")
-    .replace(/[{}"]/g, "")
-    .trim();
+  const { role, isLoading } = useUserRole();
 
   const handleOnClick = () => {
     router.push("/settings");
@@ -55,9 +27,7 @@ const HomeTable = () => {
         <div className="flex justify-center items-center mt-[20%] h-full">
           <Loader />
         </div>
-      ) : userRole === null ||
-        userRole === "Success null" ||
-        cleanedUserRole === "null" ? (
+      ) : role === null || role === "null" || role === "null" ? (
         <RoleChooser />
       ) : (
         <div>
@@ -67,24 +37,24 @@ const HomeTable = () => {
                 Welcome Back, {user?.firstName || "User"}
               </h1>
               <div className="ml-2 mt-2 md:mt-0 md:ml-0 bg-foreground/30 gap-x-2 md:w-fit w-fit h-15 rounded-md flex justify-between items-center mr-2">
-                {cleanedUserRole === "Student" && (
+                {role === "Student" && (
                   <>
-                    <h1 className="ml-2 font-bold">{cleanedUserRole}</h1>
+                    <h1 className="ml-2 font-bold">{role}</h1>
                     <Image
                       src="/student.png"
-                      className="bg-white rounded-[50%] p-1 mr-2 border-[1px] border-black"
+                      className="bg-white rounded-[50%] p-1 mr-2 border-[1px]"
                       width={40}
                       height={30}
                       alt="logo"
                     />
                   </>
                 )}
-                {cleanedUserRole === "Teacher" && (
+                {role === "Teacher" && (
                   <>
-                    <h1 className="ml-2 font-bold">{cleanedUserRole}</h1>
+                    <h1 className="ml-2 font-bold">{role}</h1>
                     <Image
                       src="/teacher.png"
-                      className="bg-white rounded-[50%] p-1 mr-2 border-[1px] border-black"
+                      className="bg-white rounded-[50%] p-1 mr-2 border-[1px]"
                       width={40}
                       height={30}
                       alt="logo"
@@ -109,7 +79,7 @@ const HomeTable = () => {
               </Button>
             </div>
           </div>
-          {cleanedUserRole === "Teacher" ? (
+          {role === "Teacher" ? (
             <>
               <h1 className="ml-5 text-2xl font-semibold text-black/70">
                 Get Started Here:
@@ -118,7 +88,7 @@ const HomeTable = () => {
                 <TeacherTable />
               </div>
             </>
-          ) : cleanedUserRole === "Student" ? (
+          ) : role === "Student" ? (
             <>
               <h1 className="ml-5 text-2xl font-semibold text-black/70">
                 Get Started Here:
@@ -128,6 +98,9 @@ const HomeTable = () => {
               </div>
             </>
           ) : null}
+          <div className="ml-2">
+            <RecentClasses />
+          </div>
         </div>
       )}
     </div>
