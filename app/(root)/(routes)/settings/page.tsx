@@ -6,7 +6,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 import { useAuth, useUser } from "@clerk/nextjs";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { Loader } from "@/components/loader";
@@ -31,42 +31,16 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import useUserRole from "@/hooks/role";
 
 export default function Page() {
   const { user } = useUser();
   const { userId } = useAuth();
   const [inputValue, setInputValue] = useState("");
-  const [userRole, setUserRole] = useState<string | null>(null);
+  const { role, isLoading } = useUserRole();
   const [updatedRole, setUpdatedRole] = useState<string | null>(null);
   const { toast } = useToast();
-  const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
-
-  useEffect(() => {
-    if (userRole !== null || userRole !== "Success null") {
-      const getUserRole = async () => {
-        try {
-          const response = await axios.get("/api/role");
-          setUserRole(response.data);
-        } catch (error) {
-          console.error("Error fetching user role:", error);
-          setUserRole(null);
-        } finally {
-          setIsLoading(false);
-          router.refresh();
-        }
-      };
-      getUserRole();
-    } else {
-      setIsLoading(false); // Set loading to false if userRole is null or "Success null"
-    }
-  }, [userRole, router]);
-
-  const cleanedUserRole = userRole
-    ?.replace("Success", "")
-    .replace(/"role":/g, "")
-    .replace(/[{}"]/g, "")
-    .trim();
 
   const isFirstNameMatch = user?.firstName === inputValue;
 
@@ -137,7 +111,7 @@ export default function Page() {
     <div className="flex justify-center items-center mt-[20%] h-full">
       <Loader />
     </div>
-  ) : !cleanedUserRole ? (
+  ) : !role ? (
     <RoleChooser />
   ) : (
     <div className="ml-2 mt-2">
@@ -258,9 +232,7 @@ export default function Page() {
       <div>
         <h1 className="text-lg font-semibold mt-5">Role</h1>
         <RadioGroup
-          defaultValue={
-            cleanedUserRole === "Student" ? "option-one" : "option-two"
-          }
+          defaultValue={role === "Student" ? "option-one" : "option-two"}
           className="flex-col items-center pb-5 "
         >
           <Label htmlFor="student" className="cursor-pointer">

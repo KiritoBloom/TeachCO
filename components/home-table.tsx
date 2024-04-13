@@ -10,7 +10,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Button } from "./ui/button";
 import Image from "next/image";
 import RecentClasses from "./recent-classes";
-import useUserRole from "@/lib/role";
+import useUserRole from "@/hooks/role";
 
 const HomeTable = () => {
   const { user } = useUser();
@@ -36,7 +36,7 @@ const HomeTable = () => {
               <h1 className="font-semibold text-[30px] ml-2">
                 Welcome Back, {user?.firstName || "User"}
               </h1>
-              <div className="ml-2 mt-2 md:mt-0 md:ml-0 bg-foreground/30 gap-x-2 md:w-fit w-fit h-15 rounded-md flex justify-between items-center mr-2">
+              <div className="p-1 ml-2 mt-2 md:mt-0 md:ml-0 bg-foreground/30 gap-x-2 md:w-fit w-fit h-15 rounded-md flex justify-between items-center mr-2">
                 {role === "Student" && (
                   <>
                     <h1 className="ml-2 font-bold">{role}</h1>

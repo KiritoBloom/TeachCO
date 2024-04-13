@@ -21,7 +21,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { useToast } from "./ui/use-toast";
-import useUserRole from "@/lib/role";
+import useUserRole from "@/hooks/role";
 
 const ClassesTable = () => {
   const { role, isLoading } = useUserRole();
@@ -207,33 +207,54 @@ const ClassesTable = () => {
             ) : role === "Student" ? (
               <div>
                 <h1 className="mt-2 font-bold text-3xl">Joined Classes</h1>
-                {studentClasses.map((classItem) => (
-                  <Card
-                    key={classItem.classId}
-                    className="mt-5 cursor-pointer transition-all mb-4 ml-0 mx-auto w-[90%] md:w-[40%] p-4 bg-opacity-20 backdrop-blur-md border-opacity-18 border-solid rounded-lg shadow-md border-black/20"
-                    onClick={() => handleOnClick(classItem.classId)}
-                  >
-                    <CardTitle>Class Name: {classItem.className}</CardTitle>
-                    <CardTitle className="mb-2 mt-1 text-foreground/100 text-lg">
-                      Teacher Name: {classItem.teacherName}
-                    </CardTitle>
-                    <CardDescription className="mb-2 mt-2">
-                      Class Subject: {classItem.classSubject}
-                    </CardDescription>
-                    <CardDescription>
-                      Class Code: {classItem.classId}
-                    </CardDescription>
-                    <div className="flex mt-3 gap-x-4 w-full">
-                      <Button
-                        onClick={(e) => handleOnDelete(classItem.classId, e)}
-                        className="z-100 bg-gray-200 hover:bg-gray-200 hover:scale-[102%] rounded-2xl w-fit flex items-center gap-x-2 text-black transition-all duration-100"
+                {studentClasses.length > 0 ? (
+                  <div>
+                    {studentClasses.map((classItem) => (
+                      <Card
+                        key={classItem.classId}
+                        className="mt-5 cursor-pointer transition-all mb-4 ml-0 mx-auto w-[90%] md:w-[40%] p-4 bg-opacity-20 backdrop-blur-md border-opacity-18 border-solid rounded-lg shadow-md border-black/20"
+                        onClick={() => handleOnClick(classItem.classId)}
                       >
-                        Leave Class{" "}
-                        <ArrowUpLeftFromSquareIcon className="w-4 h-4" />
-                      </Button>
+                        <CardTitle>Class Name: {classItem.className}</CardTitle>
+                        <CardTitle className="mb-2 mt-1 text-foreground/100 text-lg">
+                          Teacher Name: {classItem.teacherName}
+                        </CardTitle>
+                        <CardDescription className="mb-2 mt-2">
+                          Class Subject: {classItem.classSubject}
+                        </CardDescription>
+                        <CardDescription>
+                          Class Code: {classItem.classId}
+                        </CardDescription>
+                        <div className="flex mt-3 gap-x-4 w-full">
+                          <Button
+                            onClick={(e) =>
+                              handleOnDelete(classItem.classId, e)
+                            }
+                            className="z-100 bg-gray-200 hover:bg-gray-200 hover:scale-[102%] rounded-2xl w-fit flex items-center gap-x-2 text-black transition-all duration-100"
+                          >
+                            Leave Class{" "}
+                            <ArrowUpLeftFromSquareIcon className="w-4 h-4" />
+                          </Button>
+                        </div>
+                      </Card>
+                    ))}
+                  </div>
+                ) : (
+                  <>
+                    <div className="w-full h-full flex justify-center items-center">
+                      <Image
+                        src="/empty.png"
+                        width={400}
+                        height={400}
+                        alt="Empty"
+                        className="grayscale"
+                      />
                     </div>
-                  </Card>
-                ))}
+                    <p className="flex justify-center font-semibold text-4xl">
+                      No Classes Found
+                    </p>
+                  </>
+                )}
               </div>
             ) : (
               <>
