@@ -132,7 +132,7 @@ const ClassesTable = () => {
                     {teacherClasses.map((classItem) => (
                       <Card
                         key={classItem.classId}
-                        className="cursor-pointer transition-all mb-4 ml-0 mx-auto w-[90%] md:w-[40%] p-4 bg-opacity-20 backdrop-blur-md border-opacity-18 border-solid rounded-lg shadow-md border-black/20"
+                        className="hover:scale-[101%] cursor-pointer transition-all mb-4 ml-0 mx-auto w-[90%] md:w-[40%] p-4 bg-opacity-20 backdrop-blur-md border-opacity-18 border-solid rounded-lg shadow-md border-black/20"
                         onClick={() => handleOnClick(classItem.classId)}
                       >
                         <CardTitle>{classItem.className}</CardTitle>
@@ -212,7 +212,7 @@ const ClassesTable = () => {
                     {studentClasses.map((classItem) => (
                       <Card
                         key={classItem.classId}
-                        className="mt-5 cursor-pointer transition-all mb-4 ml-0 mx-auto w-[90%] md:w-[40%] p-4 bg-opacity-20 backdrop-blur-md border-opacity-18 border-solid rounded-lg shadow-md border-black/20"
+                        className="hover:scale-[101%] mt-5 cursor-pointer transition-all mb-4 ml-0 mx-auto w-[90%] md:w-[40%] p-4 bg-opacity-20 backdrop-blur-md border-opacity-18 border-solid rounded-lg shadow-md border-black/20"
                         onClick={() => handleOnClick(classItem.classId)}
                       >
                         <CardTitle>Class Name: {classItem.className}</CardTitle>

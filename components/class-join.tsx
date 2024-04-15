@@ -59,7 +59,7 @@ const ClassJoin = () => {
             maxLength={6 as number}
           />
           <Button
-            className="bg-black w-full rounded-lg p-1 mt-2 hover:bg-foreground/80 transition-all duration-150"
+            className="bg-black hover:bg-black hover:scale-[101%] w-full rounded-lg p-1 mt-2 transition-all duration-150"
             onClick={handleOnClick}
           >
             <h1 className="font-semibold">Join</h1>

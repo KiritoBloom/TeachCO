@@ -31,6 +31,7 @@ const Navbar = () => {
   const onNavigate = (url: string) => {
     return router.push(url);
   };
+
   return (
     <div className="w-full h-15 bg-primary/10 p-2 flex justify-between rounded-bl-lg rounded-br-lg border-2">
       <h1 className="font-bold text-xl flex justify-center items-center gap-x-1">
