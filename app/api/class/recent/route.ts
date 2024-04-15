@@ -2,7 +2,7 @@ import prismadb from "@/lib/prismadb";
 import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 
-export async function GET(res: Response, req: Request) {
+export async function GET(req: Request, res: Response) {
    const { userId } = auth();
 
    if (!userId) {
