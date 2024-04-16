@@ -19,7 +19,7 @@ import { Copy } from "lucide-react";
 const ClassPage = () => {
   const [isClassLoading, setIsClassLoading] = useState(true);
   const [classInfo, setClassInfo] = useState<any>(null);
-  const [students, setStudents] = useState<any>(null);
+  const [students, setStudents] = useState<any>("");
   const pathName = usePathname();
   const classId = pathName.split("/").pop();
   const { role, isLoading } = useUserRole();
@@ -113,13 +113,17 @@ const ClassPage = () => {
           </p>
           <div className="font-bold text-xl">
             <h2>Students</h2>
-            {students.map((student: any) => (
-              <div key={student.id} className="border-2 mt-2 p-2">
-                {student.name}
-                <p>In Class ID: {student.id}</p>
-                <p>User ID: {student.userId}</p>
-              </div>
-            ))}
+            {students?.length === 0 ? (
+              <div className="text-gray-600 mt-2">No students found</div>
+            ) : (
+              students?.map((student: any) => (
+                <div key={student.id} className="border-2 mt-2 p-2">
+                  {student.name}
+                  <p>In Class ID: {student.id}</p>
+                  <p>User ID: {student.userId}</p>
+                </div>
+              ))
+            )}
           </div>
         </div>
       )}
