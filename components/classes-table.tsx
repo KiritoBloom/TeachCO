@@ -128,63 +128,67 @@ const ClassesTable = () => {
               <div>
                 <h1 className="mt-2 font-bold text-3xl">Created Classes</h1>
                 {teacherClasses.length > 0 ? (
-                  <div className="mt-5">
+                  <div className="mt-5 flex flex-wrap justify-center gap-y-3">
                     {teacherClasses.map((classItem) => (
-                      <Card
+                      <div
                         key={classItem.classId}
-                        className="hover:scale-[101%] cursor-pointer transition-all mb-4 ml-0 mx-auto w-[90%] md:w-[40%] p-4 bg-opacity-20 backdrop-blur-md border-opacity-18 border-solid rounded-lg shadow-md border-black/20"
-                        onClick={() => handleOnClick(classItem.classId)}
+                        className="w-full md:w-1/2 px-2 mb-4"
                       >
-                        <CardTitle>{classItem.className}</CardTitle>
-                        <CardTitle className="mb-2 mt-1 text-foreground/100 text-lg">
-                          {classItem.teacherName}
-                        </CardTitle>
-                        <CardDescription className="mb-2 mt-2">
-                          Class Subject: {classItem.classSubject}
-                        </CardDescription>
-                        <CardDescription>
-                          Class Code: {classItem.classId}
-                        </CardDescription>
-                        <div className="flex mt-3 gap-x-4 w-full">
-                          <Button className="bg-black hover:bg-black hover:scale-[102%] rounded-2xl w-fit  flex items-center justify-end gap-x-2 transition-all duration-100">
-                            Edit <Edit className="w-4 h-4" />
-                          </Button>
-                          <AlertDialog>
-                            <AlertDialogTrigger
-                              onClick={(
-                                event: React.MouseEvent<HTMLButtonElement>
-                              ) => event.stopPropagation()}
-                            >
-                              <Button className="z-100 bg-gray-200 hover:bg-gray-200 hover:scale-[102%] rounded-2xl w-fit flex items-center gap-x-2 text-black transition-all duration-100">
-                                Delete Class <Trash className="w-4 h-4" />
-                              </Button>
-                            </AlertDialogTrigger>
-                            <AlertDialogContent>
-                              <AlertDialogHeader>
-                                <AlertDialogTitle>
-                                  Are you absolutely sure?
-                                </AlertDialogTitle>
-                                <AlertDialogDescription>
-                                  This action cannot be undone. This will
-                                  permanently delete your class and all students
-                                  associated
-                                </AlertDialogDescription>
-                              </AlertDialogHeader>
-                              <AlertDialogFooter>
-                                <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                <AlertDialogAction
-                                  onClick={(e) =>
-                                    handleOnDelete(classItem.classId, e)
-                                  }
-                                  className="z-100 bg-gray-200 hover:bg-gray-200 hover:scale-[102%] rounded-2xl w-fit flex items-center gap-x-2 text-black transition-all duration-100"
-                                >
+                        <Card
+                          className="hover:scale-[101%] cursor-pointer transition-all p-4 bg-opacity-20 backdrop-blur-md border-opacity-18 border-solid rounded-lg shadow-md border-black/20"
+                          onClick={() => handleOnClick(classItem.classId)}
+                        >
+                          <CardTitle>{classItem.className}</CardTitle>
+                          <CardTitle className="mb-2 mt-1 text-foreground/100 text-lg">
+                            {classItem.teacherName}
+                          </CardTitle>
+                          <CardDescription className="mb-2 mt-2">
+                            Class Subject: {classItem.classSubject}
+                          </CardDescription>
+                          <CardDescription>
+                            Class Code: {classItem.classId}
+                          </CardDescription>
+                          <div className="flex mt-3 gap-x-4 w-full">
+                            <Button className="bg-black hover:bg-black hover:scale-[102%] rounded-2xl w-fit  flex items-center justify-end gap-x-2 transition-all duration-100">
+                              Edit <Edit className="w-4 h-4" />
+                            </Button>
+                            <AlertDialog>
+                              <AlertDialogTrigger
+                                onClick={(
+                                  event: React.MouseEvent<HTMLButtonElement>
+                                ) => event.stopPropagation()}
+                              >
+                                <Button className="z-100 bg-gray-200 hover:bg-gray-200 hover:scale-[102%] rounded-2xl w-fit flex items-center gap-x-2 text-black transition-all duration-100">
                                   Delete Class <Trash className="w-4 h-4" />
-                                </AlertDialogAction>
-                              </AlertDialogFooter>
-                            </AlertDialogContent>
-                          </AlertDialog>
-                        </div>
-                      </Card>
+                                </Button>
+                              </AlertDialogTrigger>
+                              <AlertDialogContent>
+                                <AlertDialogHeader>
+                                  <AlertDialogTitle>
+                                    Are you absolutely sure?
+                                  </AlertDialogTitle>
+                                  <AlertDialogDescription>
+                                    This action cannot be undone. This will
+                                    permanently delete your class and all
+                                    students associated
+                                  </AlertDialogDescription>
+                                </AlertDialogHeader>
+                                <AlertDialogFooter>
+                                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                  <AlertDialogAction
+                                    onClick={(e) =>
+                                      handleOnDelete(classItem.classId, e)
+                                    }
+                                    className="z-100 bg-gray-200 hover:bg-gray-200 hover:scale-[102%] rounded-2xl w-fit flex items-center gap-x-2 text-black transition-all duration-100"
+                                  >
+                                    Delete Class <Trash className="w-4 h-4" />
+                                  </AlertDialogAction>
+                                </AlertDialogFooter>
+                              </AlertDialogContent>
+                            </AlertDialog>
+                          </div>
+                        </Card>
+                      </div>
                     ))}
                   </div>
                 ) : (
@@ -208,35 +212,41 @@ const ClassesTable = () => {
               <div>
                 <h1 className="mt-2 font-bold text-3xl">Joined Classes</h1>
                 {studentClasses.length > 0 ? (
-                  <div>
+                  <div className="mt-5 flex flex-wrap justify-center">
                     {studentClasses.map((classItem) => (
-                      <Card
+                      <div
                         key={classItem.classId}
-                        className="hover:scale-[101%] mt-5 cursor-pointer transition-all mb-4 ml-0 mx-auto w-[90%] md:w-[40%] p-4 bg-opacity-20 backdrop-blur-md border-opacity-18 border-solid rounded-lg shadow-md border-black/20"
-                        onClick={() => handleOnClick(classItem.classId)}
+                        className="w-full md:w-1/2 px-2 mb-4"
                       >
-                        <CardTitle>Class Name: {classItem.className}</CardTitle>
-                        <CardTitle className="mb-2 mt-1 text-foreground/100 text-lg">
-                          Teacher Name: {classItem.teacherName}
-                        </CardTitle>
-                        <CardDescription className="mb-2 mt-2">
-                          Class Subject: {classItem.classSubject}
-                        </CardDescription>
-                        <CardDescription>
-                          Class Code: {classItem.classId}
-                        </CardDescription>
-                        <div className="flex mt-3 gap-x-4 w-full">
-                          <Button
-                            onClick={(e) =>
-                              handleOnDelete(classItem.classId, e)
-                            }
-                            className="z-100 bg-gray-200 hover:bg-gray-200 hover:scale-[102%] rounded-2xl w-fit flex items-center gap-x-2 text-black transition-all duration-100"
-                          >
-                            Leave Class{" "}
-                            <ArrowUpLeftFromSquareIcon className="w-4 h-4" />
-                          </Button>
-                        </div>
-                      </Card>
+                        <Card
+                          className="hover:scale-[101%] mt-5 cursor-pointer transition-all mb-4 ml-0 mx-auto w-[90%] md:w-[40%] p-4 bg-opacity-20 backdrop-blur-md border-opacity-18 border-solid rounded-lg shadow-md border-black/20"
+                          onClick={() => handleOnClick(classItem.classId)}
+                        >
+                          <CardTitle>
+                            Class Name: {classItem.className}
+                          </CardTitle>
+                          <CardTitle className="mb-2 mt-1 text-foreground/100 text-lg">
+                            Teacher Name: {classItem.teacherName}
+                          </CardTitle>
+                          <CardDescription className="mb-2 mt-2">
+                            Class Subject: {classItem.classSubject}
+                          </CardDescription>
+                          <CardDescription>
+                            Class Code: {classItem.classId}
+                          </CardDescription>
+                          <div className="flex mt-3 gap-x-4 w-full">
+                            <Button
+                              onClick={(e) =>
+                                handleOnDelete(classItem.classId, e)
+                              }
+                              className="z-100 bg-gray-200 hover:bg-gray-200 hover:scale-[102%] rounded-2xl w-fit flex items-center gap-x-2 text-black transition-all duration-100"
+                            >
+                              Leave Class{" "}
+                              <ArrowUpLeftFromSquareIcon className="w-4 h-4" />
+                            </Button>
+                          </div>
+                        </Card>
+                      </div>
                     ))}
                   </div>
                 ) : (
