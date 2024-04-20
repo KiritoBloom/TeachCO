@@ -2,11 +2,8 @@
 
 import axios from "axios";
 import { useState, useEffect } from "react";
-
 import { usePathname } from "next/navigation";
-
 import useUserRole from "@/hooks/role";
-
 import { Card, CardDescription, CardTitle } from "./ui/card";
 import {
   Tooltip,
@@ -16,16 +13,14 @@ import {
 } from "./ui/tooltip";
 import { Button } from "./ui/button";
 import { useToast } from "./ui/use-toast";
-
 import { Copy } from "lucide-react";
 import { Loader } from "./loader";
-
 import StudentCard from "./student-card";
 
 const ClassPage = () => {
   const [isClassLoading, setIsClassLoading] = useState(true);
-  const [classInfo, setClassInfo] = useState<any>(null);
-  const [students, setStudents] = useState<any>("");
+  const [classInfo, setClassInfo] = useState<any>("");
+  const [students, setStudents] = useState([]); // Ensure this starts as an empty array
   const pathName = usePathname();
   const classId = pathName.split("/").pop();
   const { role, isLoading } = useUserRole();
@@ -40,7 +35,7 @@ const ClassPage = () => {
         ]);
 
         setClassInfo(classInfoRes.data);
-        setStudents(studentsRes.data);
+        setStudents(studentsRes.data ?? []); // Default to an empty array if data is null/undefined
         setIsClassLoading(false);
       } catch (error) {
         console.error("Something went wrong:", error);
@@ -54,10 +49,7 @@ const ClassPage = () => {
   }, [classId]);
 
   const onCopy = (content: string) => {
-    if (!content) {
-      return;
-    }
-
+    if (!content) return;
     navigator.clipboard.writeText(content);
     toast({
       description: "Copied to clipboard",
@@ -65,11 +57,15 @@ const ClassPage = () => {
     });
   };
 
-  return isLoading || isClassLoading ? (
-    <div className="flex justify-center items-center mt-[20%] h-full">
-      <Loader />
-    </div>
-  ) : (
+  if (isLoading || isClassLoading) {
+    return (
+      <div className="flex justify-center items-center mt-[20%] h-full">
+        <Loader />
+      </div>
+    );
+  }
+
+  return (
     <div className="mt-6 flex justify-center">
       {classInfo && (
         <div className="w-[95%] bg-white rounded-lg shadow-lg p-6 border-[2px]">
@@ -109,18 +105,17 @@ const ClassPage = () => {
           </p>
           <div className="font-bold text-xl">
             <h2>Students</h2>
-            {students?.length === 0 ? (
-              <div className="text-gray-600 mt-2">No students found</div>
-            ) : (
-              students?.map((student: any) => (
-                <>
-                  <StudentCard
-                    studentId={student.id}
-                    studentName={student.name}
-                    userId={student.userId}
-                  />
-                </>
+            {Array.isArray(students) && students.length > 0 ? (
+              students.map((student: any) => (
+                <StudentCard
+                  key={student.id}
+                  studentId={student.id}
+                  studentName={student.name}
+                  userId={student.userId}
+                />
               ))
+            ) : (
+              <div className="text-gray-600 mt-2">No students found</div>
             )}
           </div>
         </div>

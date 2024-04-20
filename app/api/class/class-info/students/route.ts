@@ -36,7 +36,7 @@ export async function GET(req: Request, res: Response) {
         
         if (students.length === 0) {
             console.log("No Students found");
-            return new NextResponse("No Students found", {status: 400})
+            return new NextResponse("No Students found", {status: 200})
         }
         
         console.log(JSON.stringify(students))
