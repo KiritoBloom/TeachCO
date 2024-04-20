@@ -3,10 +3,9 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-import Image from "next/image";
-
 import { Skeleton } from "./ui/skeleton";
 import { Card, CardDescription, CardTitle } from "./ui/card";
+import Image from "next/image";
 
 interface StudentCardProps {
   studentId: string;
@@ -43,7 +42,7 @@ const StudentCard = ({ studentId, studentName, userId }: StudentCardProps) => {
             <Skeleton className="h-[30px] w-[30px] rounded-2xl" />
           ) : (
             <Image
-              src={profilePic || "/default-pic.png"}
+              src={profilePic || "/student.png"}
               alt="Profile"
               width={30}
               height={30}
