@@ -2,8 +2,13 @@ import { auth } from "@clerk/nextjs";
 import { clerkClient } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
-// Explicitly pass `userId` to avoid using `req.url`
-export async function GET(req: Request) {
+// Define the expected type for params
+type Params = {
+  userId: string; // The dynamic path parameter
+};
+
+// Explicitly pass the expected structure for context
+export async function GET(req: Request, context: { params: Params }) {
   const { userId: authUserId } = auth();
 
   if (!authUserId) {
@@ -11,11 +16,11 @@ export async function GET(req: Request) {
   }
 
   try {
-    // Extract `userId` from request query or alternative method
-    const userId = new URLSearchParams(req.url.split("?")[1]).get("userId");
+    // Extract the userId from the path parameter
+    const { userId } = context.params;
 
     if (!userId) {
-      return new NextResponse("User ID not found in the query parameters.");
+      return new NextResponse("User ID not found in the path parameters.", { status: 400 });
     }
 
     console.log("User ID:", userId);
