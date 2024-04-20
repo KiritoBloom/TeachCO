@@ -1,10 +1,12 @@
 "use client";
 
 import axios from "axios";
-import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
-import { Loader } from "./loader";
+
+import { usePathname } from "next/navigation";
+
 import useUserRole from "@/hooks/role";
+
 import { Card, CardDescription, CardTitle } from "./ui/card";
 import {
   Tooltip,
@@ -14,7 +16,11 @@ import {
 } from "./ui/tooltip";
 import { Button } from "./ui/button";
 import { useToast } from "./ui/use-toast";
+
 import { Copy } from "lucide-react";
+import { Loader } from "./loader";
+
+import StudentCard from "./student-card";
 
 const ClassPage = () => {
   const [isClassLoading, setIsClassLoading] = useState(true);
@@ -26,36 +32,26 @@ const ClassPage = () => {
   const { toast } = useToast();
 
   useEffect(() => {
-    const fetchClassInformation = async () => {
+    const fetchClassData = async () => {
       try {
-        const res = await axios.get(`/api/class/class-info?classId=${classId}`);
-        setClassInfo(res.data);
+        const [classInfoRes, studentsRes] = await Promise.all([
+          axios.get(`/api/class/class-info?classId=${classId}`),
+          axios.get(`/api/class/class-info/students?classId=${classId}`),
+        ]);
+
+        setClassInfo(classInfoRes.data);
+        setStudents(studentsRes.data);
         setIsClassLoading(false);
       } catch (error) {
-        console.log(error, "Something went wrong CLASSINFO");
+        console.error("Something went wrong:", error);
+        setIsClassLoading(false);
       }
     };
 
     if (classId) {
-      fetchClassInformation();
+      fetchClassData();
     }
   }, [classId]);
-
-  useEffect(() => {
-    const fetchStudents = async () => {
-      try {
-        const res = await axios.get(
-          `/api/class/class-info/students?classId=${classId}`
-        );
-        setStudents(res.data);
-        setIsClassLoading(false);
-      } catch (error) {
-        console.log(error, "Something went wrong STUDENTFETCH");
-      }
-    };
-
-    fetchStudents(); // Call the fetchStudents function to initiate the API request
-  }, [classId]); // Make sure to include classId in the dependency array to trigger the effect when it changes
 
   const onCopy = (content: string) => {
     if (!content) {
@@ -117,11 +113,13 @@ const ClassPage = () => {
               <div className="text-gray-600 mt-2">No students found</div>
             ) : (
               students?.map((student: any) => (
-                <div key={student.id} className="border-2 mt-2 p-2">
-                  {student.name}
-                  <p>In Class ID: {student.id}</p>
-                  <p>User ID: {student.userId}</p>
-                </div>
+                <>
+                  <StudentCard
+                    studentId={student.id}
+                    studentName={student.name}
+                    userId={student.userId}
+                  />
+                </>
               ))
             )}
           </div>

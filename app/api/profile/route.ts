@@ -25,6 +25,7 @@ export async function PATCH(req: Request, res: Response) {
         const params = { firstName: inputValue };
 
         await clerkClient.users.updateUser(userId, params);
+        
 
         return new NextResponse("Success", { status: 200 });
     } catch (error) {
