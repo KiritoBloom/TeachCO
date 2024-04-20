@@ -135,7 +135,7 @@ const ClassesTable = () => {
                         className="w-full md:w-1/2 px-2 mb-4"
                       >
                         <Card
-                          className="hover:scale-[101%] cursor-pointer transition-all p-4 bg-opacity-20 backdrop-blur-md border-opacity-18 border-solid rounded-lg shadow-md border-black/20"
+                          className="hover:translate-x-1 cursor-pointer transition-all p-4 bg-opacity-20 backdrop-blur-md border-opacity-18 border-solid rounded-lg shadow-md border-black/20"
                           onClick={() => handleOnClick(classItem.classId)}
                         >
                           <CardTitle>{classItem.className}</CardTitle>
@@ -219,7 +219,7 @@ const ClassesTable = () => {
                         className="w-full md:w-1/2 px-2 mb-4"
                       >
                         <Card
-                          className="hover:scale-[101%] mt-5 cursor-pointer transition-all mb-4 ml-0 mx-auto w-[90%] md:w-[40%] p-4 bg-opacity-20 backdrop-blur-md border-opacity-18 border-solid rounded-lg shadow-md border-black/20"
+                          className="hover:translate-x-1 mt-5 cursor-pointer transition-all mb-4 ml-0 mx-auto w-[90%] md:w-[40%] p-4 bg-opacity-20 backdrop-blur-md border-opacity-18 border-solid rounded-lg shadow-md border-black/20"
                           onClick={() => handleOnClick(classItem.classId)}
                         >
                           <CardTitle>
