@@ -7,6 +7,7 @@ import { Loader } from "./loader";
 import { useRouter } from "next/navigation";
 import { Button } from "./ui/button";
 import { ChevronsDownIcon } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface ClassData {
   classId: string;
@@ -59,7 +60,7 @@ const RecentClasses = () => {
                 classes.slice(0, 3).map((classItem) => (
                   <Card
                     key={classItem.classId}
-                    className="mt-8 hover:scale-[101%] cursor-pointer transition-all mb-4 ml-0 mx-auto w-[90%] md:w-[40%] p-4 bg-opacity-20 backdrop-blur-md border-opacity-18 border-solid rounded-lg shadow-md border-black/20"
+                    className="mt-8 hover:translate-x-1 cursor-pointer transition-all mb-4 ml-0 mx-auto w-[90%] md:w-[40%] p-4 bg-opacity-20 backdrop-blur-md border-opacity-18 border-solid rounded-lg shadow-md border-black/20"
                     onClick={() => handleOnClick(classItem.classId)}
                   >
                     <CardTitle>{classItem.className}</CardTitle>
@@ -80,7 +81,13 @@ const RecentClasses = () => {
               <div className="flex justify-center mt-5">
                 <Button
                   onClick={() => handleOnRedirect()}
-                  className="w-[95%] rounded-3xl bg-gray-200 hover:bg-gray-200 text-black/70 font-bold gap-x-1 hover:scale-[101%] transition-all"
+                  className={cn(
+                    "w-[95%] rounded-3xl bg-gray-200 text-black transition-all font-bold gap-x-1",
+                    "hover:translate-y-[5%] hover:text-opacity-70 hover:bg-gray-200", // Hover transition for subtle lift and text opacity
+                    {
+                      hidden: classes.length === 0, // Conditionally hide if `classes.length` is zero
+                    }
+                  )}
                 >
                   View More <ChevronsDownIcon className="w-5 h-5" />
                 </Button>

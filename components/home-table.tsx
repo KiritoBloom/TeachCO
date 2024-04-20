@@ -27,7 +27,10 @@ const HomeTable = () => {
         <div className="flex justify-center items-center mt-[20%] h-full">
           <Loader />
         </div>
-      ) : role === null || role === "null" || role === "null" ? (
+      ) : role === null ||
+        role === "null" ||
+        role === "Success null" ||
+        !role ? (
         <RoleChooser />
       ) : (
         <div>
