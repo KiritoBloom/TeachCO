@@ -16,6 +16,7 @@ import { useToast } from "./ui/use-toast";
 import { Copy } from "lucide-react";
 import { Loader } from "./loader";
 import StudentCard from "./student-card";
+import { ComboboxDropdownMenu } from "./ui/combo-box";
 
 const ClassPage = () => {
   const [isClassLoading, setIsClassLoading] = useState(true);
@@ -48,6 +49,10 @@ const ClassPage = () => {
     }
   }, [classId]);
 
+  if (!classId) {
+    return <div>No Class Id</div>;
+  }
+
   const onCopy = (content: string) => {
     if (!content) return;
     navigator.clipboard.writeText(content);
@@ -68,7 +73,21 @@ const ClassPage = () => {
   return (
     <div className="mt-6 flex justify-center">
       {classInfo && (
-        <div className="w-[95%] bg-white rounded-lg shadow-lg p-6 border-[2px]">
+        <div className="w-[95%] bg-white rounded-lg shadow-lg p-3 border-[2px]">
+          <div className="flex justify-end mb-1">
+            <div>
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger>
+                    <ComboboxDropdownMenu classId={classId} />
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Class Actions</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            </div>
+          </div>
           <div className="flex justify-between">
             <h1 className="font-semibold text-5xl mb-4">
               {classInfo.className}

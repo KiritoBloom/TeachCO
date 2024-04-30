@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { Button } from "./ui/button";
 import { ChevronsDownIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
+import Image from "next/image";
 
 interface ClassData {
   classId: string;
@@ -57,26 +58,44 @@ const RecentClasses = () => {
           ) : (
             <>
               {classes.length > 0 ? (
-                classes.slice(0, 3).map((classItem) => (
-                  <Card
-                    key={classItem.classId}
-                    className="mt-8 hover:translate-x-1 cursor-pointer transition-all mb-4 ml-0 mx-auto w-[90%] md:w-[40%] p-4 bg-opacity-20 backdrop-blur-md border-opacity-18 border-solid rounded-lg shadow-md border-black/20"
-                    onClick={() => handleOnClick(classItem.classId)}
-                  >
-                    <CardTitle>{classItem.className}</CardTitle>
-                    <CardTitle className="mb-2 mt-1 text-foreground/100 text-lg">
-                      {classItem.teacherName}
-                    </CardTitle>
-                    <CardDescription className="mb-2 mt-2">
-                      Class Subject: {classItem.classSubject}
-                    </CardDescription>
-                    <CardDescription>
-                      Class Code: {classItem.classId}
-                    </CardDescription>
-                  </Card>
-                ))
+                classes.slice(0, 3).map((classItem) => {
+                  if (!classItem) return null;
+                  return (
+                    <Card
+                      key={classItem.classId}
+                      className="mt-8 hover:translate-x-1 cursor-pointer transition-all mb-4 ml-0 mx-auto w-[90%] md:w-[40%] p-4 bg-opacity-20 backdrop-blur-md border-opacity-18 border-solid rounded-lg shadow-md border-black/20"
+                      onClick={() => handleOnClick(classItem.classId)}
+                    >
+                      <CardTitle>{classItem.className}</CardTitle>
+                      <CardTitle className="mb-2 mt-1 text-foreground/100 text-lg">
+                        {classItem.teacherName}
+                      </CardTitle>
+                      <CardDescription className="mb-2 mt-2">
+                        Class Subject: {classItem.classSubject}
+                      </CardDescription>
+                      <CardDescription>
+                        Class Code: {classItem.classId}
+                      </CardDescription>
+                    </Card>
+                  );
+                })
               ) : (
-                <p>No recent classes found</p>
+                <>
+                  <div className="flex justify-center items-center">
+                    <Image
+                      width={350}
+                      height={350}
+                      src="/empty.png"
+                      alt="Not Found"
+                      className="grayscale"
+                    />
+                  </div>
+                  <div className="flex justify-center items-center">
+                    <p className="font-bold text-2xl">
+                      No recent classes found
+                    </p>
+                  </div>
+                </>
               )}
               <div className="flex justify-center mt-5">
                 <Button

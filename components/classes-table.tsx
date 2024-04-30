@@ -87,6 +87,10 @@ const ClassesTable = () => {
     router.push(`/classes/${classId}`);
   };
 
+  const handleOnEdit = (classId: string) => {
+    router.push(`/classes/${classId}/edit`);
+  };
+
   const handleOnDelete = async (
     classId: string,
     event: React.MouseEvent<HTMLButtonElement>
@@ -149,7 +153,13 @@ const ClassesTable = () => {
                             Class Code: {classItem.classId}
                           </CardDescription>
                           <div className="flex mt-3 gap-x-4 w-full">
-                            <Button className="bg-black hover:bg-black hover:scale-[102%] rounded-2xl w-fit  flex items-center justify-end gap-x-2 transition-all duration-100">
+                            <Button
+                              onClick={(event) => {
+                                event.stopPropagation(); // Add this line
+                                handleOnEdit(classItem.classId);
+                              }}
+                              className="bg-black hover:bg-black hover:scale-[102%] rounded-2xl w-fit  flex items-center justify-end gap-x-2 transition-all duration-100"
+                            >
                               Edit <Edit className="w-4 h-4" />
                             </Button>
                             <AlertDialog>
@@ -174,12 +184,14 @@ const ClassesTable = () => {
                                   </AlertDialogDescription>
                                 </AlertDialogHeader>
                                 <AlertDialogFooter>
-                                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                  <AlertDialogCancel className="rounded-2xl transition-all hover:translate-y-[3px]">
+                                    Cancel
+                                  </AlertDialogCancel>
                                   <AlertDialogAction
                                     onClick={(e) =>
                                       handleOnDelete(classItem.classId, e)
                                     }
-                                    className="z-100 bg-gray-200 hover:bg-gray-200 hover:scale-[102%] rounded-2xl w-fit flex items-center gap-x-2 text-black transition-all duration-100"
+                                    className="z-100 bg-gray-200 hover:bg-gray-200 hover:translate-y-[3px] rounded-2xl w-fit flex items-center gap-x-2 text-black transition-all duration-100"
                                   >
                                     Delete Class <Trash className="w-4 h-4" />
                                   </AlertDialogAction>
@@ -219,7 +231,7 @@ const ClassesTable = () => {
                         className="w-full md:w-1/2 px-2 mb-4"
                       >
                         <Card
-                          className="hover:translate-x-1 mt-5 cursor-pointer transition-all mb-4 ml-0 mx-auto w-[90%] md:w-[40%] p-4 bg-opacity-20 backdrop-blur-md border-opacity-18 border-solid rounded-lg shadow-md border-black/20"
+                          className="hover:translate-x-1 mt-5 cursor-pointer transition-all mb-4 ml-0 mx-auto p-4 bg-opacity-20 backdrop-blur-md border-opacity-18 border-solid rounded-lg shadow-md border-black/20"
                           onClick={() => handleOnClick(classItem.classId)}
                         >
                           <CardTitle>

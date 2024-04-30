@@ -79,8 +79,22 @@ export async function DELETE(req: Request, res: Response) {
         return new NextResponse("Unauthorized", { status: 401 });
     }
 
+    
+
     try {
         const { classId } = await req.json(); // Retrieve classId from request body
+
+        const teacher = await prismadb.class.findUnique({
+            where: {
+                classId
+            }, select: {
+                teacherId: true
+            }
+        })
+
+        if (userId !== teacher?.teacherId) {
+            return new NextResponse("User is not teacher", {status: 400})
+        }
         
         // Retrieve the class to be deleted
         const classToDelete = await prismadb.class.findUnique({
@@ -133,8 +147,8 @@ export async function DELETE(req: Request, res: Response) {
                 classId: classId.toString(),
             },
         });
-
-        return new NextResponse("Class Deleted", { status: 200 });
+        
+        return new NextResponse(`Class Deleted ${teacher?.teacherId}`, { status: 200 });
     } catch(error) {
         console.error(error, "DELETE Internal Error");
         return new NextResponse("Internal Error DELETE", { status: 500 });
