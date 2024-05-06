@@ -20,6 +20,7 @@ import {
 import useUserRole from "@/hooks/role";
 import { Loader } from "@/components/loader";
 import RoleChooser from "@/components/role-chooser";
+import { Card, CardDescription, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import {
@@ -333,7 +334,7 @@ const ClassesTable = () => {
                                           onClick={(e) =>
                                             handleOnDelete(classItem.classId, e)
                                           }
-                                          className="z-100 bg-gray-200 hover:bg-gray-200 hover:translate-y-[2px] rounded-3xl w-fit flex items-center gap-x-2 text-black transition-all duration-100"
+                                          className="z-100 bg-gray-200 hover:bg-gray-200 hover:translate-y-[2px] rounded-2xl w-fit flex items-center gap-x-2 text-black transition-all duration-100"
                                         >
                                           Leave Class{" "}
                                           <ArrowUpLeftFromSquareIcon className="w-4 h-4" />

@@ -4,10 +4,10 @@ import Navbar from "@/components/navbar";
 export default function Home({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex flex-col min-h-screen">
-      <div className="md:block hidden">
+      <div className="lg:block sm:hidden hidden">
         <Navbar />
       </div>
-      <div className="block md:hidden">
+      <div className="block sm:block lg:hidden">
         <MobileNavbar />
       </div>
       <main className="flex-grow">{children}</main>

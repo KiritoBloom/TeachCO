@@ -1,14 +1,23 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { UserButton } from "@clerk/nextjs";
-import { Book, BookA, Home, Settings, ShoppingBasket } from "lucide-react";
+import { UserButton, useAuth } from "@clerk/nextjs";
+import {
+  Book,
+  BookA,
+  Hammer,
+  Home,
+  Settings,
+  ShoppingBasket,
+} from "lucide-react";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 
 const Navbar = () => {
   const router = useRouter();
   const pathName = usePathname();
+  const { userId } = useAuth();
+  const special = "user_2cvQymq0ODUUtDr4VQ8AlCgKDyN";
 
   const routes = [
     {
@@ -27,6 +36,14 @@ const Navbar = () => {
       label: "Settings",
     },
   ];
+
+  if (userId === special) {
+    routes.push({
+      icon: Hammer,
+      href: "/special", // adjust the href to your desired route
+      label: "Developer",
+    });
+  }
 
   const onNavigate = (url: string) => {
     return router.push(url);

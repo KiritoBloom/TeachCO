@@ -84,7 +84,7 @@ const HomeTable = () => {
           </div>
           {role === "Teacher" ? (
             <>
-              <h1 className="ml-5 text-2xl font-semibold text-black/70">
+              <h1 className="md:ml-5 ml-3 text-2xl font-semibold text-black/70">
                 Get Started Here:
               </h1>
               <div className="pb-5">
@@ -93,7 +93,7 @@ const HomeTable = () => {
             </>
           ) : role === "Student" ? (
             <>
-              <h1 className="ml-5 text-2xl font-semibold text-black/70">
+              <h1 className="md:ml-5 ml-3 text-2xl font-semibold text-black/70">
                 Get Started Here:
               </h1>
               <div className="pb-5">
@@ -101,7 +101,7 @@ const HomeTable = () => {
               </div>
             </>
           ) : null}
-          <div className="ml-2">
+          <div>
             <RecentClasses />
           </div>
         </div>

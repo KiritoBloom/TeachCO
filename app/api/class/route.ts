@@ -59,7 +59,8 @@ export async function GET(req: Request, res: Response) {
                className: true,
                classSubject: true,
                classId: true,
-               teacherName: true
+               teacherName: true,
+               teacherId: true
             }
            })
            
