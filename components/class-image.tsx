@@ -6,9 +6,16 @@ import Image from "next/image";
 interface ClassImageInterface {
   userId: string;
   className?: string; // Optional class name prop
+  width?: number;
+  height?: number;
 }
 
-const ClassImage = ({ userId, className = "" }: ClassImageInterface) => {
+const ClassImage = ({
+  userId,
+  className = "",
+  width,
+  height,
+}: ClassImageInterface) => {
   const [src, setSrc] = useState("");
   const [isLoading, setIsLoading] = useState(true);
 
@@ -39,8 +46,8 @@ const ClassImage = ({ userId, className = "" }: ClassImageInterface) => {
         src={src || "/logo.png"} // Example icon, replace with your image or icon
         alt={`Class Icon`}
         className={`mb-4 rounded-full ${className}`}
-        width={50}
-        height={50}
+        width={width || "50"}
+        height={height || "50"}
       />
     </div>
   );
