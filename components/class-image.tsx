@@ -5,9 +5,10 @@ import Image from "next/image";
 
 interface ClassImageInterface {
   userId: string;
+  className?: string; // Optional class name prop
 }
 
-const ClassImage = ({ userId }: ClassImageInterface) => {
+const ClassImage = ({ userId, className = "" }: ClassImageInterface) => {
   const [src, setSrc] = useState("");
   const [isLoading, setIsLoading] = useState(true);
 
@@ -29,16 +30,15 @@ const ClassImage = ({ userId }: ClassImageInterface) => {
   }, [userId]);
 
   if (isLoading) {
-    return <Skeleton className="h-[45px] w-[45px] rounded-3xl mb-5" />;
+    return <Skeleton className={`h-[45px] w-[45px] rounded-3xl mb-5`} />;
   }
 
   return (
     <div>
-      {" "}
       <Image
         src={src || "/logo.png"} // Example icon, replace with your image or icon
         alt={`Class Icon`}
-        className="mb-4 rounded-full"
+        className={`mb-4 rounded-full ${className}`}
         width={50}
         height={50}
       />
