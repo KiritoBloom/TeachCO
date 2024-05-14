@@ -18,6 +18,10 @@ body,
   }
 }
 
+.dark {
+  background-color: black;
+}
+
 .glass {
   background: rgba(255, 255, 255, 0);
   backdrop-filter: blur(20px);
@@ -35,6 +39,17 @@ body,
     linear-gradient(315deg, #ededed55 25%, transparent 25%) 0px 0/ 80px 80px,
     linear-gradient(45deg, #ededed 25%, #fafafa 25%) 0px 0/ 80px 80px;
 }
+
+.dark-wavy {
+  background-color: #121212;
+  opacity: 1;
+  background: linear-gradient(135deg, #33333355 25%, transparent 25%) -40px 0/
+      80px 80px,
+    linear-gradient(225deg, #333333 25%, transparent 25%) -40px 0/ 80px 80px,
+    linear-gradient(315deg, #33333355 25%, transparent 25%) 0px 0/ 80px 80px,
+    linear-gradient(45deg, #333333 25%, #121212 25%) 0px 0/ 80px 80px;
+}
+
 .z-back {
   z-index: -1;
 }

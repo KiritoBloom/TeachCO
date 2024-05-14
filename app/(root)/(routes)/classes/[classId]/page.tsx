@@ -2,7 +2,7 @@ import ClassPage from "@/components/class-page";
 
 export default function Page() {
   return (
-    <div className="bg-wavy">
+    <div className="bg-wavy dark:bg-dark-wavy">
       <ClassPage />
     </div>
   );

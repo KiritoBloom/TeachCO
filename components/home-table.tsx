@@ -22,7 +22,7 @@ const HomeTable = () => {
   };
 
   return (
-    <div className="bg-wavy z-back">
+    <div className="bg-wavy dark:bg-dark-wavy z-back">
       <div className="w-full h-full pb-5">
         {isLoading ? (
           <div className="flex justify-center items-center mt-[20%] h-full">
@@ -37,13 +37,13 @@ const HomeTable = () => {
           <div>
             <div>
               <div className="md:flex md:justify-between pt-5 mb-5">
-                <h1 className="scroll-m-20 border-b pb-0 text-3xl font-semibold tracking-tight first:mt-0 flex justify-start md:justify-center ml-2 w-fit">
+                <h1 className="dark:text-black scroll-m-20 border-b pb-0 text-3xl font-semibold tracking-tight first:mt-0 flex justify-start md:justify-center ml-2 w-fit">
                   Welcome Back, {user?.firstName || "User"}
                 </h1>
                 <div className="p-1 ml-2 mt-2 md:mt-0 md:ml-0 bg-gray-300 gap-x-2 md:w-fit w-fit h-15 rounded-md flex justify-between items-center mr-2">
                   {role === "Student" && (
                     <>
-                      <h1 className="ml-2 font-bold">{role}</h1>
+                      <h1 className="ml-2 font-bold dark:text-black">{role}</h1>
                       <Image
                         src="/student.png"
                         className="bg-white rounded-[50%] p-1 mr-2 border-[1px]"
@@ -55,7 +55,7 @@ const HomeTable = () => {
                   )}
                   {role === "Teacher" && (
                     <>
-                      <h1 className="ml-2 font-bold">{role}</h1>
+                      <h1 className="ml-2 font-bold dark:text-black">{role}</h1>
                       <Image
                         src="/teacher.png"
                         className="bg-white rounded-[50%] p-1 mr-2 border-[1px]"
@@ -76,7 +76,7 @@ const HomeTable = () => {
               </Avatar>
               <div className="w-full flex justify-center mt-7">
                 <Button
-                  className="md:w-[50%] w-[80%] mb-10 hover:bg-black hover:scale-[101%] bg-black transition-all font-semibold rounded-3xl"
+                  className="dark:text-white md:w-[50%] w-[80%] mb-10 hover:bg-black hover:scale-[101%] bg-black transition-all font-semibold rounded-3xl"
                   onClick={handleOnClick}
                 >
                   Edit Your Profile

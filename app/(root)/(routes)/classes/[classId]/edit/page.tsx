@@ -67,7 +67,7 @@ export default function Page() {
 
   if (isLoading || isClassLoading) {
     return (
-      <div className="flex justify-center items-center mt-[20%] bg-wavy">
+      <div className="flex justify-center items-center mt-[20%] bg-wavy dark:bg-dark-wavy">
         <Loader />
       </div>
     );
@@ -148,7 +148,7 @@ export default function Page() {
   };
 
   return (
-    <div className="bg-wavy min-h-screen flex flex-col items-center justify-center p-3 md:p-12 text-gray-800">
+    <div className="bg-wavy dark:bg-dark-wavy min-h-screen flex flex-col items-center justify-center p-3 md:p-12 text-gray-800">
       {classInfo && (
         <>
           <div className="w-full max-w-4xl bg-gray-100 rounded-2xl shadow-lg p-8">

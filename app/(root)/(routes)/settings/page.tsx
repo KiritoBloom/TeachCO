@@ -114,7 +114,7 @@ export default function Page() {
   ) : !role ? (
     <RoleChooser />
   ) : (
-    <div className="ml-2 pt-2 bg-wavy z-back">
+    <div className="ml-2 pt-2 bg-wavy dark:bg-dark-wavy z-back">
       <Avatar className="w-full h-full flex justify-center items-center mt-10 md:mt-12">
         <AvatarImage
           src={user?.imageUrl}

@@ -73,6 +73,7 @@ const Navbar = () => {
           </div>
         ))}
       </div>
+      <ModeToggle />
       <UserButton afterSignOutUrl="/" />
     </div>
   );
