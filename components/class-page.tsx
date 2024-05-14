@@ -59,6 +59,7 @@ const ClassPage = () => {
     };
 
     fetchClassData();
+    // eslint-disable-next-line react-hooks/rules-of-hooks
   }, [classId]);
 
   const onCopy = (content: string) => {
