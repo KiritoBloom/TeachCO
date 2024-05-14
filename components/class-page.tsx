@@ -58,9 +58,7 @@ const ClassPage = () => {
       }
     };
 
-    if (classId) {
-      fetchClassData();
-    }
+    fetchClassData();
   }, [classId]);
 
   const onCopy = (content: string) => {
