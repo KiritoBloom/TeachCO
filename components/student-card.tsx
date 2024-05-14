@@ -36,7 +36,7 @@ const StudentCard = ({ studentId, studentName, userId }: StudentCardProps) => {
 
   return (
     <div>
-      <Card className="p-2 border-2 w-full md:w-[400px] mb-2">
+      <Card className="p-2 border-2 w-full md:w-[400px] mb-2 bg-gray-100/70">
         <div className="flex justify-start items-center gap-x-2">
           {isLoading ? (
             <Skeleton className="h-[30px] w-[30px] rounded-2xl" />
@@ -51,8 +51,12 @@ const StudentCard = ({ studentId, studentName, userId }: StudentCardProps) => {
           )}
           <CardTitle>{studentName}</CardTitle>
         </div>
-        <CardDescription>{userId}</CardDescription>
-        <CardDescription>{studentId}</CardDescription>
+        <CardDescription>
+          <span className="font-semibold">UserId:</span> {userId}
+        </CardDescription>
+        <CardDescription>
+          <span className="font-semibold">ClassId:</span> {studentId}
+        </CardDescription>
       </Card>
     </div>
   );

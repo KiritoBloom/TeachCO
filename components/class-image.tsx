@@ -8,6 +8,7 @@ interface ClassImageInterface {
   className?: string; // Optional class name prop
   width?: number;
   height?: number;
+  skeletonStyle?: string;
 }
 
 const ClassImage = ({
@@ -15,6 +16,7 @@ const ClassImage = ({
   className = "",
   width,
   height,
+  skeletonStyle = "",
 }: ClassImageInterface) => {
   const [src, setSrc] = useState("");
   const [isLoading, setIsLoading] = useState(true);
@@ -37,7 +39,11 @@ const ClassImage = ({
   }, [userId]);
 
   if (isLoading) {
-    return <Skeleton className={`h-[45px] w-[45px] rounded-3xl mb-5`} />;
+    return (
+      <Skeleton
+        className={`${skeletonStyle}` || `rounded-3xl mb-5 h-[45px] w-[45px]`}
+      />
+    );
   }
 
   return (

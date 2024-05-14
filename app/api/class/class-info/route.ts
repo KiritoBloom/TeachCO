@@ -47,8 +47,9 @@ export async function GET(req: Request) {
 export async function PATCH(req: Request) {
   const {userId} = auth();
 
- 
-
+  if (!userId) {
+    return new NextResponse("Unauthorized", {status: 401})
+  }
   
   try{
     const url = new URL(req.url, BASE_URL);
@@ -64,6 +65,23 @@ export async function PATCH(req: Request) {
       return new NextResponse("Unauthorized", {status: 401})
     }
 
+    if (!classSubject) {
+      await prismadb.class.update({
+        where: {
+          classId: classId
+        }, data: {
+          className: className
+        }
+      })
+    } else if (!className) {
+      await prismadb.class.update({
+        where: {
+          classId: classId
+        }, data: {
+          classSubject: classSubject
+        }
+      })
+    } else {
     await prismadb.class.update({
       where: {
         classId: classId
@@ -72,9 +90,9 @@ export async function PATCH(req: Request) {
         className: className
       }
     })
+  }
 
-    return new NextResponse("Class Updated", {status: 200})
-
+    return new NextResponse("Class Updated", {status: 200});
   }catch(error) {
     console.error("Error updating class information:", error);
     return new NextResponse("Internal Server Error", { status: 500 });

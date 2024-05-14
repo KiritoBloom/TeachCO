@@ -6,12 +6,30 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
 import useUserRole from "@/hooks/role";
-import { cn } from "@/lib/utils";
 import { useAuth } from "@clerk/nextjs";
 import axios from "axios";
-import { Check, Microscope, School, Trash, User } from "lucide-react";
+import { LucidePenBox } from "lucide-react";
+import {
+  AcademicCapIcon,
+  ArrowLeftCircleIcon,
+  BeakerIcon,
+  CheckIcon,
+  TrashIcon,
+  UserIcon,
+} from "@heroicons/react/24/outline";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 export default function Page() {
   const pathname = usePathname();
@@ -49,7 +67,7 @@ export default function Page() {
 
   if (isLoading || isClassLoading) {
     return (
-      <div className="flex justify-center items-center mt-[20%]">
+      <div className="flex justify-center items-center mt-[20%] bg-wavy">
         <Loader />
       </div>
     );
@@ -71,9 +89,9 @@ export default function Page() {
   const handleOnEdit = async () => {
     try {
       // Check if className or classSubject are missing
-      if (!className || !classSubject) {
+      if (!className && !classSubject) {
         toast({
-          description: "Must change className and subject to edit",
+          description: "Must change class name or subject to edit",
           variant: "destructive",
         });
 
@@ -102,70 +120,136 @@ export default function Page() {
     }
   };
 
+  const handleOnDelete = async (classId: string) => {
+    try {
+      await axios.delete(`/api/class`, {
+        data: {
+          classId,
+        },
+      });
+      toast({
+        title: "Class Deleted",
+        description: "The class has been successfully deleted.",
+        variant: "success",
+      });
+    } catch (error) {
+      console.error("Error deleting class:", error);
+      toast({
+        title: "Something went wrong",
+        description: "Please try again later",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleOnBack = () => {
+    router.refresh();
+    router.push(`/classes/${classId}`);
+  };
+
   return (
-    <div className="p-4 text-gray-800">
-      <div className="flex justify-center mb-3">
-        <h1 className="font-bold text-2xl">Edit your class</h1>
-      </div>
+    <div className="bg-wavy min-h-screen flex flex-col items-center justify-center p-3 md:p-12 text-gray-800">
       {classInfo && (
-        <div className="flex flex-col items-center w-full">
-          <div className="mx-auto w-full flex flex-col items-center">
-            <ClassImage
-              userId={classInfo.teacherId}
-              className="border-[4px] p-1"
-              width={300}
-              height={1000}
-            />
-          </div>
-          <div className="w-full sm:w-2/3 lg:w-1/2 mt-6">
-            <div className="mb-5">
-              <div className="flex items-center mb-2">
-                <User className="w-5 h-5 text-gray-500 mr-1" />
-                <h2 className="text-gray-600">Teacher Name</h2>
+        <>
+          <div className="w-full max-w-4xl bg-gray-100 rounded-2xl shadow-lg p-8">
+            <div
+              onClick={() => handleOnBack()}
+              className="w-fit flex items-center text-lg justify-start cursor-pointer bg-gray-300 text-black p-2 mb-10 md:mb-5 rounded-3xl shadow-lg hover:translate-y-1 transition-all"
+            >
+              <ArrowLeftCircleIcon className="w-4 h-4 mr-1" /> Back to Class
+            </div>
+            <div className="w-full max-w-4xl text-center mb-8 flex justify-center">
+              <h1 className="text-4xl font-semibold tracking-tight text-gray-900 flex items-center gap-x-2">
+                Edit Your Class
+                <LucidePenBox className="w-6 h-6" />
+              </h1>
+            </div>
+            <div className="flex justify-center mb-8">
+              <ClassImage
+                userId={classInfo.teacherId}
+                className="rounded-full shadow-md"
+                width={150}
+                height={150}
+                skeletonStyle="w-[150px] h-[150px] rounded-full mb-4"
+              />
+            </div>
+
+            <div className="mb-6">
+              <div className="flex items-center text-gray-600 mb-2">
+                <UserIcon className="w-6 h-6 text-gray-500 mr-2" />
+                <span className="text-xl font-medium">Teacher Name</span>
               </div>
               <Input
-                className="cursor-not-allowed w-full px-3 py-2 text-lg border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
+                className="cursor-not-allowed w-full px-4 py-3 text-base border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
                 placeholder={classInfo.teacherName}
                 readOnly
               />
             </div>
-            <div>
-              <div className="flex items-center mb-2 mt-10">
-                <School className="w-5 h-5 text-gray-500 mr-1" />
-                <h2 className="text-gray-600">Class Name</h2>
+
+            <div className="mb-6">
+              <div className="flex items-center text-gray-600 mb-2">
+                <AcademicCapIcon className="w-6 h-6 text-gray-500 mr-2" />
+                <span className="text-xl font-medium">Class Name</span>
               </div>
               <Input
-                className={cn(
-                  "w-full px-3 py-2 text-lg border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
-                )}
+                className="w-full px-4 py-3 text-base border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
                 placeholder={classInfo.className}
+                value={className}
                 onChange={(e) => setClassName(e.target.value)}
               />
             </div>
-            <div>
-              <div className="flex items-center mb-2 mt-10">
-                <Microscope className="w-5 h-5 text-gray-500 mr-1" />
-                <h2 className="text-gray-600">Subject</h2>
+
+            <div className="mb-6">
+              <div className="flex items-center text-gray-600 mb-2">
+                <BeakerIcon className="w-6 h-6 text-gray-500 mr-2" />
+                <span className="text-xl font-medium">Subject</span>
               </div>
               <Input
-                className="w-full px-3 py-2 text-lg border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
+                className="w-full px-4 py-3 text-base border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
                 placeholder={classInfo.classSubject}
+                value={classSubject}
                 onChange={(e) => setClassSubject(e.target.value)}
               />
             </div>
           </div>
-        </div>
+        </>
       )}
-      <div className="flex justify-center pt-20">
+
+      <div className="flex justify-center mt-12 space-x-6">
         <Button
-          className="mb-5 hover:translate-x-1 transition-all bg-black hover:bg-black rounded-3xl"
-          onClick={() => handleOnEdit()}
+          className="px-8 py-3 bg-black text-white font-semibold rounded-3xl hover:translate-y-1 hover:bg-black transition-transform transform"
+          onClick={handleOnEdit}
         >
-          Confirm <Check className="ml-2" />
+          Confirm <CheckIcon className="w-5 h-5 ml-2" />
         </Button>
-        <Button className="mb-5 ml-5 bg-gray-200 hover:translate-x-1 hover:bg-gray-200 transition-all text-black rounded-3xl">
-          Delete Class <Trash className="ml-2" />
-        </Button>
+
+        <AlertDialog>
+          <AlertDialogTrigger className="w-full">
+            <Button className="px-8 py-3 bg-gray-300 text-gray-700 font-semibold rounded-3xl hover:translate-y-1 hover:bg-gray-300 transition-transform transform">
+              Delete Class <TrashIcon className="w-5 h-5 ml-2" />
+            </Button>
+          </AlertDialogTrigger>
+          <AlertDialogContent className="w-[90%] rounded-2xl">
+            <AlertDialogHeader>
+              <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+              <AlertDialogDescription>
+                This action cannot be undone. This will permanently delete your
+                class and all students associated
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel className="rounded-2xl transition-all hover:translate-y-[2px]">
+                Cancel
+              </AlertDialogCancel>
+              <AlertDialogAction
+                onClick={() => handleOnDelete(classId)}
+                className="w-full md:w-fit hover:translate-y-[2px] z-100 bg-gray-200 hover:bg-gray-200 rounded-2xl flex items-center gap-x-2 text-black transition-all duration-100"
+              >
+                Delete Class <TrashIcon className="w-4 h-4" />
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       </div>
     </div>
   );

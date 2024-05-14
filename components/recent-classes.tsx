@@ -59,7 +59,7 @@ const RecentClasses = () => {
 
   return (
     <div className="flex md:justify-start justify-center md:ml-5 mt-5">
-      <Card className="md:w-[90%] w-[95%] h-fit p-3 border-[3px]">
+      <Card className="md:w-[90%] w-[95%] h-fit p-3 border-[3px] bg-gray-100">
         {isLoading ? (
           <div className="flex justify-center items-center w-full h-full">
             <Loader />
@@ -78,7 +78,7 @@ const RecentClasses = () => {
                         key={classItem.classId}
                         className="flex flex-col items-center w-full h-full p-6 md:basis-1/4"
                       >
-                        <div className="transition-all hover:shadow-lg border-2 p-10 rounded-xl bg-white shadow-md flex flex-col items-center">
+                        <div className="transition-all hover:shadow-lg p-10 rounded-xl glass shadow-lg border-[2px] border-black flex flex-col items-center">
                           {/* Class Icon or Image */}
                           <ClassImage userId={classItem.teacherId} />
 

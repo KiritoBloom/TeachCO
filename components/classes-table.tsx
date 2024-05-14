@@ -140,7 +140,7 @@ const ClassesTable = () => {
             {role === "Teacher" ? (
               <div className="pb-20">
                 <div className="flex justify-center">
-                  <h1 className="mt-2 font-semibold text-3xl">
+                  <h1 className="md:mt-4 mt-5 font-semibold text-3xl">
                     Created Classes
                   </h1>
                 </div>
@@ -151,13 +151,14 @@ const ClassesTable = () => {
                         key={classItem.classId}
                         className="flex justify-center w-full md:w-1/2 lg:w-1/3 xl:w-1/3 2xl:w-1/4 px-2 mt-5"
                       >
-                        <Card className="text-center mr-3 mt-10 w-[80%] sm:w-full md:w-[90%] lg:w-fit xl:w-[80%] h-full transition-all hover:shadow-lg border-2 p-5 rounded-xl bg-white shadow-md flex flex-col items-center justify-center">
+                        <Card className="text-center mr-3 mt-10 w-[80%] sm:w-full md:w-[90%] lg:w-fit xl:w-[80%] h-full transition-all hover:shadow-lg border-2 p-5 rounded-xl glass shadow-md flex flex-col items-center justify-center">
                           {" "}
                           <div className="flex flex-col items-center justify-center">
                             {/* Class Icon or Image */}
                             <ClassImage
                               userId={classItem.teacherId}
                               className="w-[70px]"
+                              skeletonStyle="w-[70px] h-[70px] rounded-full mb-4"
                             />
 
                             {/* Class Information */}

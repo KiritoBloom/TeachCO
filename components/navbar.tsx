@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
+import { ModeToggle } from "./theme-toggle";
 
 const Navbar = () => {
   const router = useRouter();

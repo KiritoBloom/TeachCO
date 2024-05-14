@@ -14,7 +14,7 @@ export async function PATCH(req: Request, res: Response) {
         const { inputValue, updatedRole } = await req.json();
 
         if (!inputValue || !updatedRole) {
-            return new NextResponse(`Name and role are required ${inputValue} ${updatedRole}`, { status: 400 });
+            return new NextResponse(`Name and role are required`, { status: 400 });
         }
 
         await prismadb.user.update({

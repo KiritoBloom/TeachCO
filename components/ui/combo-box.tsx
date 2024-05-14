@@ -68,7 +68,7 @@ export function ComboboxDropdownMenu({ classId }: ComboBoxInterface) {
   };
 
   return (
-    <div className="flex w-full flex-col items-start justify-between rounded-md px-4 py-3 sm:flex-row sm:items-center">
+    <div className="flex w-full flex-col items-start justify-between rounded-md sm:flex-row sm:items-center">
       <DropdownMenu open={open} onOpenChange={setOpen}>
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" size="sm">

@@ -114,8 +114,8 @@ export default function Page() {
   ) : !role ? (
     <RoleChooser />
   ) : (
-    <div className="ml-2 mt-2">
-      <Avatar className="w-full h-full flex justify-center items-center mt-5">
+    <div className="ml-2 pt-2 bg-wavy z-back">
+      <Avatar className="w-full h-full flex justify-center items-center mt-10 md:mt-12">
         <AvatarImage
           src={user?.imageUrl}
           className="md:w-[15%] w-[50%] h-[20%] rounded-[50%]"
@@ -237,7 +237,7 @@ export default function Page() {
         >
           <Label htmlFor="student" className="cursor-pointer">
             <div
-              className="flex items-center space-x-5 border-2 border-black/30 transition-all w-[95%] cursor-pointer p-3 rounded-xl"
+              className="flex items-center space-x-5 border-2 border-black/30 transition-all w-[95%] cursor-pointer p-3 rounded-xl bg-white"
               onClick={() => handleOnClick("Student")}
             >
               <RadioGroupItem
@@ -250,7 +250,7 @@ export default function Page() {
           </Label>
           <Label htmlFor="teacher" className="cursor-pointer">
             <div
-              className="flex items-center space-x-2 transition-all border-2 border-black/30 w-[95%] cursor-pointer p-3 rounded-xl"
+              className="flex items-center space-x-2 transition-all border-2 border-black/30 w-[95%] cursor-pointer p-3 rounded-xl bg-white"
               onClick={() => handleOnClick("Teacher")}
             >
               <RadioGroupItem

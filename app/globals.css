@@ -18,6 +18,27 @@ body,
   }
 }
 
+.glass {
+  background: rgba(255, 255, 255, 0);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.bg-wavy {
+  background-color: #fafafa;
+  opacity: 1;
+  background: linear-gradient(135deg, #ededed55 25%, transparent 25%) -40px 0/
+      80px 80px,
+    linear-gradient(225deg, #ededed 25%, transparent 25%) -40px 0/ 80px 80px,
+    linear-gradient(315deg, #ededed55 25%, transparent 25%) 0px 0/ 80px 80px,
+    linear-gradient(45deg, #ededed 25%, #fafafa 25%) 0px 0/ 80px 80px;
+}
+.z-back {
+  z-index: -1;
+}
+
 .animate-enlarge {
   animation: enlarge 0.3s ease-out;
 }
