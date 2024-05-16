@@ -23,14 +23,9 @@ import RoleChooser from "@/components/role-chooser";
 import { Card, CardDescription, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
 import ClassImage from "@/components/class-image";
+import { useTheme } from "next-themes";
+import { cn } from "@/lib/utils";
 
 const ClassesTable = () => {
   const { role, isLoading } = useUserRole();
@@ -38,6 +33,7 @@ const ClassesTable = () => {
   const [studentClasses, setStudentClasses] = useState<Array<any>>([]);
   const { toast } = useToast();
   const router = useRouter();
+  const { theme } = useTheme();
 
   const [isTeacherClassesLoading, setIsTeacherClassesLoading] = useState(true);
   const [isStudentClassesLoading, setIsStudentClassesLoading] = useState(true);
@@ -128,9 +124,13 @@ const ClassesTable = () => {
 
   return (
     <>
-      <div className="ml-2">
+      <div
+        className={cn("bg-wavy", {
+          "dark-wavy": theme === "dark" || theme === "system",
+        })}
+      >
         {isLoading || isTeacherClassesLoading || isStudentClassesLoading ? (
-          <div className="flex justify-center items-center mt-[20%] h-full">
+          <div className="flex justify-center items-center h-full">
             <Loader />
           </div>
         ) : !role ? (
@@ -138,7 +138,7 @@ const ClassesTable = () => {
         ) : (
           <div>
             {role === "Teacher" ? (
-              <div className="pb-20">
+              <div className="pb-[30vh] h-full">
                 <div className="flex justify-center">
                   <h1 className="md:mt-4 mt-5 font-semibold text-3xl">
                     Created Classes
@@ -162,34 +162,33 @@ const ClassesTable = () => {
                             />
 
                             {/* Class Information */}
-                            <h2 className="text-2xl font-bold text-gray-900 text-center">
+                            <h2 className="text-2xl font-bold text-gray-900 dark:text-white text-center">
                               {classItem.className}
                             </h2>
-                            <p className="text-md text-gray-600 mt-2">
+                            <p className="text-md text-gray-600 dark:text-white/50 mt-2">
                               Class ID: {classItem.classId}
                             </p>
-                            <p className="text-md text-gray-600">
+                            <p className="text-md text-gray-600 dark:text-white/50">
                               Class Subject: {classItem.classSubject}
                             </p>
 
                             {/* Additional Information */}
-                            <p className="text-sm text-gray-500 mt-2">
+                            <p className="text-sm text-gray-500 dark:text-white/50 mt-2">
                               Taught by: {classItem.teacherName}
                             </p>
                             {/* Call-to-Action */}
                             <Button
                               onClick={() => handleOnClick(classItem.classId)}
-                              className="mt-6 bg-primary text-white py-2 px-4 rounded-full transition hover:bg-primary-dark hover:translate-y-[2px]"
+                              className="mt-6 bg-primary text-white dark:text-black py-2 px-4 rounded-full transition hover:bg-primary-dark hover:translate-y-[2px]"
                             >
                               View Class
                             </Button>
                             <div className="flex justify-center mt-5 gap-x-4 w-full">
                               <Button
-                                onClick={(event) => {
-                                  event.stopPropagation(); // Add this line
+                                onClick={() => {
                                   handleOnEdit(classItem.classId);
                                 }}
-                                className="bg-black hover:bg-black hover:translate-y-[2px] rounded-3xl w-fit  flex items-center justify-end gap-x-2 transition-all duration-100"
+                                className="bg-black hover:bg-black dark:text-white hover:translate-y-[2px] rounded-3xl w-fit  flex items-center justify-end gap-x-2 transition-all duration-100"
                               >
                                 Edit <Edit className="w-4 h-4" />
                               </Button>
@@ -199,7 +198,7 @@ const ClassesTable = () => {
                                     event: React.MouseEvent<HTMLButtonElement>
                                   ) => event.stopPropagation()}
                                 >
-                                  <Button className="z-100 bg-gray-200 hover:bg-gray-200 hover:translate-y-[2px] rounded-3xl w-fit flex items-center gap-x-2 text-black transition-all duration-100">
+                                  <Button className="z-100 bg-gray-200 dark:bg-white dark:text-black hover:bg-gray-200 hover:translate-y-[2px] rounded-3xl w-fit flex items-center gap-x-2 text-black transition-all duration-100">
                                     Delete Class <Trash className="w-4 h-4" />
                                   </Button>
                                 </AlertDialogTrigger>
@@ -253,7 +252,7 @@ const ClassesTable = () => {
                 )}
               </div>
             ) : role === "Student" ? (
-              <div className="pb-20">
+              <div className="pb-[30vh]">
                 <div className="flex justify-center">
                   <h1 className="mt-2 font-semibold text-3xl">
                     Joined Classes
@@ -266,7 +265,7 @@ const ClassesTable = () => {
                         key={classItem.classId}
                         className="flex justify-center w-full md:w-1/2 lg:w-1/3 xl:w-1/3 2xl:w-1/4 px-2 mt-5"
                       >
-                        <Card className="text-center mr-3 mt-10 w-[75%] sm:w-full md:w-[90%] lg:w-[90%] xl:w-[80%] h-full transition-all hover:shadow-lg border-2 p-10 rounded-xl bg-white shadow-md flex flex-col items-center justify-center">
+                        <Card className="text-center glass mr-3 mt-10 w-[75%] sm:w-full md:w-[90%] lg:w-[90%] xl:w-[80%] h-full transition-all hover:shadow-lg border-2 p-10 rounded-xl bg-white shadow-md flex flex-col items-center justify-center">
                           {" "}
                           <div className="flex flex-col items-center justify-center">
                             {/* Class Icon or Image */}
@@ -276,24 +275,24 @@ const ClassesTable = () => {
                             />
 
                             {/* Class Information */}
-                            <h2 className="text-2xl font-bold text-gray-900">
+                            <h2 className="text-2xl font-bold text-gray-900 dark:text-white text-center">
                               {classItem.className}
                             </h2>
-                            <p className="text-md text-gray-600 mt-2">
+                            <p className="text-md text-gray-600 dark:text-white/50 mt-2">
                               Class ID: {classItem.classId}
                             </p>
-                            <p className="text-md text-gray-600">
+                            <p className="text-md text-gray-600 dark:text-white/50">
                               Class Subject: {classItem.classSubject}
                             </p>
 
                             {/* Additional Information */}
-                            <p className="text-sm text-gray-500 mt-2">
+                            <p className="text-sm text-gray-500 dark:text-white/50 mt-2">
                               Taught by: {classItem.teacherName}
                             </p>
                             {/* Call-to-Action */}
                             <Button
                               onClick={() => handleOnClick(classItem.classId)}
-                              className="mt-6 bg-primary text-white py-2 px-4 rounded-full transition hover:bg-primary-dark hover:translate-y-[2px]"
+                              className="mt-6 bg-primary text-white dark:bg-black py-2 px-4 rounded-full transition hover:bg-primary-dark hover:translate-y-[2px]"
                             >
                               View Class
                             </Button>

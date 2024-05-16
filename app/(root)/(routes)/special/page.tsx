@@ -130,7 +130,7 @@ const ClassesTable = () => {
     <>
       <div className="ml-2">
         {isLoading || isTeacherClassesLoading || isStudentClassesLoading ? (
-          <div className="flex justify-center items-center mt-[20%] h-full">
+          <div className="flex justify-center items-center h-full">
             <Loader />
           </div>
         ) : !role ? (

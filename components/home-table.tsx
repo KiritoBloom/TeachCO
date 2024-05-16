@@ -11,21 +11,29 @@ import { Button } from "./ui/button";
 import Image from "next/image";
 import RecentClasses from "./recent-classes";
 import useUserRole from "@/hooks/role";
+import { useTheme } from "next-themes";
+import { cn } from "@/lib/utils";
+import { Wand2Icon } from "lucide-react";
 
 const HomeTable = () => {
   const { user } = useUser();
   const router = useRouter();
   const { role, isLoading } = useUserRole();
+  const { theme } = useTheme();
 
   const handleOnClick = () => {
     router.push("/settings");
   };
 
   return (
-    <div className="bg-wavy dark:bg-dark-wavy z-back">
+    <div
+      className={cn("bg-wavy dark:bg-black z-back", {
+        "dark-wavy": theme === "dark" || theme === "system",
+      })}
+    >
       <div className="w-full h-full pb-5">
         {isLoading ? (
-          <div className="flex justify-center items-center mt-[20%] h-full">
+          <div className="flex justify-center items-center h-full">
             <Loader />
           </div>
         ) : role === null ||
@@ -37,10 +45,10 @@ const HomeTable = () => {
           <div>
             <div>
               <div className="md:flex md:justify-between pt-5 mb-5">
-                <h1 className="dark:text-black scroll-m-20 border-b pb-0 text-3xl font-semibold tracking-tight first:mt-0 flex justify-start md:justify-center ml-2 w-fit">
+                <h1 className="dark:text-white border-white scroll-m-20 border-b pb-0 text-3xl font-semibold tracking-tight first:mt-0 flex justify-start md:justify-center ml-2 w-fit">
                   Welcome Back, {user?.firstName || "User"}
                 </h1>
-                <div className="p-1 ml-2 mt-2 md:mt-0 md:ml-0 bg-gray-300 gap-x-2 md:w-fit w-fit h-15 rounded-md flex justify-between items-center mr-2">
+                <div className="p-1 ml-2 mt-2 md:mt-0 md:ml-0 bg-gray-300 dark:bg-white gap-x-2 md:w-fit w-fit h-15 rounded-md flex justify-between items-center mr-2">
                   {role === "Student" && (
                     <>
                       <h1 className="ml-2 font-bold dark:text-black">{role}</h1>
@@ -76,16 +84,16 @@ const HomeTable = () => {
               </Avatar>
               <div className="w-full flex justify-center mt-7">
                 <Button
-                  className="dark:text-white md:w-[50%] w-[80%] mb-10 hover:bg-black hover:scale-[101%] bg-black transition-all font-semibold rounded-3xl"
+                  className="dark:text-black dark:bg-white md:w-[50%] w-[80%] mb-10 hover:bg-black hover:scale-[101%] bg-black transition-all font-semibold rounded-3xl"
                   onClick={handleOnClick}
                 >
-                  Edit Your Profile
+                  Edit Your Profile <Wand2Icon className="w-4 h-4 ml-2" />
                 </Button>
               </div>
             </div>
             {role === "Teacher" ? (
               <>
-                <h1 className="md:ml-5 ml-3 text-2xl font-semibold text-black/70">
+                <h1 className="md:ml-5 ml-3 text-2xl font-semibold text-black/70 dark:text-white/90">
                   Get Started Here:
                 </h1>
                 <div className="pb-5">
@@ -94,7 +102,7 @@ const HomeTable = () => {
               </>
             ) : role === "Student" ? (
               <>
-                <h1 className="md:ml-5 ml-3 text-2xl font-semibold text-black/70">
+                <h1 className="md:ml-5 ml-3 text-2xl font-semibold text-black/70 dark:text-white/90">
                   Get Started Here:
                 </h1>
                 <div className="pb-5">

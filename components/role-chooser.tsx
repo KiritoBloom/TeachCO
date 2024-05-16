@@ -74,7 +74,7 @@ const RoleChooser = () => {
             <div className="flex justify-around">
               <div
                 className={cn(
-                  "cursor-pointer hover:bg-foreground/10 hover:scale-110 rounded-md p-3 transition-all duration-150 border-2 border-black/10 mt-5",
+                  "cursor-pointer dark:bg-primary/10 hover:bg-foreground/10 hover:scale-110 rounded-md p-4 transition-all duration-150 border-2 border-black/10 mt-5",
                   role === "Teacher" && "bg-primary/10 scale-110"
                 )}
                 onClick={() => setRole("Teacher")}
@@ -83,7 +83,7 @@ const RoleChooser = () => {
                   <Image
                     src="/teacher.png"
                     alt="teacher-logo"
-                    className="rounded-[50%] p-1 border-2 border-black/10 w-20 h-20"
+                    className="rounded-[50%] p-1 border-2 border-black/10 w-20 h-20 dark:bg-white/50"
                     width={500}
                     height={500}
                   />
@@ -94,7 +94,7 @@ const RoleChooser = () => {
               </div>
               <div
                 className={cn(
-                  "cursor-pointer hover:bg-foreground/10 hover:scale-110 rounded-md p-3 transition-all duration-150 border-2 border-black/10 mt-5",
+                  "cursor-pointer dark:bg-primary/10 hover:bg-foreground/10 hover:scale-110 rounded-md p-4 transition-all duration-150 border-2 border-black/10 mt-5",
                   role === "Student" && "bg-primary/10 scale-110"
                 )}
                 onClick={() => setRole("Student")}
@@ -103,7 +103,7 @@ const RoleChooser = () => {
                   <Image
                     src="/student.png"
                     alt="student-logo"
-                    className="rounded-[50%] p-2 border-2 border-black/10 w-20 h-20"
+                    className="rounded-[50%] p-2 border-2 border-black/10 w-20 h-20 dark:bg-white/50"
                     width={200}
                     height={200}
                   />

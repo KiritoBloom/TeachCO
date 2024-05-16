@@ -59,7 +59,7 @@ const RecentClasses = () => {
 
   return (
     <div className="flex md:justify-start justify-center md:ml-5 mt-5">
-      <Card className="md:w-[90%] w-[95%] h-fit p-3 border-[3px] bg-gray-100">
+      <Card className="md:w-[90%] w-[95%] h-fit p-3 border-[3px] bg-gray-100 dark:bg-black/70">
         {isLoading ? (
           <div className="flex justify-center items-center w-full h-full">
             <Loader />
@@ -78,30 +78,30 @@ const RecentClasses = () => {
                         key={classItem.classId}
                         className="flex flex-col items-center w-full h-full p-6 md:basis-1/4"
                       >
-                        <div className="transition-all hover:shadow-lg p-10 rounded-xl glass shadow-lg border-[2px] border-black flex flex-col items-center">
+                        <div className="transition-all hover:shadow-lg p-10 rounded-xl glass dark:bg-white/10 shadow-lg border-[2px] border-black flex flex-col items-center">
                           {/* Class Icon or Image */}
                           <ClassImage userId={classItem.teacherId} />
 
                           {/* Class Information */}
-                          <h2 className="text-2xl font-bold text-gray-900">
+                          <h2 className="text-2xl font-bold text-gray-900 dark:text-white/90">
                             {classItem.className}
                           </h2>
-                          <p className="text-md text-gray-600 mt-2">
+                          <p className="text-md text-gray-600 mt-2 dark:text-white/50">
                             Class ID: {classItem.classId}
                           </p>
-                          <p className="text-md text-gray-600">
+                          <p className="text-md text-gray-600 dark:text-white/50">
                             Class Subject: {classItem.classSubject}
                           </p>
 
                           {/* Additional Information (e.g., teacher name, schedule, etc.) */}
-                          <p className="text-sm text-gray-500 mt-2">
+                          <p className="text-sm text-gray-500 mt-2 dark:text-white/50">
                             Taught by: {classItem.teacherName}
                           </p>
 
                           {/* Call-to-Action */}
                           <button
                             onClick={() => handleOnClick(classItem.classId)}
-                            className="mt-10 bg-primary text-white py-2 px-4 rounded-full transition hover:bg-primary-dark hover:translate-y-[2px]"
+                            className="mt-10 bg-primary text-white dark:text-black py-2 px-4 rounded-full transition hover:bg-primary-dark hover:translate-y-[2px]"
                           >
                             View Class
                           </button>
@@ -109,8 +109,8 @@ const RecentClasses = () => {
                       </CarouselItem>
                     ))}
                   </CarouselContent>
-                  <CarouselPrevious className="absolute left-0 top-1/2 transform -translate-y-1/2 z-10 bg-gray-200 p-2 rounded-full" />
-                  <CarouselNext className="absolute right-0 top-1/2 transform -translate-y-1/2 z-10 bg-gray-200 p-2 rounded-full" />
+                  <CarouselPrevious className="absolute left-0 top-1/2 transform -translate-y-1/2 z-10 md:hidden bg-gray-200 dark:text-black p-2 rounded-full" />
+                  <CarouselNext className="absolute right-0 top-1/2 transform -translate-y-1/2 z-10 md:hidden bg-gray-200 dark:text-black p-2 rounded-full" />
                 </Carousel>
               </div>
             ) : (
@@ -136,8 +136,8 @@ const RecentClasses = () => {
               <Button
                 onClick={handleOnRedirect}
                 className={cn(
-                  "w-[95%] rounded-3xl bg-gray-200 text-black transition-all font-bold gap-x-1",
-                  "hover:translate-y-[5%] hover:text-opacity-70 hover:bg-gray-200",
+                  "w-[95%] rounded-3xl bg-black text-white transition-all font-semibold gap-x-1",
+                  "hover:translate-y-[5%] hover:text-opacity-70 hover:bg-black dark:text-black dark:bg-white",
                   {
                     hidden: validClasses.length === 0,
                   }

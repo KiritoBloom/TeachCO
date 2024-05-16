@@ -44,7 +44,7 @@ const ClassJoin = () => {
 
   return (
     <div>
-      <Card className="md:ml-5 mx-auto mt-5 w-[95%] md:w-[30%] h-full border-[2px] border-black/10 bg-slate-200 bg-opacity-20 backdrop-blur-md border-opacity-18 border-solid rounded-lg shadow-md">
+      <Card className="md:ml-5 mx-auto mt-5 w-[95%] md:w-[30%] h-full border-[2px] dark:bg-black/50 border-black/10 bg-slate-200 bg-opacity-20 backdrop-blur-md border-opacity-18 border-solid rounded-lg shadow-md">
         <CardHeader>
           <CardTitle>Join a class</CardTitle>
           <CardDescription>Enter a valid class code</CardDescription>
@@ -59,10 +59,10 @@ const ClassJoin = () => {
             maxLength={6 as number}
           />
           <Button
-            className="bg-black hover:bg-black hover:scale-[101%] w-full rounded-lg p-1 mt-2 transition-all duration-150"
+            className="bg-black hover:bg-black dark:bg-white dark:hover:bg-white hover:scale-[101%] w-full rounded-lg p-1 mt-2 transition-all duration-150"
             onClick={handleOnClick}
           >
-            <h1 className="font-semibold">Join</h1>
+            <h1 className="font-semibold dark:text-black">Join</h1>
           </Button>
         </CardContent>
       </Card>

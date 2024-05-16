@@ -32,6 +32,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import useUserRole from "@/hooks/role";
+import { useTheme } from "next-themes";
 
 export default function Page() {
   const { user } = useUser();
@@ -41,6 +42,7 @@ export default function Page() {
   const [updatedRole, setUpdatedRole] = useState<string | null>(null);
   const { toast } = useToast();
   const router = useRouter();
+  const { theme } = useTheme();
 
   const isFirstNameMatch = user?.firstName === inputValue;
 
@@ -108,13 +110,17 @@ export default function Page() {
   };
 
   return isLoading ? (
-    <div className="flex justify-center items-center mt-[20%] h-full">
+    <div className="flex justify-center items-center h-full">
       <Loader />
     </div>
   ) : !role ? (
     <RoleChooser />
   ) : (
-    <div className="ml-2 pt-2 bg-wavy dark:bg-dark-wavy z-back">
+    <div
+      className={cn("pl-2 pt-2 bg-wavy dark:bg-dark-wavy z-back", {
+        "dark-wavy": theme === "dark" || theme === "system",
+      })}
+    >
       <Avatar className="w-full h-full flex justify-center items-center mt-10 md:mt-12">
         <AvatarImage
           src={user?.imageUrl}
@@ -237,7 +243,7 @@ export default function Page() {
         >
           <Label htmlFor="student" className="cursor-pointer">
             <div
-              className="flex items-center space-x-5 border-2 border-black/30 transition-all w-[95%] cursor-pointer p-3 rounded-xl bg-white"
+              className="flex items-center space-x-5 border-2 border-black/30 transition-all w-[95%] cursor-pointer p-3 rounded-xl bg-white dark:bg-black/90 dark:border-white/50"
               onClick={() => handleOnClick("Student")}
             >
               <RadioGroupItem
@@ -250,7 +256,7 @@ export default function Page() {
           </Label>
           <Label htmlFor="teacher" className="cursor-pointer">
             <div
-              className="flex items-center space-x-2 transition-all border-2 border-black/30 w-[95%] cursor-pointer p-3 rounded-xl bg-white"
+              className="flex items-center space-x-2 transition-all border-2 border-black/30 w-[95%] cursor-pointer p-3 rounded-xl bg-white dark:bg-black/90 dark:border-white/50"
               onClick={() => handleOnClick("Teacher")}
             >
               <RadioGroupItem
@@ -264,7 +270,7 @@ export default function Page() {
         </RadioGroup>
         <div className="flex justify-start md:justify-center items-center">
           <Button
-            className="mb-5 hover:scale-[110%] transition-all bg-black hover:bg-black rounded-3xl"
+            className="mb-5 hover:scale-[110%] transition-all bg-black hover:bg-black dark:text-white rounded-3xl"
             onClick={handleOnSubmit}
           >
             Confirm <Check className="ml-2" />

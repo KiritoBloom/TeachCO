@@ -15,6 +15,7 @@ import {
 import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { UserButton } from "@clerk/nextjs";
+import { ModeToggle } from "./theme-toggle";
 
 const MobileNavbar = () => {
   const router = useRouter();
@@ -77,7 +78,10 @@ const MobileNavbar = () => {
             </DrawerHeader>
           </DrawerContent>
         </Drawer>
-        <UserButton afterSignOutUrl="/" />
+        <div className="flex justify-end items-center gap-x-2">
+          <ModeToggle />
+          <UserButton afterSignOutUrl="/" />
+        </div>
       </div>
     </div>
   );

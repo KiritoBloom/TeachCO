@@ -25,6 +25,7 @@ import {
   HomeIcon,
 } from "@heroicons/react/24/outline";
 import { cn } from "@/lib/utils";
+import { useTheme } from "next-themes";
 
 const ClassPage = () => {
   const [isClassLoading, setIsClassLoading] = useState(true);
@@ -36,6 +37,7 @@ const ClassPage = () => {
   const { toast } = useToast();
   const { userId } = useAuth();
   const [currentPath, setCurrentPath] = useState("Home");
+  const { theme } = useTheme();
 
   if (!classId) {
     return <div>No Class Id</div>;
@@ -73,7 +75,7 @@ const ClassPage = () => {
 
   if (isLoading || isClassLoading) {
     return (
-      <div className="flex justify-center items-center mt-[20%] h-full">
+      <div className="flex justify-center items-center h-full">
         <Loader />
       </div>
     );
@@ -88,8 +90,12 @@ const ClassPage = () => {
   };
 
   return (
-    <div className="flex justify-center md:py-10 pt-5 pb-5">
-      <div className="md:w-[80%] bg-gray-100 rounded-2xl shadow-xl w-[90%] p-5 md:p-10 border border-gray-200">
+    <div
+      className={cn("flex justify-center md:py-10 pt-5 pb-5 bg-wavy z-back", {
+        "dark-wavy": theme === "dark" || theme === "system",
+      })}
+    >
+      <div className="md:w-[80%] bg-gray-100 dark:bg-black/70 dark:border-black/10 backdrop-blur rounded-2xl shadow-xl w-[90%] p-5 md:p-10 border border-gray-200">
         <div className="flex flex-col items-center mb-6 mt-10">
           <ClassImage
             className="w-[200px] h-[200px] rounded-full shadow-lg"
@@ -147,12 +153,12 @@ const ClassPage = () => {
           )}
         </div>
         <div className="flex justify-end">
-          <Card className="flex flex-col items-start bg-gray-300/40 p-3 rounded-lg border w-fit">
-            <CardTitle className="text-lg text-gray-700 text-start">
+          <Card className="flex flex-col items-start bg-gray-300/40 dark:bg-black/90 p-3 rounded-lg border w-fit">
+            <CardTitle className="text-lg text-gray-700 dark:text-white text-start">
               Class ID
             </CardTitle>
             <div className="flex items-center">
-              <CardDescription className="text-gray-800 text-xl p-1 rounded-lg">
+              <CardDescription className="text-gray-800 dark:text-white/60 text-xl p-1 rounded-lg">
                 {classId}
               </CardDescription>
               <TooltipProvider>
@@ -160,7 +166,7 @@ const ClassPage = () => {
                   <TooltipTrigger>
                     <Button
                       onClick={() => classId && onCopy(classId)}
-                      className="ml-4 hover:bg-gray-200 transition-all duration-300"
+                      className="ml-4 hover:bg-gray-200 dark:hover:bg-white/10 transition-all duration-300"
                       size="icon"
                       variant="ghost"
                     >
@@ -174,10 +180,10 @@ const ClassPage = () => {
           </Card>
         </div>
         <div className="mt-10">
-          <div className="flex justify-between font-semibold text-sm md:text-lg p-2 md:p-3 mb-2 rounded-xl border-black bg-gray-300/30">
+          <div className="flex justify-between font-semibold text-sm md:text-lg p-2 md:p-3 mb-2 rounded-xl border-black bg-gray-300/30 dark:bg-primary/20">
             <h1
               className={cn(
-                "cursor-pointer bg-gray-300/60 p-1 md:p-2 rounded-lg border border-black/20 flex items-center transition-all hover:scale-105",
+                "cursor-pointer bg-gray-300/60 dark:bg-primary/20 p-1 md:p-2 rounded-lg border border-black/20 flex items-center transition-all hover:scale-105",
                 {
                   "scale-105": currentPath === "Home",
                 }
@@ -189,7 +195,7 @@ const ClassPage = () => {
             </h1>
             <h1
               className={cn(
-                "cursor-pointer bg-gray-300/60 p-1 md:p-2 rounded-lg border border-black/20 flex items-center transition-all hover:scale-105",
+                "cursor-pointer bg-gray-300/60 dark:bg-primary/20 p-1 md:p-2 rounded-lg border border-black/20 flex items-center transition-all hover:scale-105",
                 {
                   "scale-105": currentPath === "Students",
                 }
@@ -201,7 +207,7 @@ const ClassPage = () => {
             </h1>
             <h1
               className={cn(
-                "cursor-pointer bg-gray-300/60 p-1 md:p-2 rounded-lg border border-black/20 flex items-center transition-all hover:scale-105",
+                "cursor-pointer bg-gray-300/60 dark:bg-primary/20 p-1 md:p-2 rounded-lg border border-black/20 flex items-center transition-all hover:scale-105",
                 {
                   "scale-105": currentPath === "ClassWork",
                 }

@@ -20,7 +20,12 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en" className="md:scrollbar-thin">
-        <ThemeProvider attribute="class" defaultTheme="light">
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
           <body className={inter.className}>
             {children}
             <Toaster />

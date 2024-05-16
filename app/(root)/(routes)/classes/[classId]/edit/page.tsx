@@ -30,6 +30,8 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { cn } from "@/lib/utils";
+import { useTheme } from "next-themes";
 
 export default function Page() {
   const pathname = usePathname();
@@ -41,6 +43,7 @@ export default function Page() {
   const [className, setClassName] = useState("");
   const [classSubject, setClassSubject] = useState("");
   const { toast } = useToast();
+  const { theme } = useTheme();
 
   const classId = pathname.split("/").filter(Boolean).slice(-2, -1)[0];
 
@@ -67,7 +70,11 @@ export default function Page() {
 
   if (isLoading || isClassLoading) {
     return (
-      <div className="flex justify-center items-center mt-[20%] bg-wavy dark:bg-dark-wavy">
+      <div
+        className={cn("flex justify-center items-center bg-wavy", {
+          "dark-wavy": theme === "dark" || theme === "system",
+        })}
+      >
         <Loader />
       </div>
     );
@@ -148,18 +155,25 @@ export default function Page() {
   };
 
   return (
-    <div className="bg-wavy dark:bg-dark-wavy min-h-screen flex flex-col items-center justify-center p-3 md:p-12 text-gray-800">
+    <div
+      className={cn(
+        "bg-wavy dark:bg-dark-wavy min-h-screen flex flex-col items-center justify-center p-3 md:p-12 text-gray-800",
+        {
+          "dark-wavy": theme === "dark" || theme === "system",
+        }
+      )}
+    >
       {classInfo && (
         <>
-          <div className="w-full max-w-4xl bg-gray-100 rounded-2xl shadow-lg p-8">
+          <div className="w-full max-w-4xl bg-gray-100 dark:bg-black/70 backdrop-blur rounded-2xl shadow-lg p-8">
             <div
               onClick={() => handleOnBack()}
-              className="w-fit flex items-center text-lg justify-start cursor-pointer bg-gray-300 text-black p-2 mb-10 md:mb-5 rounded-3xl shadow-lg hover:translate-y-1 transition-all"
+              className="w-fit flex items-center text-lg justify-start cursor-pointer bg-gray-300 dark:bg-white text-black p-2 mb-10 md:mb-5 rounded-3xl shadow-lg hover:translate-y-1 transition-all"
             >
               <ArrowLeftCircleIcon className="w-4 h-4 mr-1" /> Back to Class
             </div>
             <div className="w-full max-w-4xl text-center mb-8 flex justify-center">
-              <h1 className="text-4xl font-semibold tracking-tight text-gray-900 flex items-center gap-x-2">
+              <h1 className="text-4xl font-semibold tracking-tight text-gray-900 dark:text-white flex items-center gap-x-2">
                 Edit Your Class
                 <LucidePenBox className="w-6 h-6" />
               </h1>
@@ -176,8 +190,10 @@ export default function Page() {
 
             <div className="mb-6">
               <div className="flex items-center text-gray-600 mb-2">
-                <UserIcon className="w-6 h-6 text-gray-500 mr-2" />
-                <span className="text-xl font-medium">Teacher Name</span>
+                <UserIcon className="w-6 h-6 text-gray-500 mr-2 dark:text-white" />
+                <span className="text-xl font-medium dark:text-white">
+                  Teacher Name
+                </span>
               </div>
               <Input
                 className="cursor-not-allowed w-full px-4 py-3 text-base border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
@@ -188,8 +204,10 @@ export default function Page() {
 
             <div className="mb-6">
               <div className="flex items-center text-gray-600 mb-2">
-                <AcademicCapIcon className="w-6 h-6 text-gray-500 mr-2" />
-                <span className="text-xl font-medium">Class Name</span>
+                <AcademicCapIcon className="w-6 h-6 text-gray-500 mr-2 dark:text-white" />
+                <span className="text-xl font-medium dark:text-white">
+                  Class Name
+                </span>
               </div>
               <Input
                 className="w-full px-4 py-3 text-base border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
@@ -201,8 +219,10 @@ export default function Page() {
 
             <div className="mb-6">
               <div className="flex items-center text-gray-600 mb-2">
-                <BeakerIcon className="w-6 h-6 text-gray-500 mr-2" />
-                <span className="text-xl font-medium">Subject</span>
+                <BeakerIcon className="w-6 h-6 text-gray-500 mr-2 dark:text-white" />
+                <span className="text-xl font-medium dark:text-white">
+                  Subject
+                </span>
               </div>
               <Input
                 className="w-full px-4 py-3 text-base border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"

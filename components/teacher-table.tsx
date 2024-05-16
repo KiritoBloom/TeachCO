@@ -56,7 +56,7 @@ const TeacherTable = () => {
 
   return (
     <div className="flex justify-center md:justify-start mt-5 md:ml-5 ml-0">
-      <Card className="md:w-[90%] w-[95%] rounded-xl bg-gray-100 dark:bg-black/90 border-[3px]">
+      <Card className="md:w-[90%] w-[95%] rounded-xl bg-gray-100 dark:bg-black/70 border-[3px]">
         <CardHeader>
           <CardTitle className="dark:text-white">Create a class</CardTitle>
           <CardDescription>Input your classes name and subject</CardDescription>
@@ -77,7 +77,7 @@ const TeacherTable = () => {
         </CardContent>
         <CardFooter>
           <Button
-            className="w-full bg-black hover:translate-y-1 rounded-3xl transition-all hover:bg-black dark:text-white dark:bg-black"
+            className="w-full bg-black hover:translate-y-1 rounded-3xl transition-all hover:bg-black dark:text-black dark:font-semibold dark:bg-white"
             onClick={handleOnClick}
           >
             Create Class

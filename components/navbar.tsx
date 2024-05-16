@@ -73,8 +73,10 @@ const Navbar = () => {
           </div>
         ))}
       </div>
-      <ModeToggle />
-      <UserButton afterSignOutUrl="/" />
+      <div className="flex justify-end items-center gap-x-10">
+        <ModeToggle />
+        <UserButton afterSignOutUrl="/" />
+      </div>
     </div>
   );
 };
