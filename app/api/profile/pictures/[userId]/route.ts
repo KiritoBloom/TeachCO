@@ -1,5 +1,5 @@
-import { auth } from "@clerk/nextjs";
-import { clerkClient } from "@clerk/nextjs/server";
+
+import { auth, clerkClient } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
 // Define the expected type for params

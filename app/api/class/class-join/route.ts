@@ -1,5 +1,5 @@
 import prismadb from "@/lib/prismadb";
-import { auth, currentUser } from "@clerk/nextjs";
+import { auth, currentUser } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request, res: Response) {
@@ -92,7 +92,7 @@ export async function GET(req: Request, res: Response) {
     });
 
     if (!user) {
-      return new NextResponse("Unauthorized", {status: 500})
+      return new NextResponse("Unauthorized", {status: 400})
     }
 
     const joinedClasses = user?.joinedClasses || [];
@@ -113,3 +113,71 @@ export async function GET(req: Request, res: Response) {
     return new NextResponse("Internal Error GET", { status: 500 });
   }
 }
+
+export async function DELETE(req: Request, res: Response) {
+  const { userId } = auth();
+
+  if (!userId) {
+    return new NextResponse("Unauthorized", { status: 401 });
+  }
+
+  try {
+    const { classId } = await req.json();
+
+    if (!classId) {
+      return new NextResponse("No Class Id", { status: 404 });
+    }
+
+    const student = await prismadb.student.findFirst({
+      where: {
+        userId: userId,
+        classId: classId
+      }, 
+      select: {
+        id: true
+      }
+    });
+
+    if (!student) {
+      return new NextResponse("Student not found", { status: 404 });
+    }
+
+    const user = await prismadb.user.findUnique({
+      where: {
+        userId: userId
+      }, 
+      select: {
+        joinedClasses: true,
+      }
+    });
+
+    if (!user) {
+      return new NextResponse("User not found", { status: 404 });
+    }
+
+    // Remove the classId from joinedClasses array
+    const updatedJoinedClasses = user.joinedClasses.filter((id: string) => id !== classId);
+
+    // Update the user's joinedClasses in the database
+    await prismadb.user.update({
+      where: {
+        userId: userId
+      },
+      data: {
+        joinedClasses: updatedJoinedClasses
+      }
+    });
+
+    await prismadb.student.delete({
+      where: {
+        id: student?.id
+      }
+    })
+
+    return new NextResponse("Class left successfully", { status: 200 });
+  } catch (error) {
+    console.error(error);
+    return new NextResponse("Internal Error DELETE", { status: 500 });
+  }
+}
+``

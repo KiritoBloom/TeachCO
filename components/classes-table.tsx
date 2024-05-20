@@ -88,6 +88,20 @@ const ClassesTable = () => {
     fetchedClasses();
   }, []);
 
+  const handleOnLeave = (classId: string) => {
+    try {
+      axios.delete("/api/class/class-join", {
+        data: { classId },
+      });
+    } catch (error) {
+      toast({
+        title: "Cannot Leave Class",
+        variant: "destructive",
+      });
+      console.error("Error leaving class:", error);
+    }
+  };
+
   const handleOnClick = (classId: string) => {
     router.push(`/classes/${classId}`);
   };
@@ -297,7 +311,10 @@ const ClassesTable = () => {
                               View Class
                             </Button>
                             <div className="flex justify-center mt-5 gap-x-4 w-full">
-                              <Button className="z-100 bg-gray-200 hover:bg-gray-200 hover:translate-y-[2px] rounded-3xl w-fit flex items-center gap-x-2 text-black transition-all duration-100">
+                              <Button
+                                onClick={() => handleOnLeave(classItem.classId)}
+                                className="z-100 bg-gray-200 hover:bg-gray-200 hover:translate-y-[2px] rounded-3xl w-fit flex items-center gap-x-2 text-black transition-all duration-100"
+                              >
                                 Leave Class{" "}
                                 <ArrowUpLeftFromSquareIcon className="w-4 h-4" />
                               </Button>
