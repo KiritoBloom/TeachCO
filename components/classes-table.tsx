@@ -3,7 +3,6 @@
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-
 import Image from "next/image";
 import { ArrowUpLeftFromSquareIcon, Edit, Trash } from "lucide-react";
 import {
@@ -33,7 +32,19 @@ const ClassesTable = () => {
   const [studentClasses, setStudentClasses] = useState<Array<any>>([]);
   const { toast } = useToast();
   const router = useRouter();
-  const { theme } = useTheme();
+  const { theme, resolvedTheme } = useTheme();
+  const [isMounted, setIsMounted] = useState(false);
+  const [bgClass, setBgClass] = useState("bg-wavy");
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  useEffect(() => {
+    // Determine the appropriate class based on the theme
+    const currentTheme = theme === "system" ? resolvedTheme : theme;
+    setBgClass(currentTheme === "dark" ? "dark-wavy" : "bg-wavy");
+  }, [theme, resolvedTheme]);
 
   const [isTeacherClassesLoading, setIsTeacherClassesLoading] = useState(true);
   const [isStudentClassesLoading, setIsStudentClassesLoading] = useState(true);
@@ -138,13 +149,12 @@ const ClassesTable = () => {
 
   return (
     <>
-      <div
-        className={cn("bg-wavy", {
-          "dark-wavy": theme === "dark" || theme === "system",
-        })}
-      >
-        {isLoading || isTeacherClassesLoading || isStudentClassesLoading ? (
-          <div className="flex justify-center items-center h-full">
+      <div className={cn("z-back", bgClass)}>
+        {isLoading ||
+        isTeacherClassesLoading ||
+        isStudentClassesLoading ||
+        !isMounted ? (
+          <div className="flex justify-center items-center min-h-screen">
             <Loader />
           </div>
         ) : !role ? (

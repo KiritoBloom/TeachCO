@@ -32,6 +32,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { cn } from "@/lib/utils";
 import { useTheme } from "next-themes";
+import Loading from "@/app/(root)/loading";
 
 export default function Page() {
   const pathname = usePathname();
@@ -43,13 +44,14 @@ export default function Page() {
   const [className, setClassName] = useState("");
   const [classSubject, setClassSubject] = useState("");
   const { toast } = useToast();
-  const { theme } = useTheme();
+  const { theme, resolvedTheme } = useTheme();
+  const [isMounted, setIsMounted] = useState(false);
 
   const classId = pathname.split("/").filter(Boolean).slice(-2, -1)[0];
-
   const teacherId = classInfo.teacherId;
 
   useEffect(() => {
+    setIsMounted(true);
     const fetchClassData = async () => {
       try {
         const classInfoRes = await axios.get(
@@ -68,14 +70,14 @@ export default function Page() {
     }
   }, [classId]);
 
-  if (isLoading || isClassLoading) {
+  if (!isMounted || isLoading || isClassLoading) {
     return (
       <div
         className={cn("flex justify-center items-center bg-wavy", {
-          "dark-wavy": theme === "dark" || theme === "system",
+          "dark-wavy": resolvedTheme === "dark",
         })}
       >
-        <Loader />
+        <Loading />
       </div>
     );
   }
@@ -95,13 +97,11 @@ export default function Page() {
 
   const handleOnEdit = async () => {
     try {
-      // Check if className or classSubject are missing
       if (!className && !classSubject) {
         toast({
           description: "Must change class name or subject to edit",
           variant: "destructive",
         });
-
         return;
       }
 
@@ -115,24 +115,20 @@ export default function Page() {
         title: "Successfully edited!",
         variant: "success",
       });
-      console.log("Clicked");
     } catch (error) {
-      // If an error occurs, show the destructive toast
       toast({
         description: "An error occurred",
         variant: "destructive",
       });
 
-      console.error(error); // Log the error for debugging
+      console.error(error);
     }
   };
 
   const handleOnDelete = async (classId: string) => {
     try {
       await axios.delete(`/api/class`, {
-        data: {
-          classId,
-        },
+        data: { classId },
       });
       toast({
         title: "Class Deleted",
@@ -159,7 +155,7 @@ export default function Page() {
       className={cn(
         "bg-wavy dark:bg-dark-wavy min-h-screen flex flex-col items-center justify-center p-3 md:p-12 text-gray-800",
         {
-          "dark-wavy": theme === "dark" || theme === "system",
+          "dark-wavy": resolvedTheme === "dark",
         }
       )}
     >

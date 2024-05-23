@@ -1,0 +1,25 @@
+# Allow all web crawlers access to the entire site
+User-agent: *
+Disallow:
+
+# Block access to sensitive or low-value areas
+Disallow: /admin/
+Disallow: /login/
+Disallow: /register/
+Disallow: /search/
+Disallow: /temp/
+Disallow: /private/
+Disallow: /cgi-bin/
+
+# Block access to parameterized URLs to avoid duplicate content issues
+Disallow: /*?sessionid
+Disallow: /*?ref=
+
+# Allow specific crawlers access to the whole site
+User-agent: Googlebot
+Disallow:
+
+User-agent: Bingbot
+Disallow:
+
+

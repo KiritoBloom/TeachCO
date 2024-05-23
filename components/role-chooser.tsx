@@ -1,6 +1,14 @@
 "use client";
 
 import Image from "next/image";
+
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { cn } from "@/lib/utils";
+
+import { useRouter } from "next/navigation";
+import { RefreshCcw } from "lucide-react";
+import { useToast } from "@/components/ui/use-toast";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -9,13 +17,7 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "./ui/alert-dialog";
-import { useEffect, useState } from "react";
-import axios from "axios";
-import { cn } from "@/lib/utils";
-import { useToast } from "./ui/use-toast";
-import { useRouter } from "next/navigation";
-import { RefreshCcw } from "lucide-react";
+} from "@/components/ui/alert-dialog";
 
 const RoleChooser = () => {
   const [role, setRole] = useState("No Role Selected");
@@ -65,7 +67,7 @@ const RoleChooser = () => {
   return (
     <>
       <AlertDialog defaultOpen>
-        <AlertDialogContent>
+        <AlertDialogContent className="w-[95%] rounded-lg">
           <AlertDialogHeader>
             <AlertDialogTitle>Who are you?</AlertDialogTitle>
             <AlertDialogDescription className="font-semibold">
@@ -74,7 +76,7 @@ const RoleChooser = () => {
             <div className="flex justify-around">
               <div
                 className={cn(
-                  "cursor-pointer dark:bg-primary/10 hover:bg-foreground/10 hover:scale-110 rounded-md p-4 transition-all duration-150 border-2 border-black/10 mt-5",
+                  "cursor-pointer  hover:bg-foreground/10 hover:scale-110 rounded-md p-4 transition-all duration-150 border-2 dark:border-white/50 border-black/10 mt-5",
                   role === "Teacher" && "bg-primary/10 scale-110"
                 )}
                 onClick={() => setRole("Teacher")}
@@ -83,7 +85,7 @@ const RoleChooser = () => {
                   <Image
                     src="/teacher.png"
                     alt="teacher-logo"
-                    className="rounded-[50%] p-1 border-2 border-black/10 w-20 h-20 dark:bg-white/50"
+                    className="rounded-[50%] p-1 border-2 border-black/10 w-20 h-20 dark:bg-white"
                     width={500}
                     height={500}
                   />
@@ -94,7 +96,7 @@ const RoleChooser = () => {
               </div>
               <div
                 className={cn(
-                  "cursor-pointer dark:bg-primary/10 hover:bg-foreground/10 hover:scale-110 rounded-md p-4 transition-all duration-150 border-2 border-black/10 mt-5",
+                  "cursor-pointer hover:bg-foreground/10 hover:scale-110 rounded-md p-4 transition-all duration-150 border-2 dark:border-white/50 border-black/10 mt-5",
                   role === "Student" && "bg-primary/10 scale-110"
                 )}
                 onClick={() => setRole("Student")}
@@ -103,7 +105,7 @@ const RoleChooser = () => {
                   <Image
                     src="/student.png"
                     alt="student-logo"
-                    className="rounded-[50%] p-2 border-2 border-black/10 w-20 h-20 dark:bg-white/50"
+                    className="rounded-[50%] p-2 border-2 border-black/10 w-20 h-20 dark:bg-white"
                     width={200}
                     height={200}
                   />
@@ -116,7 +118,10 @@ const RoleChooser = () => {
           </AlertDialogHeader>
           <AlertDialogFooter>
             {role === "Teacher" || role === "Student" ? (
-              <AlertDialogAction onClick={handleOnClick} className="mt-5">
+              <AlertDialogAction
+                onClick={handleOnClick}
+                className="mt-5 w-[89%] md:w-fit mx-auto md:mx-0"
+              >
                 Continue
               </AlertDialogAction>
             ) : (

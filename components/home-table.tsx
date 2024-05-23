@@ -14,26 +14,30 @@ import useUserRole from "@/hooks/role";
 import { useTheme } from "next-themes";
 import { cn } from "@/lib/utils";
 import { Wand2Icon } from "lucide-react";
+import { useEffect, useState } from "react";
 
 const HomeTable = () => {
   const { user } = useUser();
   const router = useRouter();
   const { role, isLoading } = useUserRole();
-  const { theme } = useTheme();
+  const { theme, resolvedTheme } = useTheme();
+  const [bgClass, setBgClass] = useState("bg-wavy");
+
+  useEffect(() => {
+    // Determine the appropriate class based on the theme
+    const currentTheme = theme === "system" ? resolvedTheme : theme;
+    setBgClass(currentTheme === "dark" ? "dark-wavy" : "bg-wavy");
+  }, [theme, resolvedTheme]);
 
   const handleOnClick = () => {
     router.push("/settings");
   };
 
   return (
-    <div
-      className={cn("bg-wavy dark:bg-black z-back", {
-        "dark-wavy": theme === "dark" || theme === "system",
-      })}
-    >
+    <div className={cn("z-back", bgClass)}>
       <div className="w-full h-full pb-5">
         {isLoading ? (
-          <div className="flex justify-center items-center h-full">
+          <div className="flex justify-center items-center min-h-screen">
             <Loader />
           </div>
         ) : role === null ||
@@ -45,13 +49,13 @@ const HomeTable = () => {
           <div>
             <div>
               <div className="md:flex md:justify-between pt-5 mb-5">
-                <h1 className="dark:text-white border-white scroll-m-20 border-b pb-0 text-3xl font-semibold tracking-tight first:mt-0 flex justify-start md:justify-center ml-2 w-fit">
+                <h1 className="dark:text-white dark:border-white border-black scroll-m-20 border-b pb-0 text-3xl font-semibold tracking-tight first:mt-0 flex justify-start md:justify-center ml-2 w-fit">
                   Welcome Back, {user?.firstName || "User"}
                 </h1>
-                <div className="p-1 ml-2 mt-2 md:mt-0 md:ml-0 bg-gray-300 dark:bg-white gap-x-2 md:w-fit w-fit h-15 rounded-md flex justify-between items-center mr-2">
+                <div className="p-1 ml-2 mt-2 md:mt-0 md:ml-0 bg-gray-300 dark:bg-black/50 gap-x-2 md:w-fit w-fit h-15 rounded-md flex justify-between items-center mr-2">
                   {role === "Student" && (
                     <>
-                      <h1 className="ml-2 font-bold dark:text-black">{role}</h1>
+                      <h1 className="ml-2 font-bold dark:text-white">{role}</h1>
                       <Image
                         src="/student.png"
                         className="bg-white rounded-[50%] p-1 mr-2 border-[1px]"
@@ -63,7 +67,7 @@ const HomeTable = () => {
                   )}
                   {role === "Teacher" && (
                     <>
-                      <h1 className="ml-2 font-bold dark:text-black">{role}</h1>
+                      <h1 className="ml-2 font-bold dark:text-white">{role}</h1>
                       <Image
                         src="/teacher.png"
                         className="bg-white rounded-[50%] p-1 mr-2 border-[1px]"
@@ -80,7 +84,9 @@ const HomeTable = () => {
                   src={user?.imageUrl}
                   className="md:w-[20%] md:h-[20%] w-[50%] rounded-[50%]"
                 />
-                <AvatarFallback>UL</AvatarFallback>
+                <AvatarFallback className="w-20 h-20 p-[10%]">
+                  UL
+                </AvatarFallback>
               </Avatar>
               <div className="w-full flex justify-center mt-7">
                 <Button

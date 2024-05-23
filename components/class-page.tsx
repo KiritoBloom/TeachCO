@@ -37,11 +37,16 @@ const ClassPage = () => {
   const { toast } = useToast();
   const { userId } = useAuth();
   const [currentPath, setCurrentPath] = useState("Home");
-  const { theme } = useTheme();
+  const { theme, resolvedTheme } = useTheme();
+  const [isMounted, setIsMounted] = useState(false);
 
   if (!classId) {
     return <div>No Class Id</div>;
   }
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   useEffect(() => {
     const fetchClassData = async () => {
@@ -75,7 +80,7 @@ const ClassPage = () => {
 
   if (isLoading || isClassLoading) {
     return (
-      <div className="flex justify-center items-center h-full">
+      <div className="flex justify-center items-center min-h-screen">
         <Loader />
       </div>
     );
@@ -92,7 +97,7 @@ const ClassPage = () => {
   return (
     <div
       className={cn("flex justify-center md:py-10 pt-5 pb-5 bg-wavy z-back", {
-        "dark-wavy": theme === "dark" || theme === "system",
+        "dark-wavy": resolvedTheme === "dark",
       })}
     >
       <div className="md:w-[80%] bg-gray-100 dark:bg-black/70 dark:border-black/10 backdrop-blur rounded-2xl shadow-xl w-[90%] p-5 md:p-10 border border-gray-200">

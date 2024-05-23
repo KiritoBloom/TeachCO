@@ -61,7 +61,7 @@ const RecentClasses = () => {
     <div className="flex md:justify-start justify-center md:ml-5 mt-5">
       <Card className="md:w-[90%] w-[95%] h-fit p-3 border-[3px] bg-gray-100 dark:bg-black/70">
         {isLoading ? (
-          <div className="flex justify-center items-center w-full h-full">
+          <div className="flex justify-center items-center w-full">
             <Loader />
           </div>
         ) : (
