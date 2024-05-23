@@ -82,7 +82,7 @@ const AuthLayout = ({ children }: { children: React.ReactNode }) => {
           id="about"
         >
           <div className="container grid items-center gap-6 px-4 md:px-6 lg:grid-cols-2">
-            <img
+            <Image
               alt="TeachCO Features"
               className="mx-auto aspect-video overflow-hidden rounded-xl object-cover object-center sm:w-full lg:order-last"
               height="310"
@@ -125,35 +125,35 @@ const AuthLayout = ({ children }: { children: React.ReactNode }) => {
               </p>
             </div>
             <div className="grid w-full grid-cols-2 lg:grid-cols-5 items-center justify-center gap-8 lg:gap-12 [&>img]:mx-auto">
-              <img
+              <Image
                 alt="Logo"
                 className="aspect-[2/1] overflow-hidden rounded-lg object-contain object-center"
                 height="70"
                 src="/placeholder.svg"
                 width="140"
               />
-              <img
+              <Image
                 alt="Logo"
                 className="aspect-[2/1] overflow-hidden rounded-lg object-contain object-center"
                 height="70"
                 src="/placeholder.svg"
                 width="140"
               />
-              <img
+              <Image
                 alt="Logo"
                 className="aspect-[2/1] overflow-hidden rounded-lg object-contain object-center"
                 height="70"
                 src="/placeholder.svg"
                 width="140"
               />
-              <img
+              <Image
                 alt="Logo"
                 className="aspect-[2/1] overflow-hidden rounded-lg object-contain object-center"
                 height="70"
                 src="/placeholder.svg"
                 width="140"
               />
-              <img
+              <Image
                 alt="Logo"
                 className="aspect-[2/1] col-span-2 lg:col-span-1 overflow-hidden rounded-lg object-contain object-center"
                 height="70"
