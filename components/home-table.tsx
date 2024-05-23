@@ -49,7 +49,7 @@ const HomeTable = () => {
           <div>
             <div>
               <div className="md:flex md:justify-between pt-5 mb-5">
-                <h1 className="dark:text-white dark:border-white border-black scroll-m-20 border-b pb-0 text-3xl font-semibold tracking-tight first:mt-0 flex justify-start md:justify-center ml-2 w-fit">
+                <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-4xl ml-2">
                   Welcome Back, {user?.firstName || "User"}
                 </h1>
                 <div className="p-1 ml-2 mt-2 md:mt-0 md:ml-0 bg-gray-300 dark:bg-black/50 gap-x-2 md:w-fit w-fit h-15 rounded-md flex justify-between items-center mr-2">
