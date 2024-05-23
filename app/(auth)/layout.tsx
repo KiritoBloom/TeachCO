@@ -68,7 +68,7 @@ const AuthLayout = ({ children }: { children: React.ReactNode }) => {
                 </Link>
               </div>
             </div>
-            <img
+            <Image
               alt="TeachCO"
               className="mx-auto aspect-video overflow-hidden rounded-xl object-cover object-center sm:w-full"
               height="310"
@@ -97,7 +97,8 @@ const AuthLayout = ({ children }: { children: React.ReactNode }) => {
                 <p className="max-w-[600px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400">
                   TeachCO provides a comprehensive suite of tools to help you
                   create, manage, and grow your online courses. From intuitive
-                  course builders to powerful analytics, we've got you covered.
+                  course builders to powerful analytics, we&apos;ve got you
+                  covered.
                 </p>
               </div>
               <div className="flex flex-col gap-2 min-[400px]:flex-row">
