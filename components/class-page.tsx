@@ -27,6 +27,7 @@ import {
 import { cn } from "@/lib/utils";
 import { useTheme } from "next-themes";
 import themeHook from "@/hooks/theme";
+import HomePath from "./home-path";
 
 const ClassPage = () => {
   const [isClassLoading, setIsClassLoading] = useState(true);
@@ -220,7 +221,7 @@ const ClassPage = () => {
             </h1>
           </div>
           {currentPath === "Home" ? (
-            <p>Home</p>
+            <HomePath />
           ) : currentPath === "Students" ? (
             Array.isArray(students) && students.length > 0 ? (
               students.map((student: any) => (
