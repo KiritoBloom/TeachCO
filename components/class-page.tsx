@@ -26,6 +26,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { cn } from "@/lib/utils";
 import { useTheme } from "next-themes";
+import themeHook from "@/hooks/theme";
 
 const ClassPage = () => {
   const [isClassLoading, setIsClassLoading] = useState(true);
@@ -37,16 +38,11 @@ const ClassPage = () => {
   const { toast } = useToast();
   const { userId } = useAuth();
   const [currentPath, setCurrentPath] = useState("Home");
-  const { theme, resolvedTheme } = useTheme();
-  const [isMounted, setIsMounted] = useState(false);
+  const resolvedTheme = themeHook();
 
   if (!classId) {
     return <div>No Class Id</div>;
   }
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
 
   useEffect(() => {
     const fetchClassData = async () => {

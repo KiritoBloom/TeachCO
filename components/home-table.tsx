@@ -82,7 +82,7 @@ const HomeTable = () => {
               <Avatar className="w-full h-full flex justify-center items-center">
                 <AvatarImage
                   src={user?.imageUrl}
-                  className="md:w-[20%] md:h-[20%] w-[50%] rounded-[50%]"
+                  className="md:w-[30%] lg:w-[20%] md:h-[20%] w-[50%] rounded-[50%]"
                 />
                 <AvatarFallback className="w-20 h-20 p-[10%]">
                   UL
@@ -90,7 +90,7 @@ const HomeTable = () => {
               </Avatar>
               <div className="w-full flex justify-center mt-7">
                 <Button
-                  className="dark:text-black dark:bg-white md:w-[50%] w-[80%] mb-10 hover:bg-black hover:scale-[101%] bg-black transition-all font-semibold rounded-3xl"
+                  className="mt-10 dark:text-black dark:bg-white md:w-[80%] lg:w-[50%] w-[80%] mb-10 hover:bg-black hover:scale-[101%] bg-black transition-all font-semibold rounded-3xl"
                   onClick={handleOnClick}
                 >
                   Edit Your Profile <Wand2Icon className="w-4 h-4 ml-2" />

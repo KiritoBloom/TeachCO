@@ -8,18 +8,14 @@ import { usePathname, useRouter } from "next/navigation";
 import { ModeToggle } from "./theme-toggle";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
+import themeHook from "@/hooks/theme";
 
 const Navbar = () => {
   const router = useRouter();
   const pathName = usePathname();
   const { userId } = useAuth();
   const special = "user_2cvQymq0ODUUtDr4VQ8AlCgKDyN";
-  const { theme, resolvedTheme } = useTheme();
-  const [isMounted, setIsMounted] = useState(false);
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
+  const resolvedTheme = themeHook();
 
   const routes = [
     {
@@ -52,9 +48,6 @@ const Navbar = () => {
   };
 
   // Render nothing until the theme is resolved
-  if (!isMounted) {
-    return null;
-  }
 
   return (
     <div className="w-full h-15 bg-primary/10 p-2 flex justify-between rounded-bl-lg rounded-br-lg border-2">

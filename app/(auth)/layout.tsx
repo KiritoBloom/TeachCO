@@ -1,14 +1,24 @@
+"use client";
+
 import { ModeToggle } from "@/components/theme-toggle";
+import themeHook from "@/hooks/theme";
 import Image from "next/image";
 import Link from "next/link";
 
 const AuthLayout = ({ children }: { children: React.ReactNode }) => {
+  const resolvedTheme = themeHook();
+
   return (
     <>
       <header className="sticky top-0 z-50 w-full bg-white shadow-sm dark:bg-gray-900">
         <div className="container flex h-16 items-center justify-between px-4 md:px-6">
           <Link className="flex items-center gap-2" href="#">
-            <Image src="/logo.png" width={25} height={30} alt="logo" />
+            <Image
+              src={resolvedTheme === "dark" ? "/logo-white.png" : "/logo.png"}
+              width={25}
+              height={30}
+              alt="logo"
+            />
             <span className="text-lg font-semibold">TeachCO</span>
           </Link>
           <div className="flex items-center gap-4">
@@ -167,7 +177,7 @@ const AuthLayout = ({ children }: { children: React.ReactNode }) => {
               className="mt-[20%] text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl"
               id="star"
             >
-              <h1>Get Started: Sign Up or Sign In</h1>
+              <h2>Get Started: Sign Up or Sign In</h2>
             </div>
             <div className="flex justify-center">{children}</div>
           </div>

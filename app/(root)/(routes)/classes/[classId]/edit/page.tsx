@@ -1,7 +1,6 @@
 "use client";
 
 import ClassImage from "@/components/class-image";
-import { Loader } from "@/components/loader";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
@@ -31,8 +30,8 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { cn } from "@/lib/utils";
-import { useTheme } from "next-themes";
 import Loading from "@/app/(root)/loading";
+import themeHook from "@/hooks/theme";
 
 export default function Page() {
   const pathname = usePathname();
@@ -44,14 +43,12 @@ export default function Page() {
   const [className, setClassName] = useState("");
   const [classSubject, setClassSubject] = useState("");
   const { toast } = useToast();
-  const { theme, resolvedTheme } = useTheme();
-  const [isMounted, setIsMounted] = useState(false);
+  const resolvedTheme = themeHook();
 
   const classId = pathname.split("/").filter(Boolean).slice(-2, -1)[0];
   const teacherId = classInfo.teacherId;
 
   useEffect(() => {
-    setIsMounted(true);
     const fetchClassData = async () => {
       try {
         const classInfoRes = await axios.get(
@@ -70,7 +67,7 @@ export default function Page() {
     }
   }, [classId]);
 
-  if (!isMounted || isLoading || isClassLoading) {
+  if (isLoading || isClassLoading) {
     return (
       <div
         className={cn("flex justify-center items-center bg-wavy", {

@@ -132,7 +132,7 @@ export default function Page() {
 
   return (
     <div
-      className={cn("bg-wavy pb-20", {
+      className={cn("bg-wavy md:min-h-[100vh]", {
         "dark-wavy": resolvedTheme === "dark",
       })}
     >
@@ -140,7 +140,7 @@ export default function Page() {
         <Avatar className="w-full h-full flex justify-center items-center mt-10 md:mt-12">
           <AvatarImage
             src={user?.imageUrl}
-            className="md:w-[15%] w-[50%] h-[20%] rounded-[50%]"
+            className="md:w-[30%] lg:w-[15%] w-[50%] h-[20%] rounded-[50%]"
           />
           <AvatarFallback className="w-20 h-20 p-[7%] rounded-[50%]">
             UL
@@ -149,12 +149,12 @@ export default function Page() {
         <div className="flex justify-center items-center mt-5 mb-5">
           <h1 className="font-semibold text-3xl">Edit Your Profile</h1>
         </div>
-        <div className="flex flex-col md:flex-row justify-start gap-x-10">
+        <div className="flex flex-col lg:flex-row justify-start gap-x-10">
           <div>
             <h1 className="text-lg font-semibold mt-5 flex items-center">
               Email
             </h1>
-            <div className="flex justify-start items-center md:w-[500px] w-[360px]">
+            <div className="flex justify-start items-center md:w-[500px] lg:w-[450px] xl:w-[500px] w-[360px]">
               <div className="w-full flex items-center">
                 <div className="w-full flex items-center justify-between">
                   <div className="relative w-full">
@@ -196,7 +196,7 @@ export default function Page() {
             <h1 className="text-lg font-semibold mt-5 flex items-center gap-x-1">
               UserID
             </h1>
-            <div className="flex justify-start items-center md:w-[500px] w-[360px]">
+            <div className="flex justify-start items-center md:w-[500px] lg:w-[450px] xl:w-[500px] w-[360px]">
               <div className="w-full flex items-center">
                 <div className="w-full flex items-center justify-between">
                   <div className="relative w-full">
@@ -286,16 +286,16 @@ export default function Page() {
               </div>
             </Label>
           </RadioGroup>
-          <div className="flex justify-start md:justify-center items-center">
+          <div className="flex justify-center md:justify-center items-center">
             <Button
-              className="mb-5 hover:scale-[110%] transition-all bg-black hover:bg-black dark:text-white rounded-3xl"
+              className="mb-5 hover:scale-[103%] transition-all bg-black hover:bg-black dark:text-white rounded-3xl"
               onClick={handleOnSubmit}
             >
               Confirm <Check className="ml-2" />
             </Button>
             <AlertDialog>
               <AlertDialogTrigger>
-                <Button className="mb-5 ml-5 bg-gray-200 hover:scale-[110%] hover:bg-gray-200 transition-all text-black rounded-3xl">
+                <Button className="mb-5 ml-5 bg-gray-200 hover:scale-[103%] hover:bg-gray-200 transition-all text-black rounded-3xl">
                   Delete Account <Trash className="ml-2" />
                 </Button>
               </AlertDialogTrigger>

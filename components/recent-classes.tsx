@@ -72,11 +72,11 @@ const RecentClasses = () => {
             {validClasses.length > 0 ? (
               <div className="my-4 w-full">
                 <Carousel className="md:relative w-full h-full">
-                  <CarouselContent className="flex mx-auto md:justify-center h-full">
+                  <CarouselContent className="flex mx-auto md:mx-0 md:justify-center h-full">
                     {validClasses.map((classItem) => (
                       <CarouselItem
                         key={classItem.classId}
-                        className="flex flex-col items-center w-full h-full p-6 md:basis-1/4"
+                        className="flex flex-col items-center w-full h-full p-6 md:basis-1/2 lg:basis-1/4"
                       >
                         <div className="transition-all hover:shadow-lg p-10 rounded-xl glass dark:bg-white/10 shadow-lg border-[2px] border-black flex flex-col items-center">
                           {/* Class Icon or Image */}
@@ -109,8 +109,8 @@ const RecentClasses = () => {
                       </CarouselItem>
                     ))}
                   </CarouselContent>
-                  <CarouselPrevious className="absolute left-0 top-1/2 transform -translate-y-1/2 z-10 md:hidden bg-gray-200 dark:text-black p-2 rounded-full" />
-                  <CarouselNext className="absolute right-0 top-1/2 transform -translate-y-1/2 z-10 md:hidden bg-gray-200 dark:text-black p-2 rounded-full" />
+                  <CarouselPrevious className="absolute left-0 top-1/2 transform -translate-y-1/2 z-10 md:hidden bg-gray-200 dark:text-black dark:hover:bg-white/50 p-2 rounded-full" />
+                  <CarouselNext className="absolute right-0 top-1/2 transform -translate-y-1/2 z-10 md:hidden bg-gray-200 dark:text-black dark:hover:bg-white/50 p-2 rounded-full" />
                 </Carousel>
               </div>
             ) : (

@@ -13,18 +13,10 @@ export async function POST(req: Request, res: Response) {
   try {
     const {classId} = await req.json();
     const userName = user?.firstName || "User";
-
-    // Update the user's joinedClasses array
-    const updatedUser = await prismadb.user.update({
-      where: {
-        userId: userId?.toString()
-      }, 
-      data: {
-          joinedClasses: {
-            push: classId.toString() 
-          }
-      }
-    })
+    
+    if (!classId) {
+      return new NextResponse("Class Id Not found", {status: 404})
+    }
 
     const generateUniqueId = () => {
       const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -39,10 +31,21 @@ export async function POST(req: Request, res: Response) {
     };
 
     const uniqueId = generateUniqueId();
+
+    const isClassFound = await prismadb.class.findUnique({
+      where: {
+        classId: classId
+      }
+    })
+
+    if (!isClassFound) {
+      return new NextResponse("Class is not found", {status: 404})
+    }
     
     const isStudentInClass = await prismadb.student.findFirst({
       where: {
-        userId: userId
+        userId: userId,
+        classId: classId
       },
       select: {
         classId: true,
@@ -61,6 +64,19 @@ export async function POST(req: Request, res: Response) {
         classId: classId.toString(),
       },
     })
+
+    const updatedUser = await prismadb.user.update({
+      where: {
+        userId: userId?.toString()
+      }, 
+      data: {
+          joinedClasses: {
+            push: classId.toString() 
+          }
+      }
+    })
+
+
 
     return new NextResponse(`Success`, { status: 200 });
   } catch(error) {
