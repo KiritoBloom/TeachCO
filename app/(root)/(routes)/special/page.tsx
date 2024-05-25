@@ -1,142 +1,215 @@
 "use client";
 
-import Image from "next/image";
-
-import { useEffect, useState } from "react";
 import axios from "axios";
-import { cn } from "@/lib/utils";
-
-import { useRouter } from "next/navigation";
-import { RefreshCcw } from "lucide-react";
-import { useToast } from "@/components/ui/use-toast";
+import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
+import useUserRole from "@/hooks/role";
+import { Card, CardDescription, CardTitle } from "@/components/ui/card";
 import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { Button } from "@/components/ui/button";
+import { useToast } from "@/components/ui/use-toast";
+import { Copy } from "lucide-react";
+import { Loader } from "@/components/loader";
+import StudentCard from "@/components/student-card";
+import { ComboboxDropdownMenu } from "@/components/ui/combo-box";
+import ClassImage from "@/components/class-image";
+import { useAuth } from "@clerk/nextjs";
+import {
+  AcademicCapIcon,
+  BookOpenIcon,
+  HomeIcon,
+} from "@heroicons/react/24/outline";
+import { cn } from "@/lib/utils";
+import { Tabs, Tab } from "@nextui-org/tabs";
+import themeHook from "@/hooks/theme";
+import HomePath from "@/components/home-path";
 
-const RoleChooser = () => {
-  const [role, setRole] = useState("No Role Selected");
-  const router = useRouter();
-
+const ClassPage = () => {
+  const [isClassLoading, setIsClassLoading] = useState(true);
+  const [classInfo, setClassInfo] = useState<any>("");
+  const [students, setStudents] = useState([]); // Ensure this starts as an empty array
+  const pathName = usePathname();
+  const classId = pathName.split("/").pop();
+  const { role, isLoading } = useUserRole();
   const { toast } = useToast();
+  const { userId } = useAuth();
+  const [currentPath, setCurrentPath] = useState("Home");
+  const resolvedTheme = themeHook();
 
-  const handleOnClick = async () => {
-    try {
-      if (role === "Teacher" || role === "Student") {
-        await axios.post("api/role", { role });
-        toast({
-          title: "Role Chosen",
-          description: `Your designated role is ${role}`,
-          variant: "success",
-        });
-        router.refresh();
-      } else {
-        // Handle the case where no role is selected
-        toast({
-          title: "No Role Selected",
-          description: `Please select a role before continuing.`,
-          variant: "destructive",
-        });
-      }
-      router.push("/settings");
-    } catch (error) {
-      console.error("Error sending or fetching role:", error);
-      toast({
-        title: "It's not you, it's Us",
-        description: `Something has gone wrong!`,
-        variant: "destructive",
-      });
-    }
-  };
-
-  const [isMounted, setIsMounted] = useState(false);
+  if (!classId) {
+    return <div>No Class Id</div>;
+  }
 
   useEffect(() => {
-    setIsMounted(true);
-  }, []);
+    const fetchClassData = async () => {
+      try {
+        const [classInfoRes, studentsRes] = await Promise.all([
+          axios.get(`/api/class/class-info?classId=${classId}`),
+          axios.get(`/api/class/class-info/students?classId=${classId}`),
+        ]);
 
-  if (!isMounted) {
+        setClassInfo(classInfoRes.data);
+        setStudents(studentsRes.data ?? []); // Default to an empty array if data is null/undefined
+        setIsClassLoading(false);
+      } catch (error) {
+        console.error("Something went wrong:", error);
+        setIsClassLoading(false);
+      }
+    };
+
+    fetchClassData();
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+  }, [classId]);
+
+  const onCopy = (content: string) => {
+    if (!content) return;
+    navigator.clipboard.writeText(content);
+    toast({
+      description: "Copied to clipboard",
+      variant: "success",
+    });
+  };
+
+  if (isLoading || isClassLoading) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <Loader />
+      </div>
+    );
+  }
+
+  if (!classInfo) {
     return null;
   }
 
+  const handleOnRouteChange = (value: string) => {
+    setCurrentPath(value);
+  };
+
   return (
-    <>
-      <AlertDialog defaultOpen>
-        <AlertDialogContent className="w-[95%] rounded-lg">
-          <AlertDialogHeader>
-            <AlertDialogTitle>Who are you?</AlertDialogTitle>
-            <AlertDialogDescription className="font-semibold">
-              Select your designated role:
-            </AlertDialogDescription>
-            <div className="flex justify-around">
+    <div
+      className={cn("flex justify-center md:py-10 pt-5 pb-5 bg-wavy z-back", {
+        "dark-wavy": resolvedTheme === "dark",
+      })}
+    >
+      <div className="md:w-[80%] bg-gray-100 dark:bg-black/70 dark:border-black/10 backdrop-blur rounded-2xl shadow-xl w-[90%] p-5 md:p-10 border border-gray-200">
+        <div className="flex flex-col items-center mb-6 mt-10">
+          <ClassImage
+            className="w-[200px] h-[200px] rounded-full shadow-lg"
+            skeletonStyle="mb-4 w-[200px] h-[200px] rounded-full"
+            width={800}
+            height={800}
+            userId={classInfo.teacherId}
+          />
+        </div>
+        <div className="flex flex-col md:flex md:flex-row md:justify-between md:items-center mb-6">
+          <div className="flex flex-row-reverse justify-center mx-auto md:mx-0 md:justify-end mb-10 md:mb-0">
+            {userId === classInfo.teacherId ? (
               <div
                 className={cn(
-                  "cursor-pointer  hover:bg-foreground/10 hover:scale-110 rounded-md p-4 transition-all duration-150 border-2 dark:border-white/50 border-black/10 mt-5",
-                  role === "Teacher" && "bg-primary/10 scale-110"
+                  "md:hidden flex ml-[80%] items-start text-center",
+                  {
+                    "ml-[20%]": classInfo.className.length >= "20",
+                  }
                 )}
-                onClick={() => setRole("Teacher")}
               >
-                <AlertDialogDescription>
-                  <Image
-                    src="/teacher.png"
-                    alt="teacher-logo"
-                    className="rounded-[50%] p-1 border-2 border-black/10 w-20 h-20 dark:bg-white"
-                    width={500}
-                    height={500}
-                  />
-                  <h1 className="flex justify-center items-center mt-2">
-                    Teacher
-                  </h1>
-                </AlertDialogDescription>
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger>
+                      <ComboboxDropdownMenu classId={classId} />
+                    </TooltipTrigger>
+                    <TooltipContent>Class Actions</TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
               </div>
-              <div
-                className={cn(
-                  "cursor-pointer hover:bg-foreground/10 hover:scale-110 rounded-md p-4 transition-all duration-150 border-2 dark:border-white/50 border-black/10 mt-5",
-                  role === "Student" && "bg-primary/10 scale-110"
-                )}
-                onClick={() => setRole("Student")}
-              >
-                <AlertDialogDescription>
-                  <Image
-                    src="/student.png"
-                    alt="student-logo"
-                    className="rounded-[50%] p-2 border-2 border-black/10 w-20 h-20 dark:bg-white"
-                    width={200}
-                    height={200}
-                  />
-                  <h1 className="flex justify-center items-center mt-2">
-                    Student
-                  </h1>
-                </AlertDialogDescription>
-              </div>
-            </div>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            {role === "Teacher" || role === "Student" ? (
-              <AlertDialogAction
-                onClick={handleOnClick}
-                className="mt-5 w-[89%] md:w-fit mx-auto md:mx-0"
-              >
-                Continue
-              </AlertDialogAction>
             ) : (
-              <AlertDialogAction className="cursor-not-allowed opacity-50 p-3">
-                Continue
-              </AlertDialogAction>
+              <div></div>
             )}
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
-      <h1 className="font-bold text-xl flex justify-center items-center mt-[20%]">
-        Please Refresh the page to continue
-        <RefreshCcw className="ml-2" />
-      </h1>
-    </>
+            <div className="flex flex-col justify-center">
+              <h1 className="scroll-m-20 border-b pb-1 text-4xl font-bold tracking-tight first:mt-0 flex justify-center ">
+                {classInfo.className}
+              </h1>
+              <p className="scroll-m-20 border-b pb-0 mt-1 text-md font-semibold tracking-tight first:mt-0 flex justify-center">
+                Taught by: {classInfo.teacherName}
+              </p>
+            </div>
+          </div>
+          {userId === classInfo.teacherId ? (
+            <div className="hidden md:block">
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger>
+                    <ComboboxDropdownMenu classId={classId} />
+                  </TooltipTrigger>
+                  <TooltipContent>Class Actions</TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            </div>
+          ) : (
+            <div></div>
+          )}
+        </div>
+        <div className="flex justify-end">
+          <Card className="flex flex-col items-start bg-gray-300/40 dark:bg-black/90 p-3 rounded-lg border w-fit">
+            <CardTitle className="text-lg text-gray-700 dark:text-white text-start">
+              Class ID
+            </CardTitle>
+            <div className="flex items-center">
+              <CardDescription className="text-gray-800 dark:text-white/60 text-xl p-1 rounded-lg">
+                {classId}
+              </CardDescription>
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger>
+                    <Button
+                      onClick={() => classId && onCopy(classId)}
+                      className="ml-4 hover:bg-gray-200 dark:hover:bg-white/10 transition-all duration-300"
+                      size="icon"
+                      variant="ghost"
+                    >
+                      <Copy className="w-5 h-5 text-gray-700" />
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>Add to clipboard</TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            </div>
+          </Card>
+        </div>
+        <div className="mt-10">
+          <div className="flex justify-between font-semibold text-sm md:text-lg p-2 md:p-3 mb-2 rounded-xl border-black bg-gray-300/30 dark:bg-primary/20">
+            <Tabs aria-label="Options">
+              {" "}
+              <Tab key="photos" title="Photos"></Tab>
+            </Tabs>
+          </div>
+          {currentPath === "Home" ? (
+            <HomePath classId={classId} />
+          ) : currentPath === "Students" ? (
+            Array.isArray(students) && students.length > 0 ? (
+              students.map((student: any) => (
+                <StudentCard
+                  key={student.id}
+                  studentId={student.id}
+                  studentName={student.name}
+                  userId={student.userId}
+                />
+              ))
+            ) : (
+              <p className="text-gray-600 mt-2">No students found</p>
+            )
+          ) : currentPath === "ClassWork" ? (
+            <p>Classwork</p>
+          ) : null}
+        </div>
+      </div>
+    </div>
   );
 };
-export default RoleChooser;
+
+export default ClassPage;

@@ -24,8 +24,14 @@ import {
   BookOpenIcon,
   HomeIcon,
 } from "@heroicons/react/24/outline";
+import {
+  Card as Card2,
+  CardHeader,
+  CardBody,
+  CardFooter,
+} from "@nextui-org/card";
 import { cn } from "@/lib/utils";
-import { useTheme } from "next-themes";
+import { Tabs, Tab } from "@nextui-org/tabs";
 import themeHook from "@/hooks/theme";
 import HomePath from "./home-path";
 
@@ -182,62 +188,40 @@ const ClassPage = () => {
           </Card>
         </div>
         <div className="mt-10">
-          <div className="flex justify-between font-semibold text-sm md:text-lg p-2 md:p-3 mb-2 rounded-xl border-black bg-gray-300/30 dark:bg-primary/20">
-            <h1
-              className={cn(
-                "cursor-pointer bg-gray-300/60 dark:bg-primary/20 p-1 md:p-2 rounded-lg border border-black/20 flex items-center transition-all hover:scale-105",
-                {
-                  "scale-105": currentPath === "Home",
-                }
-              )}
-              onClick={() => handleOnRouteChange("Home")}
+          <div className="flex w-full flex-col">
+            <Tabs
+              aria-label="Options"
+              className="border w-fit rounded-lg bg-[#ECECED] dark:bg-[#2A2A2D] mx-auto md:mx-0 mb-5"
+              radius="full"
             >
-              <HomeIcon className="w-3 h-3 mr-1 md:w-5 md:h-5 md:mr-2" />
-              Home
-            </h1>
-            <h1
-              className={cn(
-                "cursor-pointer bg-gray-300/60 dark:bg-primary/20 p-1 md:p-2 rounded-lg border border-black/20 flex items-center transition-all hover:scale-105",
-                {
-                  "scale-105": currentPath === "Students",
-                }
-              )}
-              onClick={() => handleOnRouteChange("Students")}
-            >
-              <AcademicCapIcon className="w-3 h-3 mr-1 md:w-5 md:h-5 md:mr-2" />
-              Students
-            </h1>
-            <h1
-              className={cn(
-                "cursor-pointer bg-gray-300/60 dark:bg-primary/20 p-1 md:p-2 rounded-lg border border-black/20 flex items-center transition-all hover:scale-105",
-                {
-                  "scale-105": currentPath === "ClassWork",
-                }
-              )}
-              onClick={() => handleOnRouteChange("ClassWork")}
-            >
-              <BookOpenIcon className="w-3 h-3 mr-1 md:w-5 md:h-5 md:mr-2" />
-              Class Work
-            </h1>
+              <Tab key="Home" title="Home">
+                <Card2>
+                  <HomePath classId={classId} />
+                </Card2>
+              </Tab>
+              <Tab key="students" title="Students">
+                <Card2>
+                  {Array.isArray(students) && students.length > 0 ? (
+                    students.map((student: any) => (
+                      <StudentCard
+                        key={student.id}
+                        studentId={student.id}
+                        studentName={student.name}
+                        userId={student.userId}
+                      />
+                    ))
+                  ) : (
+                    <p className="text-gray-600 mt-2">No students found</p>
+                  )}
+                </Card2>
+              </Tab>
+              <Tab key="classwork" title="Classwork">
+                <Card2>
+                  <CardBody>ClassWorks</CardBody>
+                </Card2>
+              </Tab>
+            </Tabs>
           </div>
-          {currentPath === "Home" ? (
-            <HomePath />
-          ) : currentPath === "Students" ? (
-            Array.isArray(students) && students.length > 0 ? (
-              students.map((student: any) => (
-                <StudentCard
-                  key={student.id}
-                  studentId={student.id}
-                  studentName={student.name}
-                  userId={student.userId}
-                />
-              ))
-            ) : (
-              <p className="text-gray-600 mt-2">No students found</p>
-            )
-          ) : currentPath === "ClassWork" ? (
-            <p>Classwork</p>
-          ) : null}
         </div>
       </div>
     </div>
