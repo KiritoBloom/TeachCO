@@ -81,7 +81,7 @@ const HomePath = ({ classId }: HomePathProps) => {
 
   useEffect(() => {
     fetchPosts();
-  }, [classId]);
+  }, []);
 
   return (
     <>
@@ -156,7 +156,7 @@ const HomePath = ({ classId }: HomePathProps) => {
       <div>
         <div className="flex flex-wrap gap-x-10">
           {posts.map((post) => (
-            <div className="flex mt-1">
+            <div className="flex mt-1" key={post.postId}>
               <PostContainer
                 key={post.postId}
                 title={post.title}
