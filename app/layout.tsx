@@ -1,11 +1,14 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Roboto } from "next/font/google";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Toaster } from "@/components/ui/toaster";
 import { ThemeProvider } from "@/components/theme-provider";
 
-const inter = Inter({ subsets: ["cyrillic"] });
+const roboto = Roboto({
+  subsets: ["cyrillic"],
+  weight: ["400", "700"],
+});
 
 export const metadata: Metadata = {
   title: "TeachCO",
@@ -20,14 +23,14 @@ export default function RootLayout({
 }>) {
   return (
     <ClerkProvider>
-      <html lang="en" className="md:scrollbar-thin">
+      <html lang="en">
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange
         >
-          <body className={inter.className}>
+          <body className={roboto.className}>
             {children}
             <Toaster />
           </body>

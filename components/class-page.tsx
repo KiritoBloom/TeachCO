@@ -21,15 +21,11 @@ import ClassImage from "./class-image";
 import { useAuth } from "@clerk/nextjs";
 import {
   AcademicCapIcon,
+  ArchiveBoxXMarkIcon,
   BookOpenIcon,
   HomeIcon,
+  HomeModernIcon,
 } from "@heroicons/react/24/outline";
-import {
-  Card as Card2,
-  CardHeader,
-  CardBody,
-  CardFooter,
-} from "@nextui-org/card";
 import { cn } from "@/lib/utils";
 import { Tabs, Tab } from "@nextui-org/tabs";
 import themeHook from "@/hooks/theme";
@@ -44,7 +40,7 @@ const ClassPage = () => {
   const { role, isLoading } = useUserRole();
   const { toast } = useToast();
   const { userId } = useAuth();
-  const [currentPath, setCurrentPath] = useState("Home");
+
   const resolvedTheme = themeHook();
 
   if (!classId) {
@@ -93,17 +89,13 @@ const ClassPage = () => {
     return null;
   }
 
-  const handleOnRouteChange = (value: string) => {
-    setCurrentPath(value);
-  };
-
   return (
     <div
       className={cn("flex justify-center md:py-10 pt-5 pb-5 bg-wavy z-back", {
         "dark-wavy": resolvedTheme === "dark",
       })}
     >
-      <div className="md:w-[80%] bg-gray-100 dark:bg-black/70 dark:border-black/10 backdrop-blur rounded-2xl shadow-xl w-[90%] p-5 md:p-10 border border-gray-200">
+      <div className="md:w-[80%] bg-gray-100/10 dark:bg-black/70 dark:border-black/10 backdrop-blur rounded-2xl shadow-xl w-[90%] p-5 md:p-10 border border-gray-200">
         <div className="flex flex-col items-center mb-6 mt-10">
           <ClassImage
             className="w-[200px] h-[200px] rounded-full shadow-lg"
@@ -191,34 +183,60 @@ const ClassPage = () => {
           <div className="flex w-full flex-col">
             <Tabs
               aria-label="Options"
-              className="border w-fit rounded-lg bg-[#ECECED] dark:bg-[#2A2A2D] mx-auto md:mx-0 mb-5"
+              className="md:w-fit w-[111%] -ml-4 md:mx-0 mb-5 "
               radius="full"
             >
-              <Tab key="Home" title="Home">
-                <Card2>
+              <Tab
+                key="Home"
+                title={
+                  <div className="flex items-center gap-x-2">
+                    <HomeModernIcon className="w-4 h-4" />
+                    <span className="text-sm">Home</span>
+                  </div>
+                }
+              >
+                <div className="p-3">
                   <HomePath classId={classId} />
-                </Card2>
+                </div>
               </Tab>
-              <Tab key="students" title="Students">
-                <Card2>
-                  {Array.isArray(students) && students.length > 0 ? (
-                    students.map((student: any) => (
-                      <StudentCard
-                        key={student.id}
-                        studentId={student.id}
-                        studentName={student.name}
-                        userId={student.userId}
-                      />
-                    ))
-                  ) : (
-                    <p className="text-gray-600 mt-2">No students found</p>
-                  )}
-                </Card2>
+              <Tab
+                key="students"
+                title={
+                  <div className="flex items-center gap-x-2">
+                    <AcademicCapIcon className="w-5 h-5" />
+                    <span className="text-sm">Students</span>
+                  </div>
+                }
+              >
+                <div>
+                  <div className="flex gap-x-10 flex-wrap">
+                    {Array.isArray(students) && students.length > 0 ? (
+                      students.map((student: any) => (
+                        <StudentCard
+                          key={student.id}
+                          studentId={student.id}
+                          studentName={student.name}
+                          userId={student.userId}
+                        />
+                      ))
+                    ) : (
+                      <p className="text-gray-600 mt-2">No students found</p>
+                    )}
+                  </div>
+                </div>
               </Tab>
-              <Tab key="classwork" title="Classwork">
-                <Card2>
-                  <CardBody>ClassWorks</CardBody>
-                </Card2>
+              <Tab
+                key="classwork"
+                title={
+                  <div className="flex items-center gap-x-2">
+                    <BookOpenIcon className="w-5 h-5" />
+                    <span className="text-sm">ClassWork</span>
+                  </div>
+                }
+              >
+                <div>
+                  <div>ClassWorks</div>
+                </div>
               </Tab>
             </Tabs>
           </div>

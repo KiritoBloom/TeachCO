@@ -1,215 +1,103 @@
 "use client";
 
-import axios from "axios";
-import { useState, useEffect } from "react";
-import { usePathname } from "next/navigation";
-import useUserRole from "@/hooks/role";
-import { Card, CardDescription, CardTitle } from "@/components/ui/card";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { Button } from "@/components/ui/button";
-import { useToast } from "@/components/ui/use-toast";
-import { Copy } from "lucide-react";
+import { useAuth, useUser } from "@clerk/nextjs";
+import RoleChooser from "@/components/role-chooser";
 import { Loader } from "@/components/loader";
-import StudentCard from "@/components/student-card";
-import { ComboboxDropdownMenu } from "@/components/ui/combo-box";
-import ClassImage from "@/components/class-image";
-import { useAuth } from "@clerk/nextjs";
-import {
-  AcademicCapIcon,
-  BookOpenIcon,
-  HomeIcon,
-} from "@heroicons/react/24/outline";
+import { useRouter } from "next/navigation";
+import TeacherTable from "@/components/teacher-table";
+import StudentTable from "@/components/student-table";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
+import Image from "next/image";
+import RecentClasses from "@/components/recent-classes";
+import useUserRole from "@/hooks/role";
+import { useTheme } from "next-themes";
 import { cn } from "@/lib/utils";
-import { Tabs, Tab } from "@nextui-org/tabs";
-import themeHook from "@/hooks/theme";
-import HomePath from "@/components/home-path";
+import { Wand2Icon } from "lucide-react";
+import { useEffect, useState } from "react";
+import UserCard from "@/components/user-card";
+import { SparklesIcon } from "@heroicons/react/24/outline";
 
-const ClassPage = () => {
-  const [isClassLoading, setIsClassLoading] = useState(true);
-  const [classInfo, setClassInfo] = useState<any>("");
-  const [students, setStudents] = useState([]); // Ensure this starts as an empty array
-  const pathName = usePathname();
-  const classId = pathName.split("/").pop();
-  const { role, isLoading } = useUserRole();
-  const { toast } = useToast();
+const HomeTable = () => {
+  const { user } = useUser();
   const { userId } = useAuth();
-  const [currentPath, setCurrentPath] = useState("Home");
-  const resolvedTheme = themeHook();
-
-  if (!classId) {
-    return <div>No Class Id</div>;
-  }
+  const router = useRouter();
+  const { role, isLoading } = useUserRole();
+  const { theme, resolvedTheme } = useTheme();
+  const [bgClass, setBgClass] = useState("bg-wavy");
 
   useEffect(() => {
-    const fetchClassData = async () => {
-      try {
-        const [classInfoRes, studentsRes] = await Promise.all([
-          axios.get(`/api/class/class-info?classId=${classId}`),
-          axios.get(`/api/class/class-info/students?classId=${classId}`),
-        ]);
+    // Determine the appropriate class based on the theme
+    const currentTheme = theme === "system" ? resolvedTheme : theme;
+    setBgClass(currentTheme === "dark" ? "dark-wavy" : "bg-wavy");
+  }, [theme, resolvedTheme]);
 
-        setClassInfo(classInfoRes.data);
-        setStudents(studentsRes.data ?? []); // Default to an empty array if data is null/undefined
-        setIsClassLoading(false);
-      } catch (error) {
-        console.error("Something went wrong:", error);
-        setIsClassLoading(false);
-      }
-    };
-
-    fetchClassData();
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-  }, [classId]);
-
-  const onCopy = (content: string) => {
-    if (!content) return;
-    navigator.clipboard.writeText(content);
-    toast({
-      description: "Copied to clipboard",
-      variant: "success",
-    });
-  };
-
-  if (isLoading || isClassLoading) {
-    return (
-      <div className="flex justify-center items-center min-h-screen">
-        <Loader />
-      </div>
-    );
-  }
-
-  if (!classInfo) {
-    return null;
-  }
-
-  const handleOnRouteChange = (value: string) => {
-    setCurrentPath(value);
+  const handleOnClick = () => {
+    router.push("/settings");
   };
 
   return (
-    <div
-      className={cn("flex justify-center md:py-10 pt-5 pb-5 bg-wavy z-back", {
-        "dark-wavy": resolvedTheme === "dark",
-      })}
-    >
-      <div className="md:w-[80%] bg-gray-100 dark:bg-black/70 dark:border-black/10 backdrop-blur rounded-2xl shadow-xl w-[90%] p-5 md:p-10 border border-gray-200">
-        <div className="flex flex-col items-center mb-6 mt-10">
-          <ClassImage
-            className="w-[200px] h-[200px] rounded-full shadow-lg"
-            skeletonStyle="mb-4 w-[200px] h-[200px] rounded-full"
-            width={800}
-            height={800}
-            userId={classInfo.teacherId}
-          />
-        </div>
-        <div className="flex flex-col md:flex md:flex-row md:justify-between md:items-center mb-6">
-          <div className="flex flex-row-reverse justify-center mx-auto md:mx-0 md:justify-end mb-10 md:mb-0">
-            {userId === classInfo.teacherId ? (
-              <div
-                className={cn(
-                  "md:hidden flex ml-[80%] items-start text-center",
-                  {
-                    "ml-[20%]": classInfo.className.length >= "20",
-                  }
-                )}
-              >
-                <TooltipProvider>
-                  <Tooltip>
-                    <TooltipTrigger>
-                      <ComboboxDropdownMenu classId={classId} />
-                    </TooltipTrigger>
-                    <TooltipContent>Class Actions</TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
+    <div className={cn("z-back", bgClass)}>
+      <div className="w-full h-full pb-5">
+        {isLoading ? (
+          <div className="flex justify-center items-center min-h-screen">
+            <Loader />
+          </div>
+        ) : role === null ||
+          role === "null" ||
+          role === "Success null" ||
+          !role ? (
+          <RoleChooser />
+        ) : (
+          <div>
+            <div>
+              <div className="md:flex md:justify-between pt-5 mb-5">
+                <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-4xl ml-2">
+                  Welcome, {user?.firstName || "User"}
+                </h1>
               </div>
-            ) : (
-              <div></div>
-            )}
-            <div className="flex flex-col justify-center">
-              <h1 className="scroll-m-20 border-b pb-1 text-4xl font-bold tracking-tight first:mt-0 flex justify-center ">
-                {classInfo.className}
-              </h1>
-              <p className="scroll-m-20 border-b pb-0 mt-1 text-md font-semibold tracking-tight first:mt-0 flex justify-center">
-                Taught by: {classInfo.teacherName}
-              </p>
-            </div>
-          </div>
-          {userId === classInfo.teacherId ? (
-            <div className="hidden md:block">
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger>
-                    <ComboboxDropdownMenu classId={classId} />
-                  </TooltipTrigger>
-                  <TooltipContent>Class Actions</TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-            </div>
-          ) : (
-            <div></div>
-          )}
-        </div>
-        <div className="flex justify-end">
-          <Card className="flex flex-col items-start bg-gray-300/40 dark:bg-black/90 p-3 rounded-lg border w-fit">
-            <CardTitle className="text-lg text-gray-700 dark:text-white text-start">
-              Class ID
-            </CardTitle>
-            <div className="flex items-center">
-              <CardDescription className="text-gray-800 dark:text-white/60 text-xl p-1 rounded-lg">
-                {classId}
-              </CardDescription>
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger>
-                    <Button
-                      onClick={() => classId && onCopy(classId)}
-                      className="ml-4 hover:bg-gray-200 dark:hover:bg-white/10 transition-all duration-300"
-                      size="icon"
-                      variant="ghost"
-                    >
-                      <Copy className="w-5 h-5 text-gray-700" />
-                    </Button>
-                  </TooltipTrigger>
-                  <TooltipContent>Add to clipboard</TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-            </div>
-          </Card>
-        </div>
-        <div className="mt-10">
-          <div className="flex justify-between font-semibold text-sm md:text-lg p-2 md:p-3 mb-2 rounded-xl border-black bg-gray-300/30 dark:bg-primary/20">
-            <Tabs aria-label="Options">
-              {" "}
-              <Tab key="photos" title="Photos"></Tab>
-            </Tabs>
-          </div>
-          {currentPath === "Home" ? (
-            <HomePath classId={classId} />
-          ) : currentPath === "Students" ? (
-            Array.isArray(students) && students.length > 0 ? (
-              students.map((student: any) => (
-                <StudentCard
-                  key={student.id}
-                  studentId={student.id}
-                  studentName={student.name}
-                  userId={student.userId}
+              <div className="flex flex-col items-center justify-center">
+                <UserCard
+                  userId={userId ?? ""}
+                  userName={user?.firstName || "User"}
+                  userRole={role}
+                  userEmail={user?.emailAddresses[0]?.emailAddress || ""}
                 />
-              ))
-            ) : (
-              <p className="text-gray-600 mt-2">No students found</p>
-            )
-          ) : currentPath === "ClassWork" ? (
-            <p>Classwork</p>
-          ) : null}
-        </div>
+                <Button
+                  className="mb-10 w-[60%] md:w-[20%] font-semibold rounded-full"
+                  onClick={() => handleOnClick()}
+                >
+                  Edit Profile <SparklesIcon className="w-4 h-4 ml-2" />
+                </Button>
+              </div>
+            </div>
+            {role === "Teacher" ? (
+              <>
+                <h1 className="md:ml-5 ml-3 text-2xl font-semibold text-black/70 dark:text-white/90">
+                  Get Started Here:
+                </h1>
+                <div className="pb-5">
+                  <TeacherTable />
+                </div>
+              </>
+            ) : role === "Student" ? (
+              <>
+                <h1 className="md:ml-5 ml-3 text-2xl font-semibold text-black/70 dark:text-white/90">
+                  Get Started Here:
+                </h1>
+                <div className="pb-5">
+                  <StudentTable />
+                </div>
+              </>
+            ) : null}
+            <div>
+              <RecentClasses />
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
 };
 
-export default ClassPage;
+export default HomeTable;

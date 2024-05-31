@@ -74,3 +74,36 @@ export async function GET(req: Request, res: Response) {
         return new NextResponse("Internal Error GET", {status: 500})
     }
 }
+
+export async function DELETE(req: Request, res: Response) {
+    const {userId} = auth();
+
+    if (!userId) {
+        return new NextResponse("Unauthorized", {status: 401})
+    }
+
+    try{
+        const {posterId, postId} = await req.json();
+
+        if (posterId !== userId) {
+            return new NextResponse("Unauthorized", {status: 401})
+        }
+        
+        if (!postId) {
+            return new NextResponse("No Post Id found", {status: 404})
+        }
+
+        await prismadb.post.delete({
+            where: {
+                postId: postId.toString(),
+                posterId: posterId
+            }
+        })
+
+        return new NextResponse("Post Deleted", {status: 200})
+    }
+    catch(error) {
+        console.log(error);
+        return new NextResponse("Internal Error DELETE", {status: 500})
+    }
+}

@@ -175,7 +175,7 @@ const ClassesTable = () => {
                         key={classItem.classId}
                         className="flex justify-center w-full md:w-1/2 lg:w-1/3 xl:w-1/3 2xl:w-1/4 px-2 mt-5"
                       >
-                        <Card className="text-center mr-3 mt-10 w-[80%] sm:w-full md:w-[90%] lg:w-fit xl:w-[80%] h-full transition-all hover:shadow-lg border-2 p-5 rounded-xl glass shadow-md flex flex-col items-center justify-center">
+                        <Card className="text-center mr-3 mt-10 w-[80%] sm:w-full md:w-[90%] lg:w-fit xl:w-[80%] h-full transition-all hover:shadow-lg border-2 p-5 rounded-xl bg-white/40 dark:bg-black/60 backdrop-blur-sm shadow-md flex flex-col items-center justify-center">
                           {" "}
                           <div className="flex flex-col items-center justify-center">
                             {/* Class Icon or Image */}
@@ -212,7 +212,7 @@ const ClassesTable = () => {
                                 onClick={() => {
                                   handleOnEdit(classItem.classId);
                                 }}
-                                className="bg-black hover:bg-black dark:text-white hover:translate-y-[2px] rounded-3xl w-fit  flex items-center justify-end gap-x-2 transition-all duration-100"
+                                className="bg-black dark:border-white hover:bg-black dark:text-white hover:translate-y-[2px] rounded-3xl w-fit  flex items-center justify-end gap-x-2 transition-all duration-100"
                               >
                                 Edit <Edit className="w-4 h-4" />
                               </Button>
@@ -289,7 +289,7 @@ const ClassesTable = () => {
                         key={classItem.classId}
                         className="flex justify-center w-full md:w-1/2 lg:w-1/3 xl:w-1/3 2xl:w-1/4 px-2 mt-5"
                       >
-                        <Card className="text-center glass mr-3 mt-10 w-[75%] sm:w-full md:w-[90%] lg:w-[90%] xl:w-[80%] h-full transition-all hover:shadow-lg border-2 p-10 rounded-xl bg-white shadow-md flex flex-col items-center justify-center">
+                        <Card className="text-center mr-3 mt-10 w-[75%] sm:w-full md:w-[90%] lg:w-[90%] xl:w-[80%] h-full transition-all hover:shadow-lg border-2 p-10 rounded-xl bg-white/40 dark:bg-black/60 backdrop-blur-sm shadow-md flex flex-col items-center justify-center">
                           {" "}
                           <div className="flex flex-col items-center justify-center">
                             {/* Class Icon or Image */}
@@ -316,7 +316,7 @@ const ClassesTable = () => {
                             {/* Call-to-Action */}
                             <Button
                               onClick={() => handleOnClick(classItem.classId)}
-                              className="mt-6 bg-primary text-white dark:bg-black py-2 px-4 rounded-full transition hover:bg-primary-dark hover:translate-y-[2px]"
+                              className="mt-6 bg-primary text-white dark:border-white/40 dark:border-2 dark:bg-black py-2 px-4 rounded-full transition hover:bg-primary-dark hover:translate-y-[2px]"
                             >
                               View Class
                             </Button>

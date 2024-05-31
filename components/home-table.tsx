@@ -1,23 +1,23 @@
 "use client";
 
-import { useUser } from "@clerk/nextjs";
-import RoleChooser from "./role-chooser";
-import { Loader } from "./loader";
+import { useAuth, useUser } from "@clerk/nextjs";
+import RoleChooser from "@/components/role-chooser";
+import { Loader } from "@/components/loader";
 import { useRouter } from "next/navigation";
-import TeacherTable from "./teacher-table";
-import StudentTable from "./student-table";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
-import { Button } from "./ui/button";
-import Image from "next/image";
-import RecentClasses from "./recent-classes";
+import TeacherTable from "@/components/teacher-table";
+import StudentTable from "@/components/student-table";
+import { Button } from "@/components/ui/button";
+import RecentClasses from "@/components/recent-classes";
 import useUserRole from "@/hooks/role";
 import { useTheme } from "next-themes";
 import { cn } from "@/lib/utils";
-import { Wand2Icon } from "lucide-react";
 import { useEffect, useState } from "react";
+import UserCard from "@/components/user-card";
+import { SparklesIcon } from "@heroicons/react/24/outline";
 
 const HomeTable = () => {
   const { user } = useUser();
+  const { userId } = useAuth();
   const router = useRouter();
   const { role, isLoading } = useUserRole();
   const { theme, resolvedTheme } = useTheme();
@@ -50,50 +50,21 @@ const HomeTable = () => {
             <div>
               <div className="md:flex md:justify-between pt-5 mb-5">
                 <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-4xl ml-2">
-                  Welcome Back, {user?.firstName || "User"}
+                  Welcome, {user?.firstName || "User"}
                 </h1>
-                <div className="p-1 ml-2 mt-2 md:mt-0 md:ml-0 bg-gray-300 dark:bg-black/50 gap-x-2 md:w-fit w-fit h-15 rounded-md flex justify-between items-center mr-2">
-                  {role === "Student" && (
-                    <>
-                      <h1 className="ml-2 font-bold dark:text-white">{role}</h1>
-                      <Image
-                        src="/student.png"
-                        className="bg-white rounded-[50%] p-1 mr-2 border-[1px]"
-                        width={40}
-                        height={30}
-                        alt="logo"
-                      />
-                    </>
-                  )}
-                  {role === "Teacher" && (
-                    <>
-                      <h1 className="ml-2 font-bold dark:text-white">{role}</h1>
-                      <Image
-                        src="/teacher.png"
-                        className="bg-white rounded-[50%] p-1 mr-2 border-[1px]"
-                        width={40}
-                        height={30}
-                        alt="logo"
-                      />
-                    </>
-                  )}
-                </div>
               </div>
-              <Avatar className="w-full h-full flex justify-center items-center">
-                <AvatarImage
-                  src={user?.imageUrl}
-                  className="md:w-[30%] lg:w-[20%] md:h-[20%] w-[50%] rounded-[50%]"
+              <div className="flex flex-col items-center justify-center">
+                <UserCard
+                  userId={userId ?? ""}
+                  userName={user?.firstName || "User"}
+                  userRole={role}
+                  userEmail={user?.emailAddresses[0]?.emailAddress || ""}
                 />
-                <AvatarFallback className="w-20 h-20 p-[10%]">
-                  UL
-                </AvatarFallback>
-              </Avatar>
-              <div className="w-full flex justify-center mt-7">
                 <Button
-                  className="mt-10 dark:text-black dark:bg-white md:w-[80%] lg:w-[50%] w-[80%] mb-10 hover:bg-black hover:scale-[101%] bg-black transition-all font-semibold rounded-3xl"
-                  onClick={handleOnClick}
+                  className="mb-10 w-[60%] md:w-[20%] font-semibold rounded-full"
+                  onClick={() => handleOnClick()}
                 >
-                  Edit Your Profile <Wand2Icon className="w-4 h-4 ml-2" />
+                  Edit Profile <SparklesIcon className="w-4 h-4 ml-2" />
                 </Button>
               </div>
             </div>

@@ -18,7 +18,26 @@ body,
   }
 }
 
-/* Variation of work by @mrhyddenn for Radios */
+/* For Webkit browsers like Chrome, Safari */
+body::-webkit-scrollbar {
+  width: 8px; /* width of the entire scrollbar */
+}
+
+body::-webkit-scrollbar-track {
+  background: transparent; /* color of the tracking area */
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: gray; /* color of the scroll thumb */
+  border-radius: 20px; /* roundness of the scroll thumb */
+  border: 3px solid transparent; /* creates padding around scroll thumb */
+}
+
+.custom-scroll {
+  overflow-y: auto; /* Enable vertical scrolling */
+  overflow-x: hidden; /* Disable horizontal scrolling */
+  max-height: 100%; /* Adjust this value as needed */
+}
 
 .check {
   cursor: pointer;

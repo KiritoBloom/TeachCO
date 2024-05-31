@@ -20,6 +20,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useToast } from "./ui/use-toast";
 import PostContainer from "./post-container";
+import Loading from "@/app/(root)/loading";
 
 interface HomePathProps {
   classId: string;
@@ -30,7 +31,7 @@ interface Post {
   description: string;
   isPinned: boolean;
   postId: string;
-  createdAt: Date;
+  createdAt: string; // Use string to match your fetched data type
   posterId: string;
   posterName: string;
 }
@@ -41,6 +42,7 @@ const HomePath = ({ classId }: HomePathProps) => {
   const [description, setDescription] = useState("");
   const { toast } = useToast();
   const [posts, setPosts] = useState<Post[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const handleOnClick = () => {
     setIsPinned(!isPinned);
@@ -74,8 +76,10 @@ const HomePath = ({ classId }: HomePathProps) => {
       const response = await axios.get(`/api/class/posts?classId=${classId}`);
       const res = response.data;
       setPosts(res);
+      setIsLoading(false);
     } catch (error) {
       console.log(error);
+      setIsLoading(false);
     }
   };
 
@@ -89,7 +93,7 @@ const HomePath = ({ classId }: HomePathProps) => {
         <h2 className="text-xl font-bold">Posts</h2>
         <AlertDialog>
           <AlertDialogTrigger>
-            <Button className="p-4 rounded-md bg-white text-black font-semibold w-fit hover:bg-gray-400 transition-all">
+            <Button className="p-4 rounded-md bg-white text-black font-semibold w-fit hover:bg-gray-200 transition-all">
               Add Post <PlusCircleIcon className="w-5 h-5 ml-1" />
             </Button>
           </AlertDialogTrigger>
@@ -130,13 +134,13 @@ const HomePath = ({ classId }: HomePathProps) => {
                 </div>
               </div>
               <AlertDialogDescription>
-                <h2 className="text-black/80">Post title</h2>
+                <h2 className="flex justify-start">Post title</h2>
                 <Input
                   className="transition-all mt-1 mb-2"
                   placeholder="eg. ClassWork for today is:"
                   onChange={(e) => setTitle(e.target.value)}
                 />
-                <h2>Post Description</h2>
+                <h2 className="flex justify-start">Post Description</h2>
                 <Textarea
                   className="mt-2 transition-all"
                   placeholder="The classwork for today is: Page 64 of your extended math's book"
@@ -154,21 +158,31 @@ const HomePath = ({ classId }: HomePathProps) => {
         </AlertDialog>
       </div>
       <div>
-        <div className="flex flex-wrap gap-x-10">
-          {posts.map((post) => (
-            <div className="flex mt-1" key={post.postId}>
-              <PostContainer
-                key={post.postId}
-                title={post.title}
-                description={post.description}
-                postId={post.postId}
-                isPinned={post.isPinned}
-                createdAt={post.createdAt}
-                posterId={post.posterId}
-                posterName={post.posterName}
-              />
-            </div>
-          ))}
+        <div className="flex flex-wrap justify-between gap-x-10 mt-5">
+          {isLoading ? (
+            <Loading />
+          ) : (
+            posts
+              .sort(
+                (a, b) =>
+                  new Date(b.createdAt).getTime() -
+                  new Date(a.createdAt).getTime()
+              )
+              .map((post) => (
+                <div className="flex mt-2" key={post.postId}>
+                  <PostContainer
+                    key={post.postId}
+                    title={post.title}
+                    description={post.description}
+                    postId={post.postId}
+                    isPinned={post.isPinned}
+                    createdAt={post.createdAt}
+                    posterId={post.posterId}
+                    posterName={post.posterName}
+                  />
+                </div>
+              ))
+          )}
         </div>
       </div>
     </>
