@@ -182,14 +182,15 @@ const ClassPage = () => {
         <div className="mt-10">
           <div className="flex w-full flex-col">
             <Tabs
+              size="lg"
               aria-label="Options"
-              className="md:w-fit w-[111%] -ml-4 md:mx-0 mb-5 "
+              className="md:w-fit mx-auto md:mx-0 mb-5"
               radius="full"
             >
               <Tab
                 key="Home"
                 title={
-                  <div className="flex items-center gap-x-2">
+                  <div className="flex flex-col md:flex-row items-center gap-x-2">
                     <HomeModernIcon className="w-4 h-4" />
                     <span className="text-sm">Home</span>
                   </div>
@@ -202,7 +203,7 @@ const ClassPage = () => {
               <Tab
                 key="students"
                 title={
-                  <div className="flex items-center gap-x-2">
+                  <div className="flex flex-col md:flex-row  items-center gap-x-2">
                     <AcademicCapIcon className="w-5 h-5" />
                     <span className="text-sm">Students</span>
                   </div>
@@ -228,7 +229,7 @@ const ClassPage = () => {
               <Tab
                 key="classwork"
                 title={
-                  <div className="flex items-center gap-x-2">
+                  <div className="flex flex-col md:flex-row items-center gap-x-2">
                     <BookOpenIcon className="w-5 h-5" />
                     <span className="text-sm">ClassWork</span>
                   </div>

@@ -163,7 +163,7 @@ export default function Page() {
                         user?.primaryEmailAddress?.toString() ||
                         "Enter your Email Address"
                       }
-                      className="transition-all duration-150 mt-2 pr-4 py-2 border rounded-xl"
+                      className="transition-all duration-150 mt-2 pr-4 py-2 border rounded-xl dark:bg-[#18181B] dark:border-[#3A3A3D]"
                       readOnly
                     />
                     <Mail className="absolute right-2 top-1/2 transform -translate-y-1/4 w-5 h-5 text-gray-400" />
@@ -204,7 +204,7 @@ export default function Page() {
                       placeholder={
                         userId ? userId.toString() : "Enter your Email Address"
                       }
-                      className="transition-all duration-150 mt-2 flex justify-start items-start rounded-xl"
+                      className="transition-all duration-150 mt-2 flex justify-start items-start rounded-xl dark:bg-[#18181B] dark:border-[#3A3A3D]"
                       readOnly
                     />
                     <User className="absolute top-1/2 right-1 transform -translate-y-1/4 w-5 h-5 text-gray-400" />
@@ -239,7 +239,7 @@ export default function Page() {
             <Input
               placeholder={user?.firstName || "Enter your first name"}
               className={cn(
-                "transition-all duration-150 mt-2 w-[95%] flex justify-start items-start rounded-xl",
+                "transition-all duration-150 mt-2 w-[95%] flex justify-start items-start rounded-xl dark:bg-[#18181B] dark:border-[#3A3A3D]",
                 {
                   "border-red-500 transition-all": isFirstNameMatch,
                 }
@@ -261,7 +261,7 @@ export default function Page() {
           >
             <Label htmlFor="student" className="cursor-pointer">
               <div
-                className="flex items-center space-x-5 border-2 border-black/30 transition-all w-[95%] cursor-pointer p-3 rounded-xl bg-white dark:bg-black/90 dark:border-white/50"
+                className="flex items-center space-x-5 border-2 border-black/30 transition-all w-[95%] cursor-pointer p-3 rounded-xl bg-white dark:bg-[#18181B] dark:border-[#3A3A3D]"
                 onClick={() => handleOnClick("Student")}
               >
                 <RadioGroupItem
@@ -274,7 +274,7 @@ export default function Page() {
             </Label>
             <Label htmlFor="teacher" className="cursor-pointer">
               <div
-                className="flex items-center space-x-2 transition-all border-2 border-black/30 w-[95%] cursor-pointer p-3 rounded-xl bg-white dark:bg-black/90 dark:border-white/50"
+                className="flex items-center space-x-2 transition-all border-2 border-black/30 w-[95%] cursor-pointer p-3 rounded-xl bg-white dark:bg-[#18181B] dark:border-[#3A3A3D]"
                 onClick={() => handleOnClick("Teacher")}
               >
                 <RadioGroupItem
@@ -299,7 +299,7 @@ export default function Page() {
                   Delete Account <Trash className="ml-2" />
                 </Button>
               </AlertDialogTrigger>
-              <AlertDialogContent className="w-[90%] rounded-xl">
+              <AlertDialogContent className="w-[90%] rounded-xl dark:bg-[#18181B] dark:border-[#3A3A3D]">
                 <AlertDialogHeader>
                   <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
                   <AlertDialogDescription>
@@ -308,12 +308,14 @@ export default function Page() {
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
-                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogCancel className="bg-transparent dark:border-[#3A3A3D] rounded-2xl">
+                    Cancel
+                  </AlertDialogCancel>
                   <AlertDialogAction
                     onClick={handleOnDelete}
-                    className="bg-red-500 hover:bg-red-500"
+                    className="w-full md:w-fit hover:translate-y-[2px] z-100 bg-gray-200 hover:bg-gray-200 rounded-2xl flex items-center gap-x-2 text-black transition-all duration-100"
                   >
-                    Continue
+                    Delete <Trash className="w-4 h-4" />
                   </AlertDialogAction>
                 </AlertDialogFooter>
               </AlertDialogContent>

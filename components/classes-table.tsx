@@ -217,16 +217,12 @@ const ClassesTable = () => {
                                 Edit <Edit className="w-4 h-4" />
                               </Button>
                               <AlertDialog>
-                                <AlertDialogTrigger
-                                  onClick={(
-                                    event: React.MouseEvent<HTMLButtonElement>
-                                  ) => event.stopPropagation()}
-                                >
+                                <AlertDialogTrigger>
                                   <Button className="z-100 bg-gray-200 dark:bg-white dark:text-black hover:bg-gray-200 hover:translate-y-[2px] rounded-3xl w-fit flex items-center gap-x-2 text-black transition-all duration-100">
                                     Delete Class <Trash className="w-4 h-4" />
                                   </Button>
                                 </AlertDialogTrigger>
-                                <AlertDialogContent className="w-[90%] rounded-2xl">
+                                <AlertDialogContent className="w-[90%] rounded-2xl dark:border-[#3A3A3D] dark:bg-[#18181C]">
                                   <AlertDialogHeader>
                                     <AlertDialogTitle>
                                       Are you absolutely sure?
@@ -238,7 +234,7 @@ const ClassesTable = () => {
                                     </AlertDialogDescription>
                                   </AlertDialogHeader>
                                   <AlertDialogFooter>
-                                    <AlertDialogCancel className="rounded-2xl transition-all hover:translate-y-[2px]">
+                                    <AlertDialogCancel className="rounded-2xl transition-all hover:translate-y-[2px] bg-transparent dark:border-[#3A3A3D]">
                                       Cancel
                                     </AlertDialogCancel>
                                     <AlertDialogAction

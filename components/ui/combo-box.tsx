@@ -75,7 +75,10 @@ export function ComboboxDropdownMenu({ classId }: ComboBoxInterface) {
             <MoreHorizontal />
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="w-[200px]">
+        <DropdownMenuContent
+          align="end"
+          className="w-[200px] dark:bg-[#18181B] dark:border-[#3A3A3D]"
+        >
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
           <DropdownMenuGroup>
             <DropdownMenuItem onClick={() => handleOnEdit(classId)}>
@@ -93,7 +96,7 @@ export function ComboboxDropdownMenu({ classId }: ComboBoxInterface) {
                 Delete
                 <DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>
               </AlertDialogTrigger>
-              <AlertDialogContent>
+              <AlertDialogContent className="dark:border-[#3A3A3D] dark:bg-[#18181C] rounded-lg">
                 <AlertDialogHeader>
                   <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
                   <AlertDialogDescription>
@@ -102,15 +105,17 @@ export function ComboboxDropdownMenu({ classId }: ComboBoxInterface) {
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
-                  <AlertDialogCancel className="rounded-2xl transition-all hover:translate-y-[3px]">
-                    Cancel
-                  </AlertDialogCancel>
-                  <AlertDialogAction
-                    onClick={() => handleOnDelete(classId)}
-                    className="z-100 bg-gray-200 hover:bg-gray-200 hover:translate-y-[3px] rounded-2xl w-fit flex items-center gap-x-2 text-black transition-all duration-100"
-                  >
-                    Delete Class <Trash className="w-4 h-4" />
-                  </AlertDialogAction>
+                  <div className="flex items-center gap-3">
+                    <AlertDialogCancel className="mb-2 md:mb-0 w-fit rounded-2xl transition-all hover:translate-y-[3px] bg-transparent dark:border-[#3A3A3D]">
+                      Cancel
+                    </AlertDialogCancel>
+                    <AlertDialogAction
+                      onClick={() => handleOnDelete(classId)}
+                      className="z-100 bg-gray-200 hover:bg-gray-200 hover:translate-y-[3px] rounded-2xl w-fit flex items-center gap-x-2 text-black transition-all duration-100"
+                    >
+                      Delete Class <Trash className="w-4 h-4" />
+                    </AlertDialogAction>
+                  </div>
                 </AlertDialogFooter>
               </AlertDialogContent>
             </AlertDialog>

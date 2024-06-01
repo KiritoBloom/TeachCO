@@ -1,6 +1,11 @@
 "use client";
 
-import { PlusCircleIcon, SparklesIcon } from "@heroicons/react/24/outline";
+import {
+  CheckCircleIcon,
+  HandThumbUpIcon,
+  PlusCircleIcon,
+  SparklesIcon,
+} from "@heroicons/react/24/outline";
 import { Button } from "./ui/button";
 import {
   AlertDialog,
@@ -21,6 +26,8 @@ import axios from "axios";
 import { useToast } from "./ui/use-toast";
 import PostContainer from "./post-container";
 import Loading from "@/app/(root)/loading";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faExclamationCircle } from "@fortawesome/free-solid-svg-icons";
 
 interface HomePathProps {
   classId: string;
@@ -37,15 +44,19 @@ interface Post {
 }
 
 const HomePath = ({ classId }: HomePathProps) => {
-  const [isPinned, setIsPinned] = useState(false);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const { toast } = useToast();
   const [posts, setPosts] = useState<Post[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isChecked, setIsChecked] = useState(false);
 
-  const handleOnClick = () => {
-    setIsPinned(!isPinned);
+  const handleCheckboxClick = () => {
+    setIsChecked((prevChecked) => {
+      const newChecked = !prevChecked;
+      console.log(newChecked);
+      return newChecked;
+    });
   };
 
   const handleOnConfirm = async () => {
@@ -53,7 +64,7 @@ const HomePath = ({ classId }: HomePathProps) => {
       await axios.post(`/api/class/posts`, {
         title,
         description,
-        isPinned,
+        isChecked,
         classId,
       });
       toast({
@@ -89,45 +100,41 @@ const HomePath = ({ classId }: HomePathProps) => {
 
   return (
     <>
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between items-center w-full">
         <h2 className="text-xl font-bold">Posts</h2>
         <AlertDialog>
           <AlertDialogTrigger>
-            <Button className="p-4 rounded-md bg-white text-black font-semibold w-fit hover:bg-gray-200 transition-all">
+            <Button className="p-4 rounded-md bg-white dark:bg-[#18181C] dark:text-white dark:hover:bg-primary/10 text-black font-semibold w-fit hover:bg-gray-200 transition-all">
               Add Post <PlusCircleIcon className="w-5 h-5 ml-1" />
             </Button>
           </AlertDialogTrigger>
-          <AlertDialogContent>
+          <AlertDialogContent className="dark:bg-[#18181B] dark:border-[#3A3A3D] rounded-lg">
             <AlertDialogHeader>
               <div className="flex justify-between items-center">
                 <AlertDialogTitle className="flex items-center">
                   Create New Post <SparklesIcon className="w-5 h-5 ml-2" />
                 </AlertDialogTitle>
-                <div className="flex items-center">
-                  <Button
-                    className="dark:text-white dark:hover:bg-black/90 flex items-center p-2 bg-transparent text-black border border-gray-300 hover:bg-gray-100 transition-all"
-                    onClick={handleOnClick}
-                  >
-                    Pin Post <Pin className="w-5 h-5 ml-2" />{" "}
-                    <div className="ml-3" onClick={() => handleOnClick()}>
+                <div className="flex items-center justify-between p-6  rounded-xl">
+                  <Button className="flex items-center bg-transparent border-2 border-indigo-600 text-indigo-400 py-3 px-5 rounded-full shadow-md  transition-all focus:outline-none focus:ring-4 focus:ring-indigo-400 hover:bg-primary/10">
+                    <Pin className="w-5 h-5 mr-2" />
+                    Pin Post
+                    <div className="flex items-center ml-2">
                       <input
                         type="checkbox"
                         id="cbx2"
-                        style={{ display: "none" }}
+                        className="hidden"
+                        checked={isChecked}
+                        onChange={handleCheckboxClick}
                       />
-                      <label htmlFor="cbx2" className="check cursor-pointer">
-                        <svg
-                          width="18px"
-                          height="18px"
-                          viewBox="0 0 18 18"
-                          className="fill-current text-gray-400"
-                        >
-                          <path d="M 1 9 L 1 9 c 0 -5 3 -8 8 -8 L 9 1 C 14 1 17 5 17 9 L 17 9 c 0 4 -4 8 -8 8 L 9 17 C 5 17 1 14 1 9 L 1 9 Z"></path>
-                          <polyline
-                            points="1 9 7 14 15 4"
-                            className="stroke-current text-gray-400"
-                          ></polyline>
-                        </svg>
+                      <label
+                        htmlFor="cbx2"
+                        className="flex items-center cursor-pointer"
+                      >
+                        {isChecked ? (
+                          <CheckCircleIcon className="w-6 h-6 text-green-500 animate-pulse" />
+                        ) : (
+                          <CheckCircleIcon className="w-6 h-6 text-gray-400" />
+                        )}
                       </label>
                     </div>
                   </Button>
@@ -136,20 +143,22 @@ const HomePath = ({ classId }: HomePathProps) => {
               <AlertDialogDescription>
                 <h2 className="flex justify-start">Post title</h2>
                 <Input
-                  className="transition-all mt-1 mb-2"
+                  className="transition-all mt-1 mb-2 dark:border-[#3A3A3D] dark:bg-[#18181C]"
                   placeholder="eg. ClassWork for today is:"
                   onChange={(e) => setTitle(e.target.value)}
                 />
                 <h2 className="flex justify-start">Post Description</h2>
                 <Textarea
-                  className="mt-2 transition-all"
+                  className="mt-2 transition-all dark:border-[#3A3A3D] dark:bg-[#18181C]"
                   placeholder="The classwork for today is: Page 64 of your extended math's book"
                   onChange={(e) => setDescription(e.target.value)}
                 />
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
-              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogCancel className="bg-transparent dark:border-[#3A3A3D]">
+                Cancel
+              </AlertDialogCancel>
               <AlertDialogAction onClick={handleOnConfirm}>
                 Create <WandIcon className="w-5 h-5 ml-2" />
               </AlertDialogAction>
@@ -158,9 +167,21 @@ const HomePath = ({ classId }: HomePathProps) => {
         </AlertDialog>
       </div>
       <div>
-        <div className="flex flex-wrap justify-between gap-x-10 mt-5">
+        <div className="flex flex-wrap justify-between gap-x-2 mt-5">
           {isLoading ? (
             <Loading />
+          ) : posts.length === 0 ? (
+            <div className="mx-auto">
+              <div className="flex flex-col items-center justify-center h-full text-center p-4">
+                <FontAwesomeIcon
+                  icon={faExclamationCircle}
+                  className="text-gray-500 text-6xl mb-4"
+                />
+                <h2 className="text-2xl font-semibold text-gray-700 dark:text-white/60">
+                  No Posts Found
+                </h2>
+              </div>
+            </div>
           ) : (
             posts
               .sort(
@@ -169,7 +190,7 @@ const HomePath = ({ classId }: HomePathProps) => {
                   new Date(a.createdAt).getTime()
               )
               .map((post) => (
-                <div className="flex mt-2" key={post.postId}>
+                <div className="flex justify-center mt-2" key={post.postId}>
                   <PostContainer
                     key={post.postId}
                     title={post.title}

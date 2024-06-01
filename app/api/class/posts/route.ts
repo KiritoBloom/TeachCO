@@ -16,7 +16,7 @@ export async function POST(req: Request, res: Response) {
         return new NextResponse("Unauthorized", {status: 401})
     }
 
-    const { title, description, isPinned, classId } = await req.json();
+    const { title, description, isChecked, classId } = await req.json();
 
     if (!title || !description) {
       return new NextResponse("No title or description found", { status: 404 });
@@ -28,7 +28,7 @@ export async function POST(req: Request, res: Response) {
     data: {
         title: title,
         description: description,
-        isPinned: isPinned,
+        isPinned: isChecked,
         postId: newUuid,
         classId: classId,
         posterId: userId,
@@ -105,5 +105,51 @@ export async function DELETE(req: Request, res: Response) {
     catch(error) {
         console.log(error);
         return new NextResponse("Internal Error DELETE", {status: 500})
+    }
+}
+
+export async function PATCH(req: Request, res: Response) {
+    const { userId } = auth();
+     
+    if (!userId) {
+        return new NextResponse("Unauthorized", {status: 401});
+    }
+
+    try {
+        const { posterId, postId, updatedTitle, updatedDesc } = await req.json();
+
+        if (posterId !== userId) {
+            return new NextResponse("Unauthorized", {status: 401});
+        }
+
+        const currentPost = await prismadb.post.findUnique({
+            where: {
+                postId: postId,
+                posterId: posterId
+            }
+        });
+
+        if (!currentPost) {
+            return new NextResponse("Post not found", {status: 404});
+        }
+
+        const newTitle = updatedTitle !== "" ? updatedTitle : currentPost.title;
+        const newDescription = updatedDesc !== "" ? updatedDesc : currentPost.description;
+
+        await prismadb.post.update({
+            where: {
+                postId: postId,
+                posterId: posterId
+            }, 
+            data: {
+                title: newTitle,
+                description: newDescription
+            }
+        });
+
+        return new NextResponse("Post Updated", {status: 200});
+    } catch (error) {
+        console.log(error);
+        return new NextResponse("Internal Error PATCH", {status: 500});
     }
 }
