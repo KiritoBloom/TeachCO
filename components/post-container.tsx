@@ -158,7 +158,7 @@ const PostContainer = ({
                     />
                   </AlertDialogTitle>
                   <AlertDialogDescription>
-                    This will permanently change the edit&upos;s content
+                    This will permanently change the edit&#700;s content
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <Input
