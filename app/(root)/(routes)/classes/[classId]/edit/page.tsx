@@ -70,7 +70,7 @@ export default function Page() {
   if (isLoading || isClassLoading) {
     return (
       <div
-        className={cn("flex justify-center items-center bg-wavy", {
+        className={cn("flex justify-center items-center bg-wavy min-h-screen", {
           "dark-wavy": resolvedTheme === "dark",
         })}
       >
@@ -158,13 +158,17 @@ export default function Page() {
     >
       {classInfo && (
         <>
-          <div className="w-full max-w-4xl bg-gray-100 dark:bg-black/70 backdrop-blur rounded-2xl shadow-lg p-8">
+          <div className="w-full max-w-4xl bg-white/10 dark:bg-black/70 backdrop-blur rounded-2xl shadow-lg p-8">
             <div
               onClick={() => handleOnBack()}
-              className="w-fit flex items-center text-lg justify-start cursor-pointer bg-gray-300 dark:bg-white text-black p-2 mb-10 md:mb-5 rounded-3xl shadow-lg hover:translate-y-1 transition-all"
+              className="mb-5 group cursor-pointer flex items-center gap-2 border-2 rounded-xl w-fit p-3 border-black bg-white dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 transition-all transform hover:-translate-y-1 shadow-md hover:shadow-lg"
             >
-              <ArrowLeftCircleIcon className="w-4 h-4 mr-1" /> Back to Class
+              <ArrowLeftCircleIcon className="w-6 h-6 text-black dark:text-white" />
+              <span className="font-bold tracking-wide text-black dark:text-white group-hover:text-gray-600 dark:group-hover:text-gray-300">
+                Back to Class
+              </span>
             </div>
+
             <div className="w-full max-w-4xl text-center mb-8 flex justify-center">
               <h1 className="text-4xl font-semibold tracking-tight text-gray-900 dark:text-white flex items-center gap-x-2">
                 Edit Your Class
@@ -242,7 +246,7 @@ export default function Page() {
               Delete Class <TrashIcon className="w-5 h-5 ml-2" />
             </Button>
           </AlertDialogTrigger>
-          <AlertDialogContent className="w-[90%] rounded-2xl">
+          <AlertDialogContent className="w-[95%] rounded-2xl dark:bg-[#18181B] dark:border-[#3A3A3D]">
             <AlertDialogHeader>
               <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
               <AlertDialogDescription>
@@ -251,7 +255,7 @@ export default function Page() {
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
-              <AlertDialogCancel className="rounded-2xl transition-all hover:translate-y-[2px]">
+              <AlertDialogCancel className="rounded-2xl transition-all hover:translate-y-[2px] bg-transparent dark:border-[#3A3A3D]">
                 Cancel
               </AlertDialogCancel>
               <AlertDialogAction

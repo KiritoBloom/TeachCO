@@ -96,7 +96,7 @@ export function ComboboxDropdownMenu({ classId }: ComboBoxInterface) {
                 Delete
                 <DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>
               </AlertDialogTrigger>
-              <AlertDialogContent className="dark:border-[#3A3A3D] dark:bg-[#18181C] rounded-lg">
+              <AlertDialogContent className="dark:border-[#3A3A3D] dark:bg-[#18181C] rounded-lg w-[95%]">
                 <AlertDialogHeader>
                   <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
                   <AlertDialogDescription>
@@ -105,7 +105,7 @@ export function ComboboxDropdownMenu({ classId }: ComboBoxInterface) {
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-3 justify-end">
                     <AlertDialogCancel className="mb-2 md:mb-0 w-fit rounded-2xl transition-all hover:translate-y-[3px] bg-transparent dark:border-[#3A3A3D]">
                       Cancel
                     </AlertDialogCancel>

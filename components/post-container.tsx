@@ -148,7 +148,7 @@ const PostContainer = ({
                   <span>Edit</span>
                 </div>
               </AlertDialogTrigger>
-              <AlertDialogContent className="dark:bg-[#18181B] dark:border-[#3A3A3D]">
+              <AlertDialogContent className="dark:bg-[#18181B] dark:border-[#3A3A3D] rounded-lg w-[95%]">
                 <AlertDialogHeader>
                   <AlertDialogTitle className="flex items-center gap-2">
                     Edit your Post{" "}
@@ -171,7 +171,7 @@ const PostContainer = ({
                   className="dark:bg-[#18181B] dark:border-[#3A3A3D]"
                   onChange={(e) => setUpdatedDesc(e.target.value)}
                 />
-                <AlertDialogFooter className="flex flex-row items-center gap-3">
+                <AlertDialogFooter className="flex flex-row items-center gap-3 justify-end">
                   <AlertDialogCancel className="rounded-xl p-5 bg-transparent border-[#3A3A3D] hover:bg-primary/10 mb-2 md:mb-0">
                     Cancel
                   </AlertDialogCancel>
@@ -197,7 +197,7 @@ const PostContainer = ({
                   <FontAwesomeIcon icon={faTrashAlt} className="w-4 h-4" />
                   <span>Delete</span>
                 </AlertDialogTrigger>
-                <AlertDialogContent className="dark:bg-[#18181B] dark:border-[#3A3A3D] rounded-lg">
+                <AlertDialogContent className="dark:bg-[#18181B] dark:border-[#3A3A3D] rounded-lg w-[95%]">
                   <AlertDialogHeader>
                     <AlertDialogTitle>
                       Are you absolutely sure?
@@ -207,7 +207,7 @@ const PostContainer = ({
                       your post.
                     </AlertDialogDescription>
                   </AlertDialogHeader>
-                  <AlertDialogFooter className="flex flex-row items-center gap-3">
+                  <AlertDialogFooter className="flex flex-row items-center gap-3 justify-center">
                     <AlertDialogCancel className="rounded-xl p-5 bg-transparent border-[#3A3A3D] hover:bg-primary/10 mb-2 md:mb-0">
                       Cancel
                     </AlertDialogCancel>
