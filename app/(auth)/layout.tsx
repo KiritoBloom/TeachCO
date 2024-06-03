@@ -10,8 +10,8 @@ const AuthLayout = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <>
-      <header className="sticky top-0 z-50 w-full bg-white shadow-sm dark:bg-gray-900">
-        <div className="container flex h-16 items-center justify-between px-4 md:px-6">
+      <header className="sticky top-0 z-50 w-full bg-white shadow-sm dark:bg-[#18181C]">
+        <div className="container flex h-16 items-center justify-between px-4 md:px-6 dark:border-[#3A3A3D] dark:bg-[#18181C]">
           <Link className="flex items-center gap-2" href="#">
             <Image
               src={resolvedTheme === "dark" ? "/logo-white.png" : "/logo.png"}
@@ -55,7 +55,7 @@ const AuthLayout = ({ children }: { children: React.ReactNode }) => {
         </div>
       </header>
       <main className="flex-1">
-        <section className="w-full py-12 md:py-24 lg:py-32 xl:py-48">
+        <section className="w-full py-12 md:py-24 lg:py-32 xl:py-48 dark:bg-black">
           <div className="container grid items-center gap-6 px-4 md:px-6 lg:grid-cols-2">
             <div className="space-y-4">
               <h1 className="text-5xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none">
@@ -90,7 +90,7 @@ const AuthLayout = ({ children }: { children: React.ReactNode }) => {
           </div>
         </section>
         <section
-          className="w-full py-12 md:py-24 lg:py-32 bg-gray-100 dark:bg-gray-800"
+          className="w-full py-12 md:py-24 lg:py-32 bg-gray-100 dark:bg-[#28282A]"
           id="about"
         >
           <div className="container grid items-center gap-6 px-4 md:px-6 lg:grid-cols-2">
