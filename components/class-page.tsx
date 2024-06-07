@@ -30,8 +30,9 @@ import { cn } from "@/lib/utils";
 import { Tabs, Tab } from "@nextui-org/tabs";
 import themeHook from "@/hooks/theme";
 import HomePath from "./home-path";
+import ClassWork from "./classwork";
 
-const ClassPage = () => {
+const ClassPage = async () => {
   const [isClassLoading, setIsClassLoading] = useState(true);
   const [classInfo, setClassInfo] = useState<any>("");
   const [students, setStudents] = useState([]); // Ensure this starts as an empty array
@@ -236,7 +237,7 @@ const ClassPage = () => {
                 }
               >
                 <div>
-                  <div>ClassWorks</div>
+                  <ClassWork classId={classId} posterId={userId || ""} />
                 </div>
               </Tab>
             </Tabs>
