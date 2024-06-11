@@ -1,5 +1,13 @@
 import { useEffect, useState } from "react";
-import { faHandPointer, faPlus } from "@fortawesome/free-solid-svg-icons";
+import {
+  faEdit,
+  faEllipsis,
+  faFile,
+  faHandPointer,
+  faImage,
+  faPlus,
+  faTrashAlt,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button } from "@nextui-org/button";
 import {
@@ -12,15 +20,14 @@ import {
 } from "@nextui-org/modal";
 import { Input, Textarea } from "@nextui-org/input";
 import { CldUploadButton } from "next-cloudinary";
-import Image from "next/image";
 import axios from "axios";
-import { Card, CardHeader, CardBody, CardFooter } from "@nextui-org/card";
+
 import { DateRangePicker } from "@nextui-org/date-picker";
 import { useToast } from "./ui/use-toast";
-import { Divider } from "@nextui-org/divider";
-import ClassImage from "./class-image";
+
 import Loading from "@/app/(root)/loading";
 
+import ClassworkContainer from "./classwork-container";
 interface ClassworkProps {
   posterId: string;
   classId: string;
@@ -40,6 +47,7 @@ interface ClassWorkItem {
 const ClassWork = ({ posterId, classId }: ClassworkProps) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [title, setTitle] = useState("");
+  const [fileName, setFileName] = useState("");
   const [description, setDescription] = useState("");
   const [imageUrl, setImageUrl] = useState("");
   const [classWork, setClassWork] = useState<ClassWorkItem[]>([]);
@@ -60,14 +68,18 @@ const ClassWork = ({ posterId, classId }: ClassworkProps) => {
 
   const handleUploadSuccess = (result: any) => {
     setImageUrl(result.info.secure_url);
-  };
-
-  const handleDateChange = (range: [Date | null, Date | null]) => {
-    setDueDate(range);
+    setFileName(result.info.public_id + "." + result.info.format);
   };
 
   const handleOnCreate = async () => {
     try {
+      if (!title || !description || !imageUrl || dueDate) {
+        toast({
+          title:
+            "Must Include title description imageUrl and dueDate to create Assignment",
+          variant: "destructive",
+        });
+      }
       const response = await axios.post("/api/class/classwork", {
         title,
         description,
@@ -144,6 +156,7 @@ const ClassWork = ({ posterId, classId }: ClassworkProps) => {
                 <div onClick={(e) => e.stopPropagation()}>
                   <DateRangePicker />
                 </div>
+                {/*Upload File*/}
                 <CldUploadButton
                   onSuccess={handleUploadSuccess}
                   options={{
@@ -152,14 +165,44 @@ const ClassWork = ({ posterId, classId }: ClassworkProps) => {
                   uploadPreset="mqy9rlu4"
                 >
                   <div className="p-4 border-4 border-dashed border-primary/10 rounded-lg hover:opacity-75 transition flex flex-col space-y-2 items-center justify-center">
-                    <div className="flex flex-col items-center w-40 h-40">
-                      <FontAwesomeIcon
-                        icon={faHandPointer}
-                        className="w-full h-[90%]"
-                      />
-
-                      <h2 className="-mr-6 mt-1 font-semibold">Upload File</h2>
-                    </div>
+                    {fileName ? (
+                      <div className="flex flex-col items-center justify-center w-40 h-40">
+                        {fileName.endsWith(".jpg") ||
+                        fileName.endsWith(".jpeg") ||
+                        fileName.endsWith(".png") ? (
+                          <a
+                            href={imageUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex flex-col items-center justify-center"
+                          >
+                            <FontAwesomeIcon
+                              icon={faImage}
+                              className="w-full h-[30%] mb-2"
+                            />
+                            <h2>{fileName}</h2>
+                          </a>
+                        ) : (
+                          <>
+                            <FontAwesomeIcon
+                              icon={faFile}
+                              className="w-full h-[60%] mb-2"
+                            />
+                            <div>{fileName}</div>
+                          </>
+                        )}
+                      </div>
+                    ) : (
+                      <div className="flex flex-col items-center w-40 h-40">
+                        <FontAwesomeIcon
+                          icon={faHandPointer}
+                          className="w-full h-[90%]"
+                        />
+                        <h2 className="-mr-6 mt-1 font-semibold">
+                          Upload File
+                        </h2>
+                      </div>
+                    )}
                   </div>
                 </CldUploadButton>
               </ModalBody>
@@ -167,9 +210,19 @@ const ClassWork = ({ posterId, classId }: ClassworkProps) => {
                 <Button color="danger" variant="light" onPress={onOpenChange}>
                   Close
                 </Button>
-                <Button color="primary" onPress={handleOnCreate}>
-                  Create
-                </Button>
+                {!title || !description || !imageUrl || !dueDate ? (
+                  <Button
+                    color="default"
+                    disabled
+                    className="cursor-not-allowed"
+                  >
+                    Create
+                  </Button>
+                ) : (
+                  <Button color="primary" onPress={handleOnCreate}>
+                    Create
+                  </Button>
+                )}
               </ModalFooter>
             </>
           </ModalContent>
@@ -178,87 +231,20 @@ const ClassWork = ({ posterId, classId }: ClassworkProps) => {
       {isLoading ? (
         <Loading />
       ) : (
-        <div className="flex flex-wrap justify-between mt-5">
-          {classWork.map((item) => {
-            const formattedDate = new Date(item.createdAt).toLocaleString(
-              "en-US",
-              {
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-                hour: "2-digit",
-                minute: "2-digit",
-                second: "2-digit",
-              }
-            );
-
-            return (
-              <Card
-                className="min-w-[320px] max-w-[320px] mb-5"
-                key={item.assignmentId}
-              >
-                <CardHeader className="flex items-center justify-between">
-                  <div className="flex items-center gap-x-3">
-                    <ClassImage
-                      userId={posterId}
-                      width={40}
-                      height={40}
-                      className="mb-0"
-                      skeletonStyle="mb-0 rounded-3xl h-[40px] w-[40px]"
-                    />
-                    <div className="flex flex-col">
-                      <p className="text-md">{item.posterName}</p>
-                    </div>
-                  </div>
-                </CardHeader>
-                <Divider />
-                <CardHeader>{item.title}</CardHeader>
-                <Divider />
-                <CardBody className="gap-y-5">
-                  {item.description}
-                  <Divider />
-                  {item.src ? (
-                    <div>
-                      {item.src.endsWith(".jpg") ||
-                      item.src.endsWith(".jpeg") ||
-                      item.src.endsWith(".png") ? (
-                        <a
-                          href={item.src}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          <Image
-                            src={item.src || "/placeholder.svg"}
-                            alt={item.title}
-                            width="200"
-                            height="200"
-                            className="rounded-lg mx-auto mt-5"
-                          />
-                        </a>
-                      ) : (
-                        <a
-                          href={item.src}
-                          download
-                          className="mt-5"
-                          target="_blank"
-                        >
-                          <Button>
-                            Download{" "}
-                            {item.src?.split(".").pop()?.toUpperCase() ||
-                              "File"}
-                          </Button>
-                        </a>
-                      )}
-                    </div>
-                  ) : (
-                    <div>Hello</div>
-                  )}
-                </CardBody>
-                <Divider />
-                <CardFooter>{formattedDate}</CardFooter>
-              </Card>
-            );
-          })}
+        <div className="flex flex-wrap justify-between mt-5 -ml-2 md:-ml-0">
+          {classWork.map((item) => (
+            <ClassworkContainer
+              assignmentId={item.assignmentId}
+              posterId={posterId}
+              posterName={item.posterName}
+              title={item.title}
+              description={item.description}
+              src={item.src}
+              createdAt={item.createdAt}
+              dueDate={item.dueDate}
+              classId={classId}
+            />
+          ))}
         </div>
       )}
     </>

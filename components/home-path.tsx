@@ -1,33 +1,26 @@
 "use client";
 
-import {
-  CheckCircleIcon,
-  HandThumbUpIcon,
-  PlusCircleIcon,
-  SparklesIcon,
-} from "@heroicons/react/24/outline";
-import { Button } from "./ui/button";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
-import { Input } from "./ui/input";
-import { Textarea } from "./ui/textarea";
+import { CheckCircleIcon, SparklesIcon } from "@heroicons/react/24/outline";
+import { Button } from "@/components/ui/button";
 import { Pin, WandIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useToast } from "./ui/use-toast";
-import PostContainer from "./post-container";
+import { useToast } from "@/components/ui/use-toast";
+import PostContainer from "@/components/post-container";
 import Loading from "@/app/(root)/loading";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faExclamationCircle } from "@fortawesome/free-solid-svg-icons";
+import { faExclamationCircle, faPlus } from "@fortawesome/free-solid-svg-icons";
+import {
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  useDisclosure,
+} from "@nextui-org/modal";
+import { Button as Button2 } from "@nextui-org/button";
+import { Input as Input2 } from "@nextui-org/input";
+import { Textarea as TextArea2 } from "@nextui-org/input";
 
 interface HomePathProps {
   classId: string;
@@ -50,6 +43,7 @@ const HomePath = ({ classId }: HomePathProps) => {
   const [posts, setPosts] = useState<Post[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isChecked, setIsChecked] = useState(false);
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   const handleCheckboxClick = () => {
     setIsChecked((prevChecked) => {
@@ -102,20 +96,20 @@ const HomePath = ({ classId }: HomePathProps) => {
     <>
       <div className="flex justify-between items-center w-full">
         <h2 className="text-xl font-bold">Posts</h2>
-        <AlertDialog>
-          <AlertDialogTrigger>
-            <Button className="p-4 rounded-md bg-white dark:bg-[#18181C] dark:text-white dark:hover:bg-primary/10 text-black font-semibold w-fit hover:bg-gray-200 transition-all">
-              Add Post <PlusCircleIcon className="w-5 h-5 ml-1" />
-            </Button>
-          </AlertDialogTrigger>
-          <AlertDialogContent className="dark:bg-[#18181B] dark:border-[#3A3A3D] rounded-lg">
-            <AlertDialogHeader>
-              <div className="flex justify-between items-center">
-                <AlertDialogTitle className="flex items-center">
-                  Create New Post <SparklesIcon className="w-5 h-5 ml-2" />
-                </AlertDialogTitle>
-                <div className="flex items-center justify-between p-6  rounded-xl">
-                  <Button className="flex items-center bg-transparent border-2 border-indigo-600 text-indigo-400 py-3 px-5 rounded-full shadow-md  transition-all focus:outline-none focus:ring-4 focus:ring-indigo-400 hover:bg-primary/10">
+        {/*New Add Post*/}
+        <Button2 onPress={onOpen}>
+          New Post <FontAwesomeIcon icon={faPlus} />
+        </Button2>
+        <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+          <ModalContent>
+            {(onClose) => (
+              <>
+                <ModalHeader className="flex items-center justify-between mt-5">
+                  <div className="flex items-center gap-2">
+                    <span>Create New Post</span>
+                    <SparklesIcon className="w-5 h-5" />
+                  </div>
+                  <Button className="flex items-center bg-transparent border-2 border-indigo-600 text-indigo-400 py-2 px-4 rounded-full shadow-md transition-all focus:outline-none focus:ring-4 focus:ring-indigo-400 hover:bg-primary/10">
                     <Pin className="w-5 h-5 mr-2" />
                     Pin Post
                     <div className="flex items-center ml-2">
@@ -138,33 +132,35 @@ const HomePath = ({ classId }: HomePathProps) => {
                       </label>
                     </div>
                   </Button>
-                </div>
-              </div>
-              <AlertDialogDescription>
-                <h2 className="flex justify-start">Post title</h2>
-                <Input
-                  className="transition-all mt-1 mb-2 dark:border-[#3A3A3D] dark:bg-[#18181C]"
-                  placeholder="eg. ClassWork for today is:"
-                  onChange={(e) => setTitle(e.target.value)}
-                />
-                <h2 className="flex justify-start">Post Description</h2>
-                <Textarea
-                  className="mt-2 transition-all dark:border-[#3A3A3D] dark:bg-[#18181C]"
-                  placeholder="The classwork for today is: Page 64 of your extended math's book"
-                  onChange={(e) => setDescription(e.target.value)}
-                />
-              </AlertDialogDescription>
-            </AlertDialogHeader>
-            <AlertDialogFooter>
-              <AlertDialogCancel className="bg-transparent dark:border-[#3A3A3D]">
-                Cancel
-              </AlertDialogCancel>
-              <AlertDialogAction onClick={handleOnConfirm}>
-                Create <WandIcon className="w-5 h-5 ml-2" />
-              </AlertDialogAction>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialog>
+                </ModalHeader>
+                <ModalBody>
+                  <Input2
+                    label="Post Title"
+                    placeholder="Today's class is cancelled"
+                    onChange={(e) => setTitle(e.target.value)}
+                  />
+                  <TextArea2
+                    label="Post Description"
+                    placeholder="Class Today's class is cancelled due to the personal issues"
+                    onChange={(e) => setDescription(e.target.value)}
+                  />
+                </ModalBody>
+                <ModalFooter className="flex items-center justify-end gap-2">
+                  <Button2 color="danger" variant="light" onPress={onClose}>
+                    Close
+                  </Button2>
+                  <Button2
+                    color="primary"
+                    onPress={onClose}
+                    onClick={handleOnConfirm}
+                  >
+                    Create <WandIcon className="w-5 h-5 ml-2" />
+                  </Button2>
+                </ModalFooter>
+              </>
+            )}
+          </ModalContent>
+        </Modal>
       </div>
       <div>
         <div className="flex flex-wrap justify-between gap-x-2 mt-5">

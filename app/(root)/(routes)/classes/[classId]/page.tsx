@@ -1,3 +1,5 @@
+"use client";
+
 import ClassPage from "@/components/class-page";
 
 export default function Page() {

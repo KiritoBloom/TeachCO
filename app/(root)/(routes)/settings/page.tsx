@@ -74,25 +74,26 @@ export default function Page() {
 
   const handleOnSubmit = async () => {
     try {
-      if (inputValue && updatedRole) {
+      if (inputValue || updatedRole) {
         await axios.patch("/api/profile", {
           inputValue,
           updatedRole,
         });
-        await toast({
+        localStorage.setItem("userRole", JSON.stringify(updatedRole));
+        toast({
           title: "Profile has been edited ✔️",
           variant: "success",
         });
         router.refresh();
       } else {
-        await toast({
+        toast({
           title: "Input a new Name and assign a new Role to proceed",
           variant: "destructive",
         });
       }
     } catch (error) {
       console.error(error, "Something went wrong");
-      await toast({
+      toast({
         title: "Something went wrong ❌",
         description: "Please try again",
         variant: "destructive",
@@ -106,7 +107,7 @@ export default function Page() {
       router.push("/");
     } catch (error) {
       console.log(error, "Something went wrong ❌");
-      await toast({
+      toast({
         title: "Something went wrong ❌",
         description: "Please try again",
         variant: "destructive",
