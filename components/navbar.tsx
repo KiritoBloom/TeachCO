@@ -50,7 +50,7 @@ const Navbar = () => {
   // Render nothing until the theme is resolved
 
   return (
-    <div className="w-full h-15 bg-primary/10 p-2 flex justify-between rounded-bl-lg rounded-br-lg border-2">
+    <div className="w-full h-15 dark:bg-[#18181B] dark:border-[#3A3A3D] p-2 flex justify-between rounded-bl-lg rounded-br-lg border-2">
       <h1 className="font-bold text-xl flex justify-center items-center gap-x-1">
         <Image
           src={resolvedTheme === "dark" ? "/logo-white.png" : "/logo.png"}

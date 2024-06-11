@@ -44,7 +44,7 @@ const MobileNavbar = () => {
   };
 
   return (
-    <div className="w-full h-15 bg-primary/10 p-2 flex justify-between rounded-bl-lg rounded-br-lg border-2">
+    <div className="w-full h-15 bg-primary/10 p-2 flex justify-between rounded-bl-lg rounded-br-lg border-2 dark:bg-[#18181B]">
       <h1 className="font-bold text-xl flex justify-center items-center gap-x-1">
         <Image src="/logo.png" width={25} height={30} alt="logo" />
         TeachCO
@@ -54,7 +54,7 @@ const MobileNavbar = () => {
           <DrawerTrigger>
             <Menu />
           </DrawerTrigger>
-          <DrawerContent>
+          <DrawerContent className="dark:bg-[#18181B]">
             <DrawerHeader>
               <DrawerDescription>
                 <div className="text-lg flex-col justify-center items-center">

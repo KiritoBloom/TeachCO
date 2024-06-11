@@ -126,13 +126,14 @@ body::-webkit-scrollbar-thumb {
   height: 100%;
 }
 .dark-wavy {
-  background-color: #121212;
+  background-color: #18181b; /* Dark background */
+
   opacity: 1;
-  background: linear-gradient(135deg, #1b202e 25%, transparent 25%) -40px 0/
+  background: linear-gradient(135deg, #23252a 25%, transparent 25%) -40px 0/
       80px 80px,
-    linear-gradient(225deg, #2f3442 25%, transparent 25%) -40px 0/ 80px 80px,
-    linear-gradient(315deg, #1b202e 25%, transparent 25%) 0px 0/ 80px 80px,
-    linear-gradient(45deg, #2f3442 25%, #121212 25%) 0px 0/ 80px 80px;
+    linear-gradient(225deg, #3d414b 25%, transparent 25%) -40px 0/ 80px 80px,
+    linear-gradient(315deg, #23252a 25%, transparent 25%) 0px 0/ 80px 80px,
+    linear-gradient(45deg, #3d414b 25%, #18181b 25%) 0px 0/ 80px 80px; /* Adjusted colors for better fit */
   height: 100%;
 }
 
