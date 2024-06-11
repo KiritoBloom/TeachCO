@@ -234,6 +234,7 @@ const ClassWork = ({ posterId, classId }: ClassworkProps) => {
         <div className="flex flex-wrap justify-between mt-5 -ml-2 md:-ml-0">
           {classWork.map((item) => (
             <ClassworkContainer
+              key={item.assignmentId}
               assignmentId={item.assignmentId}
               posterId={posterId}
               posterName={item.posterName}
