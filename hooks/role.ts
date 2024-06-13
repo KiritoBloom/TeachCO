@@ -26,6 +26,12 @@ const useUserRole = () => {
       }
     };
 
+    const handleBeforeUnload = () => {
+      localStorage.removeItem("userRole"); // Remove role from local storage on page unload
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
     if (userId) {
       const storedRole = localStorage.getItem("userRole");
       if (storedRole) {
@@ -35,6 +41,10 @@ const useUserRole = () => {
         getUserRole(); // Fetch role from API if not found in local storage
       }
     }
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
   }, [userId]);
 
   return { role, isLoading };

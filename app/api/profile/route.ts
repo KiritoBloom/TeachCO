@@ -53,6 +53,7 @@ interface ClassItem {
     classId: string;
 }
 
+
 export async function DELETE(req: Request, res: Response) {
     const { userId } = auth();
 
@@ -61,12 +62,6 @@ export async function DELETE(req: Request, res: Response) {
     }
 
     try {
-        await prismadb.user.delete({
-            where: {
-                userId: userId
-            }
-        });
-
         const teacherClasses: ClassItem[] = await prismadb.class.findMany({
             where: {
                 teacherId: userId
@@ -76,31 +71,17 @@ export async function DELETE(req: Request, res: Response) {
             }
         });
 
-        if (teacherClasses.length === 0) {
-            return new NextResponse("No classes found for the teacher", { status: 404 });
-        }
-
         const classIds = teacherClasses.map(classItem => classItem.classId);
 
-        await prismadb.class.deleteMany({
-            where: {
-                classId: {
-                    in: classIds
-                }
-            }
-        });
+        console.log(classIds);
 
-        await prismadb.student.deleteMany({
-            where: {
-                classId: {
-                    in: classIds
-                }
-            }
-        });
+        if (classIds.length === 0) {
+            return new NextResponse("No Class ids found", { status: 404 });
+        }
 
-        return new NextResponse(`Success ${classIds}`, { status: 200 });
+        return new NextResponse(`Success. Class IDs: ${classIds.join(', ')}`, { status: 200 });
     } catch (error) {
-        console.error("Internal Error DELETE:", error);
-        return new NextResponse(`Internal Error DELETE`, { status: 500 });
+        console.error("Internal Error Profile DELETE:", error);
+        return new NextResponse("Internal Error Profile DELETE", { status: 500 });
     }
 }

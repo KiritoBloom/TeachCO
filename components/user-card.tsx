@@ -1,3 +1,4 @@
+import React, { useEffect, useRef } from "react";
 import ClassImage from "./class-image";
 import { Card } from "./ui/card";
 import QRCode from "qrcode.react";
@@ -7,6 +8,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { toPng } from "html-to-image";
 
 interface UserCardInterface {
   userId: string;
@@ -21,8 +23,31 @@ const UserCard = ({
   userRole,
   userEmail,
 }: UserCardInterface) => {
+  const cardRef = useRef<HTMLDivElement>(null);
+
+  const handleQRCodeClick = async () => {
+    if (cardRef.current === null) {
+      return;
+    }
+
+    try {
+      const dataUrl = await toPng(cardRef.current);
+      const link = document.createElement("a");
+      link.href = dataUrl;
+      link.download = `${userName}-card.png`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (err) {
+      console.error("Failed to generate image", err);
+    }
+  };
+
   return (
-    <Card className="p-8 mb-10 shadow-2xl border border-gray-300 dark:border-white/20 rounded-3xl bg-white/10 dark:bg-black/60 backdrop-blur-sm">
+    <Card
+      ref={cardRef}
+      className="p-8 mb-10 shadow-2xl border border-gray-300 dark:border-white/20 rounded-3xl bg-white/10 dark:bg-black/60 backdrop-blur-sm"
+    >
       <div className="flex flex-col md:flex-row items-center justify-center space-y-4 md:space-y-0 md:space-x-8">
         <div className="flex flex-col">
           <ClassImage

@@ -26,6 +26,10 @@ export async function GET(req: Request, res: Response) {
      if (JSON.stringify(res) === "null") {
       return new NextResponse("Role Not Found", {status: 500})
      }
+
+     if (!res) {
+      return new NextResponse("Role Not found", {status: 404})
+     }
  
      return new NextResponse(`Success ${JSON.stringify(res)}`, { status: 200 });
    } catch (error) {

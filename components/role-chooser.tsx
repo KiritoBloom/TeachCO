@@ -125,7 +125,10 @@ const RoleChooser = () => {
                 Continue
               </AlertDialogAction>
             ) : (
-              <AlertDialogAction className="cursor-not-allowed opacity-50 p-3">
+              <AlertDialogAction
+                className="cursor-not-allowed opacity-50 p-3"
+                disabled
+              >
                 Continue
               </AlertDialogAction>
             )}
