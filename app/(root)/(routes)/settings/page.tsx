@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
-import { useAuth, useUser } from "@clerk/nextjs";
+import { SignOutButton, useAuth, useUser } from "@clerk/nextjs";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
@@ -104,7 +104,8 @@ export default function Page() {
   const handleOnDelete = async () => {
     try {
       await axios.delete("/api/profile");
-      router.push("/");
+      router.push("/sign-up/[[...sign-in]]");
+      localStorage.removeItem("userRole");
     } catch (error) {
       console.log(error, "Something went wrong ❌");
       toast({
@@ -312,6 +313,7 @@ export default function Page() {
                   <AlertDialogCancel className="bg-transparent dark:border-[#3A3A3D] rounded-2xl">
                     Cancel
                   </AlertDialogCancel>
+
                   <AlertDialogAction
                     onClick={handleOnDelete}
                     className="w-full md:w-fit hover:translate-y-[2px] z-100 bg-gray-200 hover:bg-gray-200 rounded-2xl flex items-center gap-x-2 text-black transition-all duration-100"

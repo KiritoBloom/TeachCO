@@ -1,15 +1,15 @@
+import type { Config } from "tailwindcss";
 import {nextui} from '@nextui-org/theme';
-import type { Config } from "tailwindcss"
 
 const config = {
   darkMode: ["class"],
   content: [
-    "./pages/**/*.{ts,tsx}",
-    "./components/**/*.{ts,tsx}",
-    "./app/**/*.{ts,tsx}",
-    "./src/**/*.{ts,tsx}",
+    './pages/**/*.{ts,tsx}',
+    './components/**/*.{ts,tsx}',
+    './app/**/*.{ts,tsx}',
+    './src/**/*.{ts,tsx}',
     "./node_modules/@nextui-org/theme/dist/components/(button|card|date-picker|divider|dropdown|image|input|link|modal|spinner|tabs|ripple|calendar|date-input|popover|menu).js"
-  ],
+	],
   prefix: "",
   theme: {
     container: {
@@ -74,11 +74,10 @@ const config = {
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
-      }
+      },
     },
   },
-  plugins: [nextui()],
-
+  plugins: [require("tailwindcss-animate"), nextui()],
 } satisfies Config
 
 export default config

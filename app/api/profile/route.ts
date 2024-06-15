@@ -62,26 +62,62 @@ export async function DELETE(req: Request, res: Response) {
     }
 
     try {
-        const teacherClasses: ClassItem[] = await prismadb.class.findMany({
-            where: {
-                teacherId: userId
-            },
-            select: {
-                classId: true
-            }
-        });
+      const { userId } = auth();
 
-        const classIds = teacherClasses.map(classItem => classItem.classId);
+      if (!userId) {
+          return new NextResponse("Unauthorized", { status: 401 });
+      }
 
-        console.log(classIds);
+      const teacherClasses: ClassItem[] = await prismadb.class.findMany({
+          where: {
+              teacherId: userId
+          },
+          select: {
+              classId: true
+          }
+      });
 
-        if (classIds.length === 0) {
-            return new NextResponse("No Class ids found", { status: 404 });
-        }
+      const classIds = teacherClasses.map(classItem => classItem.classId);
 
-        return new NextResponse(`Success. Class IDs: ${classIds.join(', ')}`, { status: 200 });
-    } catch (error) {
-        console.error("Internal Error Profile DELETE:", error);
-        return new NextResponse("Internal Error Profile DELETE", { status: 500 });
-    }
+      await Promise.all([
+          prismadb.assignment.deleteMany({
+              where: {
+                  classId: {
+                      in: classIds
+                  }
+              }
+          }),
+          prismadb.post.deleteMany({
+              where: {
+                  classId: {
+                      in: classIds
+                  }
+              }
+          }),
+          prismadb.class.deleteMany({
+              where: {
+                  classId: {
+                      in: classIds
+                  }
+              }
+          }),
+          prismadb.student.deleteMany({
+              where: {
+                  classId: {
+                      in: classIds
+                  }
+              }
+          }),
+          prismadb.user.delete({
+              where: {
+                  userId: userId
+              }
+          })
+      ]);
+
+      return new NextResponse(`Success ${classIds}`, { status: 200 });
+  } catch (error) {
+      console.error("Internal Error DELETE:", error);
+      return new NextResponse(`Internal Error DELETE`, { status: 500 });
+  }
 }

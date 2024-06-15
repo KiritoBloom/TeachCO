@@ -46,7 +46,7 @@
     "axios": "^1.6.7",
     "class-variance-authority": "^0.7.0",
     "cloudinary": "^2.2.0",
-    "clsx": "^2.1.0",
+    "clsx": "^2.1.1",
     "cmdk": "^1.0.0",
     "date-fns": "^3.6.0",
     "embla-carousel-react": "^8.0.2",
@@ -64,7 +64,7 @@
     "react-icons": "^5.1.0",
     "react-intersection-observer": "^9.10.2",
     "react-spinners": "^0.13.8",
-    "tailwind-merge": "^2.2.1",
+    "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7",
     "uuid": "^9.0.1",
     "vaul": "^0.9.0"
