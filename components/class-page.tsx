@@ -29,6 +29,8 @@ import { Tabs, Tab } from "@nextui-org/tabs";
 import themeHook from "@/hooks/theme";
 import HomePath from "./home-path";
 import ClassWork from "./classwork";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faExclamationCircle } from "@fortawesome/free-solid-svg-icons";
 
 const ClassPage = () => {
   const [isClassLoading, setIsClassLoading] = useState(true);
@@ -223,7 +225,17 @@ const ClassPage = () => {
                         />
                       ))
                     ) : (
-                      <p className="text-gray-600 mt-2">No students found</p>
+                      <div className="mx-auto">
+                        <div className="flex flex-col items-center justify-center h-full text-center p-4">
+                          <FontAwesomeIcon
+                            icon={faExclamationCircle}
+                            className="text-gray-500 text-6xl mb-4"
+                          />
+                          <h2 className="text-2xl font-semibold text-gray-700 dark:text-white/60">
+                            No Students Found
+                          </h2>
+                        </div>
+                      </div>
                     )}
                   </div>
                 </div>

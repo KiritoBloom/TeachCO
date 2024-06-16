@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import {
   faEdit,
   faEllipsis,
+  faExclamationCircle,
   faFile,
   faHandPointer,
   faImage,
@@ -238,20 +239,34 @@ const ClassWork = ({ posterId, classId }: ClassworkProps) => {
         <Loading />
       ) : (
         <div className="flex flex-wrap justify-between mt-5">
-          {classWork.map((item) => (
-            <ClassworkContainer
-              key={item.assignmentId}
-              assignmentId={item.assignmentId}
-              posterId={item.posterId}
-              posterName={item.posterName}
-              title={item.title}
-              description={item.description}
-              src={item.src}
-              createdAt={item.createdAt}
-              dueDate={item.dueDate}
-              classId={classId}
-            />
-          ))}
+          {classWork.length > 0 ? (
+            classWork.map((item) => (
+              <ClassworkContainer
+                key={item.assignmentId}
+                assignmentId={item.assignmentId}
+                posterId={item.posterId}
+                posterName={item.posterName}
+                title={item.title}
+                description={item.description}
+                src={item.src}
+                createdAt={item.createdAt}
+                dueDate={item.dueDate}
+                classId={classId}
+              />
+            ))
+          ) : (
+            <div className="mx-auto">
+              <div className="flex flex-col items-center justify-center h-full text-center p-4">
+                <FontAwesomeIcon
+                  icon={faExclamationCircle}
+                  className="text-gray-500 text-6xl mb-4"
+                />
+                <h2 className="text-2xl font-semibold text-gray-700 dark:text-white/60">
+                  No Assignments Found
+                </h2>
+              </div>
+            </div>
+          )}
         </div>
       )}
     </>
