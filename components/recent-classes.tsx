@@ -17,6 +17,7 @@ import { Card } from "@/components/ui/card";
 import { Loader } from "@/components/loader";
 import { Button } from "@/components/ui/button";
 import ClassImage from "@/components/class-image";
+import { useAuth } from "@clerk/nextjs";
 
 interface ClassData {
   classId: string;
@@ -27,14 +28,25 @@ interface ClassData {
 }
 
 const RecentClasses = () => {
+  const { userId } = useAuth();
   const [classes, setClasses] = useState<ClassData[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
+  const role = localStorage.getItem("userRole");
+  const cleanedRole = role
+    ?.replace("Success", "")
+    .replace(/"role":/g, "")
+    .replace(/[{}"]/g, "")
+    .trim();
+
+  if (!userId) {
+    return null;
+  }
 
   useEffect(() => {
     const getClasses = async () => {
       try {
-        const res = await axios.get("/api/class/recent");
+        const res = await axios.get(`/api/class/recent?role=${cleanedRole}`);
         const response = res.data;
         setClasses(response);
         setIsLoading(false);
@@ -67,9 +79,57 @@ const RecentClasses = () => {
         ) : (
           <div className="flex justify-center flex-col">
             <div className="mx-auto">
-              <h1 className="font-semibold text-3xl">Recent Classes</h1>
+              {cleanedRole === "Teacher" ? (
+                <h1 className="font-semibold text-3xl">Created Classes</h1>
+              ) : (
+                <h1 className="font-semibold text-3xl">Recent Classes</h1>
+              )}
             </div>
-            {validClasses.length > 0 ? (
+            {cleanedRole === "Teacher" ? (
+              <div className="my-4 w-full">
+                <Carousel className="md:relative w-full h-full">
+                  <CarouselContent className="flex mx-auto md:mx-0 md:justify-center h-full">
+                    {validClasses.map((classItem) => (
+                      <CarouselItem
+                        key={classItem.classId}
+                        className="flex flex-col items-center w-full h-full p-6 md:basis-1/2 lg:basis-1/4"
+                      >
+                        <div className="transition-all hover:shadow-lg p-10 rounded-xl glass dark:bg-white/10 shadow-lg border-[2px] border-black flex flex-col items-center">
+                          {/* Class Icon or Image */}
+                          <ClassImage userId={userId} />
+
+                          {/* Class Information */}
+                          <h2 className="text-2xl font-bold text-gray-900 dark:text-white/90">
+                            {classItem.className}
+                          </h2>
+                          <p className="text-md text-gray-600 mt-2 dark:text-white/50">
+                            Class ID: {classItem.classId}
+                          </p>
+                          <p className="text-md text-gray-600 dark:text-white/50">
+                            Class Subject: {classItem.classSubject}
+                          </p>
+
+                          {/* Additional Information (e.g., teacher name, schedule, etc.) */}
+                          <p className="text-sm text-gray-500 mt-2 dark:text-white/50">
+                            Taught by: {classItem.teacherName}
+                          </p>
+
+                          {/* Call-to-Action */}
+                          <button
+                            onClick={() => handleOnClick(classItem.classId)}
+                            className="mt-10 bg-primary text-white dark:text-black py-2 px-4 rounded-full transition hover:bg-primary-dark hover:translate-y-[2px]"
+                          >
+                            View Class
+                          </button>
+                        </div>
+                      </CarouselItem>
+                    ))}
+                  </CarouselContent>
+                  <CarouselPrevious className="absolute left-0 top-1/2 transform -translate-y-1/2 z-10 md:hidden bg-gray-200 dark:text-black dark:hover:bg-white/50 p-2 rounded-full" />
+                  <CarouselNext className="absolute right-0 top-1/2 transform -translate-y-1/2 z-10 md:hidden bg-gray-200 dark:text-black dark:hover:bg-white/50 p-2 rounded-full" />
+                </Carousel>
+              </div>
+            ) : validClasses.length > 0 ? (
               <div className="my-4 w-full">
                 <Carousel className="md:relative w-full h-full">
                   <CarouselContent className="flex mx-auto md:mx-0 md:justify-center h-full">
@@ -131,7 +191,6 @@ const RecentClasses = () => {
                 </div>
               </div>
             )}
-
             <div className="flex justify-center mt-5">
               <Button
                 onClick={handleOnRedirect}

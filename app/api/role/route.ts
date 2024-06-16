@@ -31,7 +31,7 @@ export async function GET(req: Request, res: Response) {
       return new NextResponse("Role Not found", {status: 404})
      }
  
-     return new NextResponse(`Success ${JSON.stringify(res)}`, { status: 200 });
+     return new NextResponse(res.role, { status: 200 });
    } catch (error) {
      console.error("Error fetching user role:", error);
      return new NextResponse("Internal Error GET", { status: 500 });
