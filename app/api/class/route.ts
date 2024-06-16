@@ -45,7 +45,7 @@ export async function POST(req: Request, res: Response) {
 }
 
 export async function GET(req: Request, res: Response) {
-    const {userId} = await auth();
+    const {userId} = auth();
 
     if (!userId) {
         return new NextResponse("Unauthorized", {status: 401});

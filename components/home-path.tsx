@@ -24,6 +24,7 @@ import { Textarea as TextArea2 } from "@nextui-org/input";
 
 interface HomePathProps {
   classId: string;
+  teacherId: string;
 }
 
 interface Post {
@@ -36,7 +37,7 @@ interface Post {
   posterName: string;
 }
 
-const HomePath = ({ classId }: HomePathProps) => {
+const HomePath = ({ classId, teacherId }: HomePathProps) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const { toast } = useToast();
@@ -196,6 +197,7 @@ const HomePath = ({ classId }: HomePathProps) => {
                     createdAt={post.createdAt}
                     posterId={post.posterId}
                     posterName={post.posterName}
+                    teacherId={teacherId}
                   />
                 </div>
               ))

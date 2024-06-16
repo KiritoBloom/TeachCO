@@ -37,6 +37,7 @@ import {
   useDisclosure,
 } from "@nextui-org/modal";
 import { Trash } from "lucide-react";
+import useUserRole from "@/hooks/role";
 
 interface ClassContainerProps {
   assignmentId: string;
@@ -62,6 +63,7 @@ const ClassworkContainer = ({
   classId,
 }: ClassContainerProps) => {
   const { toast } = useToast();
+  const { role } = useUserRole();
   const [updatedDesc, setUpdatedDesc] = useState("");
   const [updateTitle, setUpdatedTitle] = useState("");
   const [updateSrc, setUpdatedSrc] = useState("");
@@ -139,7 +141,10 @@ const ClassworkContainer = ({
   });
 
   return (
-    <Card className="min-w-[300px] max-w-[300px] mb-5" key={assignmentId}>
+    <Card
+      className="w-full min-w-[100px] max-w-[300px] md:min-w-[300px] md:max-w-[300px] mb-5"
+      key={assignmentId}
+    >
       <CardHeader className="flex items-center justify-between">
         <div className="flex items-center gap-x-3">
           <ClassImage
@@ -154,142 +159,155 @@ const ClassworkContainer = ({
           </div>
         </div>
         {/* Edit Assignment */}
-        <Button2
-          onClick={onOpen}
-          className="bg-transparent hover:bg-primary/10 flex flex-col w-10"
-          size="icon"
-        >
-          <FontAwesomeIcon icon={faEdit} className="w-4 h-4 text-blue-600" />
-        </Button2>
-        <Modal isOpen={isOpen}>
-          <ModalContent>
-            <>
-              <ModalHeader className="flex flex-col gap-1">
-                <div className="flex items-center gap-1">
-                  Edit your Post{" "}
-                  <FontAwesomeIcon
-                    icon={faEdit}
-                    className="w-4 h-4 text-white"
-                  />
-                </div>
-                <p className="text-primary/50 text-sm">
-                  {" "}
-                  This will permanently change the edit&#700;s content
-                </p>
-              </ModalHeader>
-              <ModalBody>
-                <Input
-                  placeholder={title}
-                  label="Assignment Title"
-                  className="dark:bg-[#18181B] dark:border-[#3A3A3D]"
-                  onChange={(e) => setUpdatedTitle(e.target.value)}
-                />
-                <Textarea
-                  placeholder={description}
-                  label="Assignment Description"
-                  className="dark:bg-[#18181B] dark:border-[#3A3A3D]"
-                  onChange={(e) => setUpdatedDesc(e.target.value)}
-                />
-                <CldUploadButton
-                  onSuccess={updateUpload}
-                  options={{
-                    maxFiles: 1,
-                  }}
-                  uploadPreset="mqy9rlu4"
-                  className="z-[1050]" // Ensure the button has a high z-index
-                  onClick={(e: any) => e.stopPropagation()} // Stop event propagation
-                >
-                  <div className="p-4 border-4 border-dashed border-primary/10 rounded-lg hover:opacity-75 transition flex flex-col space-y-2 items-center justify-center">
-                    {fileName ? (
-                      <div className="flex flex-col items-center justify-center w-40 h-40">
-                        {fileName.endsWith(".jpg") ||
-                        fileName.endsWith(".jpeg") ||
-                        fileName.endsWith(".png") ? (
-                          <a
-                            href={src}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex flex-col items-center justify-center"
-                          >
-                            <FontAwesomeIcon
-                              icon={faImage}
-                              className="w-full h-[30%] mb-2"
-                            />
-                            <h2>{fileName}</h2>
-                          </a>
-                        ) : (
-                          <>
-                            <FontAwesomeIcon
-                              icon={faFile}
-                              className="w-full h-[60%] mb-2"
-                            />
-                            <div>{fileName}</div>
-                          </>
-                        )}
-                      </div>
-                    ) : (
-                      <div className="flex flex-col items-center w-40 h-40">
-                        <FontAwesomeIcon
-                          icon={faHandPointer}
-                          className="w-full h-[90%]"
-                        />
-                        <h2 className="-mr-6 mt-1 font-semibold">
-                          Upload File
-                        </h2>
-                      </div>
-                    )}
-                  </div>
-                </CldUploadButton>
-              </ModalBody>
-              <ModalFooter>
-                <Button color="danger" variant="light" onPress={onOpenChange}>
-                  Close
-                </Button>
-                <Button
-                  color="primary"
-                  onClick={() => handleOnEdit(assignmentId)}
-                >
-                  Edit
-                </Button>
-              </ModalFooter>
-            </>
-          </ModalContent>
-        </Modal>
-
-        {/*Delete Assignment */}
-        <AlertDialog>
-          <AlertDialogTrigger>
+        {role === "Teacher" ? (
+          <>
             <Button2
-              className="bg-transparent hover:bg-primary/10 flex flex-col w-10 -ml-10"
+              onClick={onOpen}
+              className="bg-transparent hover:bg-primary/10 flex flex-col w-10"
               size="icon"
             >
               <FontAwesomeIcon
-                icon={faTrashAlt}
-                className="w-4 h-4 text-red-600"
+                icon={faEdit}
+                className="w-4 h-4 text-blue-600"
               />
             </Button2>
-          </AlertDialogTrigger>
-          <AlertDialogContent className="dark:bg-[#18181B] dark:border-[#3A3A3D]">
-            <AlertDialogHeader>
-              <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-              <AlertDialogDescription>
-                This action cannot be undone. This will permanently delete your
-                Assignment and all relevant data.
-              </AlertDialogDescription>
-            </AlertDialogHeader>
-            <AlertDialogFooter>
-              <AlertDialogCancel className="bg-transparent dark:border-[#3A3A3D] rounded-2xl hover:translate-y-[2px] transition-all trasn">
-                Cancel
-              </AlertDialogCancel>
-              <AlertDialogAction
-                onClick={() => hanldeOnDelete()}
-                className="w-full md:w-fit hover:translate-y-[2px] z-100 bg-gray-200 hover:bg-gray-200 rounded-2xl flex items-center gap-x-2 text-black transition-all duration-100"
-              >
-                Delete Class <Trash className="w-4 h-4" />
-              </AlertDialogAction>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialog>
+            <Modal isOpen={isOpen}>
+              <ModalContent>
+                <>
+                  <ModalHeader className="flex flex-col gap-1">
+                    <div className="flex items-center gap-1">
+                      Edit your Post{" "}
+                      <FontAwesomeIcon
+                        icon={faEdit}
+                        className="w-4 h-4 text-white"
+                      />
+                    </div>
+                    <p className="text-primary/50 text-sm">
+                      {" "}
+                      This will permanently change the edit&#700;s content
+                    </p>
+                  </ModalHeader>
+                  <ModalBody>
+                    <Input
+                      placeholder={title}
+                      label="Assignment Title"
+                      className="dark:bg-[#18181B] dark:border-[#3A3A3D]"
+                      onChange={(e) => setUpdatedTitle(e.target.value)}
+                    />
+                    <Textarea
+                      placeholder={description}
+                      label="Assignment Description"
+                      className="dark:bg-[#18181B] dark:border-[#3A3A3D]"
+                      onChange={(e) => setUpdatedDesc(e.target.value)}
+                    />
+                    <CldUploadButton
+                      onSuccess={updateUpload}
+                      options={{
+                        maxFiles: 1,
+                      }}
+                      uploadPreset="mqy9rlu4"
+                      className="z-[1050]" // Ensure the button has a high z-index
+                      onClick={(e: any) => e.stopPropagation()} // Stop event propagation
+                    >
+                      <div className="p-4 border-4 border-dashed border-primary/10 rounded-lg hover:opacity-75 transition flex flex-col space-y-2 items-center justify-center">
+                        {fileName ? (
+                          <div className="flex flex-col items-center justify-center w-40 h-40">
+                            {fileName.endsWith(".jpg") ||
+                            fileName.endsWith(".jpeg") ||
+                            fileName.endsWith(".png") ? (
+                              <a
+                                href={src}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="flex flex-col items-center justify-center"
+                              >
+                                <FontAwesomeIcon
+                                  icon={faImage}
+                                  className="w-full h-[30%] mb-2"
+                                />
+                                <h2>{fileName}</h2>
+                              </a>
+                            ) : (
+                              <>
+                                <FontAwesomeIcon
+                                  icon={faFile}
+                                  className="w-full h-[60%] mb-2"
+                                />
+                                <div>{fileName}</div>
+                              </>
+                            )}
+                          </div>
+                        ) : (
+                          <div className="flex flex-col items-center w-40 h-40">
+                            <FontAwesomeIcon
+                              icon={faHandPointer}
+                              className="w-full h-[90%]"
+                            />
+                            <h2 className="-mr-6 mt-1 font-semibold">
+                              Upload File
+                            </h2>
+                          </div>
+                        )}
+                      </div>
+                    </CldUploadButton>
+                  </ModalBody>
+                  <ModalFooter>
+                    <Button
+                      color="danger"
+                      variant="light"
+                      onPress={onOpenChange}
+                    >
+                      Close
+                    </Button>
+                    <Button
+                      color="primary"
+                      onClick={() => handleOnEdit(assignmentId)}
+                    >
+                      Edit
+                    </Button>
+                  </ModalFooter>
+                </>
+              </ModalContent>
+            </Modal>
+
+            {/*Delete Assignment */}
+            <AlertDialog>
+              <AlertDialogTrigger>
+                <Button2
+                  className="bg-transparent hover:bg-primary/10 flex flex-col w-10 -ml-10"
+                  size="icon"
+                >
+                  <FontAwesomeIcon
+                    icon={faTrashAlt}
+                    className="w-4 h-4 text-red-600"
+                  />
+                </Button2>
+              </AlertDialogTrigger>
+              <AlertDialogContent className="dark:bg-[#18181B] dark:border-[#3A3A3D]">
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    This action cannot be undone. This will permanently delete
+                    your Assignment and all relevant data.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel className="bg-transparent dark:border-[#3A3A3D] rounded-2xl hover:translate-y-[2px] transition-all trasn">
+                    Cancel
+                  </AlertDialogCancel>
+                  <AlertDialogAction
+                    onClick={() => hanldeOnDelete()}
+                    className="w-full md:w-fit hover:translate-y-[2px] z-100 bg-gray-200 hover:bg-gray-200 rounded-2xl flex items-center gap-x-2 text-black transition-all duration-100"
+                  >
+                    Delete Class <Trash className="w-4 h-4" />
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          </>
+        ) : (
+          <div></div>
+        )}
       </CardHeader>
       <Divider />
       {/* Assignment INFO */}

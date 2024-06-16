@@ -83,9 +83,9 @@ export async function DELETE(req: Request, res: Response) {
     }
 
     try{
-        const {posterId, postId} = await req.json();
+        const {posterId, postId, teacherId} = await req.json();
 
-        if (posterId !== userId) {
+        if (posterId !== userId && userId !== teacherId) {
             return new NextResponse("Unauthorized", {status: 401})
         }
         
@@ -116,9 +116,9 @@ export async function PATCH(req: Request, res: Response) {
     }
 
     try {
-        const { posterId, postId, updatedTitle, updatedDesc } = await req.json();
+        const { posterId, postId, updatedTitle, updatedDesc, teacherId } = await req.json();
 
-        if (posterId !== userId) {
+        if (posterId !== userId && userId !== teacherId) {
             return new NextResponse("Unauthorized", {status: 401});
         }
 

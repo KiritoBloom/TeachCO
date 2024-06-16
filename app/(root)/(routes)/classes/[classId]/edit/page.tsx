@@ -161,7 +161,7 @@ export default function Page() {
           <div className="w-full max-w-4xl bg-white/10 dark:bg-black/70 backdrop-blur rounded-2xl shadow-lg p-8">
             <div
               onClick={() => handleOnBack()}
-              className="mb-5 group cursor-pointer flex items-center gap-2 border-2 rounded-xl w-fit p-3 border-black bg-white dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 transition-all transform hover:-translate-y-1 shadow-md hover:shadow-lg"
+              className="mb-5 group cursor-pointer flex items-center gap-2 border-2 rounded-xl w-fit p-3 border-black bg-white dark:bg-[#29292f] transition-all transform hover:-translate-y-1 shadow-md hover:shadow-lg"
             >
               <ArrowLeftCircleIcon className="w-6 h-6 text-black dark:text-white" />
               <span className="font-bold tracking-wide text-black dark:text-white group-hover:text-gray-600 dark:group-hover:text-gray-300">

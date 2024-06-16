@@ -180,7 +180,7 @@ export default function Page() {
                         user?.primaryEmailAddress &&
                         onCopy(user?.primaryEmailAddress?.toString())
                       }
-                      className="opacity-100 group-hover:opacity-100 transition-all ease-in-out mt-2 ml-1 mr-1 md:mr-1"
+                      className="opacity-100 group-hover:bg-primary/10 transition-all ease-in-out mt-2 ml-1 mr-1 md:mr-1"
                       size="icon"
                       variant="ghost"
                     >
@@ -218,7 +218,7 @@ export default function Page() {
                   <TooltipTrigger>
                     <Button
                       onClick={() => userId && onCopy(userId.toString())}
-                      className="opacity-100 group-hover:opacity-100 transition-all ease-in-out mt-2 ml-1 mr-1 md:mr-1"
+                      className="opacity-100 group-hover:bg-primary/10 transition-all ease-in-out mt-2 ml-1 mr-1 md:mr-1"
                       size="icon"
                       variant="ghost"
                     >
@@ -297,8 +297,11 @@ export default function Page() {
             </Button>
             <AlertDialog>
               <AlertDialogTrigger>
-                <Button className="mb-5 ml-5 bg-gray-200 hover:scale-[103%] hover:bg-gray-200 transition-all text-black rounded-3xl">
-                  Delete Account <Trash className="ml-2" />
+                <Button
+                  className="mb-5 ml-5 bg-gray-200 hover:scale-[103%] hover:bg-gray-200 transition-all text-black rounded-3xl"
+                  onClick={handleOnDelete}
+                >
+                  Delete <Trash className="ml-2" />
                 </Button>
               </AlertDialogTrigger>
               <AlertDialogContent className="w-[90%] rounded-xl dark:bg-[#18181B] dark:border-[#3A3A3D]">

@@ -28,6 +28,7 @@ import { useToast } from "./ui/use-toast";
 import Loading from "@/app/(root)/loading";
 
 import ClassworkContainer from "./classwork-container";
+import useUserRole from "@/hooks/role";
 interface ClassworkProps {
   posterId: string;
   classId: string;
@@ -45,6 +46,7 @@ interface ClassWorkItem {
 }
 
 const ClassWork = ({ posterId, classId }: ClassworkProps) => {
+  const { role } = useUserRole();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [title, setTitle] = useState("");
   const [fileName, setFileName] = useState("");
@@ -129,9 +131,13 @@ const ClassWork = ({ posterId, classId }: ClassworkProps) => {
     <>
       <div className="flex justify-between items-center">
         <h2 className="font-semibold text-lg">ClassWork</h2>
-        <Button onPress={onOpen}>
-          New work <FontAwesomeIcon icon={faPlus} />
-        </Button>
+        {role === "Teacher" ? (
+          <Button onPress={onOpen}>
+            New work <FontAwesomeIcon icon={faPlus} />
+          </Button>
+        ) : (
+          <div></div>
+        )}
         <Modal isOpen={isOpen}>
           <ModalContent>
             <>
@@ -231,12 +237,12 @@ const ClassWork = ({ posterId, classId }: ClassworkProps) => {
       {isLoading ? (
         <Loading />
       ) : (
-        <div className="flex flex-wrap justify-between mt-5 -ml-2 md:-ml-0">
+        <div className="flex flex-wrap justify-between mt-5">
           {classWork.map((item) => (
             <ClassworkContainer
               key={item.assignmentId}
               assignmentId={item.assignmentId}
-              posterId={posterId}
+              posterId={item.posterId}
               posterName={item.posterName}
               title={item.title}
               description={item.description}

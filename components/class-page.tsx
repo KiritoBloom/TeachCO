@@ -196,7 +196,7 @@ const ClassPage = async () => {
                 }
               >
                 <div className="p-3">
-                  <HomePath classId={classId} />
+                  <HomePath classId={classId} teacherId={classInfo.teacherId} />
                 </div>
               </Tab>
               <Tab
