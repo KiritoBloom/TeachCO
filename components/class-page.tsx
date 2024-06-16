@@ -30,7 +30,7 @@ import themeHook from "@/hooks/theme";
 import HomePath from "./home-path";
 import ClassWork from "./classwork";
 
-const ClassPage = async () => {
+const ClassPage = () => {
   const [isClassLoading, setIsClassLoading] = useState(true);
   const [classInfo, setClassInfo] = useState<any>("");
   const [students, setStudents] = useState([]); // Ensure this starts as an empty array
@@ -48,6 +48,10 @@ const ClassPage = async () => {
 
   useEffect(() => {
     const fetchClassData = async () => {
+      if (!classId) {
+        return;
+      }
+
       try {
         const [classInfoRes, studentsRes] = await Promise.all([
           axios.get(`/api/class/class-info?classId=${classId}`),
@@ -64,7 +68,6 @@ const ClassPage = async () => {
     };
 
     fetchClassData();
-    // eslint-disable-next-line react-hooks/rules-of-hooks
   }, [classId]);
 
   const onCopy = (content: string) => {
