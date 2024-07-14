@@ -1,36 +1,75 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+```markdown
+# **TeachCo**
+
+TeachCo is a platform that connects students and teachers, allowing educators to easily create classes while students can enroll effortlessly. Built with Next.js, Tailwind CSS, NextUI, and Clerk Auth 2.0, TeachCo offers a modern and responsive user experience, making learning accessible and engaging for everyone.
+
+## Key Features
+
+- **Class Creation:** Teachers can create and manage classes seamlessly.
+- **Student Enrollment:** Simple enrollment process for students to join classes.
+- **Responsive Design:** A modern interface that works beautifully across devices.
+
+## Tech Stack
+
+- **Next.js**
+- **Tailwind CSS**
+- **Clerk Core 2.0**
+- **NextUI**
 
 ## Getting Started
 
-First, run the development server:
+To start exploring TeachCo, follow these steps:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+1. **Clone the Repository:**
+   ```bash
+   git clone https://github.com/KiritoBloom/TeachCO.git
+   ```
+
+2. **Install Dependencies:**
+   ```bash
+   cd TeachCO
+   npm install
+   ```
+
+3. **Configure Environment Variables:**
+   Set up your environment variables according to the guidelines in the repository.
+
+4. **Start the Application:**
+   ```bash
+   npm start
+   ```
+
+   Access TeachCo in your browser at `http://localhost:3000` to begin learning and teaching.
+
+## Contributing
+
+TeachCo welcomes community contributions. To contribute, follow these steps:
+
+1. **Fork the Repository.**
+2. **Create a New Branch:**
+   ```bash
+   git checkout -b feature-branch
+   ```
+
+3. **Make Changes and Commit:**
+   ```bash
+   git commit -m 'Description of changes'
+   ```
+
+4. **Push Changes:**
+   ```bash
+   git push origin feature-branch
+   ```
+
+5. **Open a Pull Request.**
+
+## License
+
+TeachCo is licensed under the MIT License, promoting an open and collaborative environment.
+
+Engage in meaningful learning experiences with TeachCo!
+
+**Live Demo:** [TeachCo](https://teach-co.vercel.app)
+
+**GitHub Repository:** [TeachCo GitHub](https://github.com/KiritoBloom/TeachCO)
 ```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
