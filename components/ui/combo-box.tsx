@@ -1,9 +1,16 @@
 "use client";
 
 import * as React from "react";
-import { Calendar, MoreHorizontal, PenBoxIcon, Trash } from "lucide-react";
+import {
+  Calendar,
+  MoreHorizontal,
+  PenBoxIcon,
+  Send,
+  Trash,
+} from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { Calendar as Calender2 } from "@/components/ui/calendar";
 
 import {
   DropdownMenu,
@@ -39,6 +46,7 @@ export function ComboboxDropdownMenu({ classId }: ComboBoxInterface) {
   const [open, setOpen] = React.useState(false);
   const { toast } = useToast();
   const router = useRouter();
+  const [date, setDate] = React.useState<Date | undefined>(new Date());
 
   const handleOnDelete = async (classId: string) => {
     try {
@@ -85,9 +93,9 @@ export function ComboboxDropdownMenu({ classId }: ComboBoxInterface) {
               <PenBoxIcon className="mr-2 h-4 w-4" />
               Edit
             </DropdownMenuItem>
-            <DropdownMenuItem>
-              <Calendar className="mr-2 h-4 w-4" />
-              Set due date...
+            <DropdownMenuItem onClick={() => handleOnEdit(classId)}>
+              <Send className="mr-2 h-4 w-4" />
+              Send Out Alert
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <AlertDialog>

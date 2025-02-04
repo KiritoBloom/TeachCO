@@ -1,5 +1,6 @@
 "use client";
 
+import AlertsTable from "@/components/alerts";
 import { useToast } from "@/components/ui/use-toast";
 
 const Page = () => {
@@ -15,7 +16,7 @@ const Page = () => {
 
   return (
     <div>
-      <button onClick={showToast}>Show Toast</button>
+      <AlertsTable variant="Warning" />
     </div>
   );
 };

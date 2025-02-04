@@ -22,7 +22,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider>
+    <ClerkProvider
+      appearance={{
+        variables: {
+          colorBackground: "white",
+        },
+        elements: {
+          card: "md:min-w-[auto] w-[100%]", // Here is where the width is controlled, it was px-20
+        },
+      }}
+    >
       <html lang="en">
         <ThemeProvider
           attribute="class"

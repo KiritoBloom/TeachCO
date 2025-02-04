@@ -66,23 +66,23 @@ const HomeTable = () => {
               </div>
             </div>
             {role === "Teacher" ? (
-              <>
+              <div>
                 <h1 className="md:ml-5 ml-3 text-2xl font-semibold text-black/70 dark:text-white/90">
                   Get Started Here:
                 </h1>
                 <div className="pb-5">
                   <TeacherTable />
                 </div>
-              </>
+              </div>
             ) : role === "Student" ? (
-              <>
+              <div>
                 <h1 className="md:ml-5 ml-3 text-2xl font-semibold text-black/70 dark:text-white/90">
                   Get Started Here:
                 </h1>
                 <div className="pb-5">
                   <StudentTable />
                 </div>
-              </>
+              </div>
             ) : null}
             <div>
               <RecentClasses />
