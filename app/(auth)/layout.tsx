@@ -309,9 +309,9 @@ const AuthLayout = ({ children }: { children: React.ReactNode }) => {
               >
                 <FaBullseye className="absolute top-2 right-2 text-blue-400 text-5xl opacity-20" />
                 <p className="text-gray-600 dark:text-gray-300 italic mb-4 relative">
-                  "TeachCO has revolutionized the way I teach. It's so easy to
-                  create engaging courses and connect with my students on a
-                  whole new level."
+                  &quot;TeachCO has revolutionized the way I teach. It&apos;s so
+                  easy to create engaging courses and connect with my students
+                  on a whole new level.&quot;
                 </p>
                 <div className="flex items-center">
                   <Image
@@ -339,9 +339,9 @@ const AuthLayout = ({ children }: { children: React.ReactNode }) => {
               >
                 <FaBullseye className="absolute top-2 right-2 text-blue-400 text-5xl opacity-20" />
                 <p className="text-gray-600 dark:text-gray-300 italic mb-4 relative">
-                  "The analytics dashboard is a game-changer. I can see exactly
-                  how my students are doing and tailor my teaching to their
-                  needs."
+                  &quot;The analytics dashboard is a game-changer. I can see
+                  exactly how my students are doing and tailor my teaching to
+                  their needs.&quot;
                 </p>
                 <div className="flex items-center">
                   <Image
@@ -369,8 +369,9 @@ const AuthLayout = ({ children }: { children: React.ReactNode }) => {
               >
                 <FaBullseye className="absolute top-2 right-2 text-blue-400 text-5xl opacity-20" />
                 <p className="text-gray-600 dark:text-gray-300 italic mb-4 relative">
-                  "I love the community aspect of TeachCO. I've connected with
-                  so many other educators and learned so much from them."
+                  &quot;I love the community aspect of TeachCO. I&apos;ve
+                  connected with so many other educators and learned so much
+                  from them.&quot;
                 </p>
                 <div className="flex items-center">
                   <Image

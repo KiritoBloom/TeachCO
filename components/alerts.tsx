@@ -45,8 +45,8 @@ const AlertsTable = ({ variant }: AlertsTableProps) => {
             <div className="flex-1 space-y-2">
               <div className="text-lg font-semibold">Attendance Reminder</div>
               <div className="text-gray-500 dark:text-gray-400">
-                Don't forget to sign in for your classes today. Attendance is
-                mandatory.
+                Don&apos;t forget to sign in for your classes today. Attendance
+                is mandatory.
               </div>
               <a
                 href="#"
